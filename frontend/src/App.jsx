@@ -1,21 +1,15 @@
-
-
-
-import './App.css'
-import GoogleLoginComponent from './components/GoogleLogin/googleLogin'
+import { Outlet} from "react-router-dom";
+import "./App.css";
 
 function App() {
-
-
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        Hello Developers good morning!
-      </h1>
-      <GoogleLoginComponent />
+      
 
+      {/* Nested routes will render here */}
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
