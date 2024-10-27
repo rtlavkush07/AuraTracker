@@ -1,57 +1,32 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../features/authSlice";
-import "../css/Navbar.css"; // CSS file for styling the NavBar
+// src/components/Navbar.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import logo from "../assets/logo.png"; // Import the logo image
-
-const NavBar = () => {
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
-
-  return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <Link to="/home">
-          <img src={logo} alt="MyApp Logo" className="navbar-logo-image" />
-              </Link>
-              <Link to= "/home">Aura Tracker</Link>
-      </div>
-      <ul className="navbar-links">
-        <li>
-          <Link to="/home">Home</Link>
-        </li>
-        {user ? (
-          <>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <button onClick={handleLogout} className="logout-button">
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
-          </>
-        )}
-      </ul>
-    </nav>
-  );
+const Navbar = () => {
+    return (
+        <nav className="bg-white shadow-md">
+            <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
+                <div className="text-2xl font-bold text-blue-500">
+                    <Link to="/">Aura Tracker</Link>
+                </div>
+                <div className="space-x-4">
+                    <Link to="/" className="text-gray-700 hover:text-blue-500 transition duration-200">
+                        Home
+                    </Link>
+                    <Link to="/auth/login">
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                            Login
+                        </button>
+                    </Link>
+                    <Link to="/auth/signup">
+                        <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+                            Signup
+                        </button>
+                    </Link>
+                </div>
+            </div>
+        </nav>
+    );
 };
 
-export default NavBar;
+export default Navbar;

@@ -1,43 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  createRoutesFromElements,
-} from "react-router-dom";
-import { StrictMode } from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Provider } from "react-redux";
-import { store } from "./store/store"
+// src/main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
+import './index.css';
 
-import App from "./App";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import DashBoard from "./pages/DashBoard";
-
-const clientId =
-  "609766100196-o8c3cgk5pt0p2emi2ktmgc9u09qunu5k.apps.googleusercontent.com"; // Default value for testing
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="home" element={<Home />} />
-      <Route path="signup" element={<SignUp />} />
-      <Route path="dashboard" element={<DashBoard />} />
-      <Route path="login" element={<Login />} />
-    </Route>
-  )
-);
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <StrictMode>
-    <Provider store={store}>
-      <GoogleOAuthProvider clientId={clientId}>
-        <RouterProvider router={router} />
-      </GoogleOAuthProvider>
-    </Provider>
-  </StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter> {/* Only one Router here */}
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
