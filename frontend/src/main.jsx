@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import { StrictMode } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Provider } from "react-redux";
+import { store } from "./store/store"
 
 import App from "./App";
 import Login from "./pages/Login";
@@ -21,7 +23,7 @@ const clientId =
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path= "home" element={<Home />} />
+      <Route path="home" element={<Home />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="dashboard" element={<DashBoard />} />
       <Route path="login" element={<Login />} />
@@ -32,8 +34,10 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={clientId}>
-      <RouterProvider router={router} />
-    </GoogleOAuthProvider>
+    <Provider store={store}>
+      <GoogleOAuthProvider clientId={clientId}>
+        <RouterProvider router={router} />
+      </GoogleOAuthProvider>
+    </Provider>
   </StrictMode>
 );
