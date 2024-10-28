@@ -5,7 +5,8 @@ import User from "../models/userModels.js"; // Adjust the path if necessary
 
 // Signup Controller
 export const signup = async (req, res) => {
-  const { email, name, password, year, regNo, course } = req.body;
+  const { email, name, password, year, regNo, course, profilePicture } =
+    req.body;
   try {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -20,6 +21,7 @@ export const signup = async (req, res) => {
     const newUser = new User({
       email,
       name,
+      profilePicture,
       password: hashedPassword,
       year,
       regNo,
