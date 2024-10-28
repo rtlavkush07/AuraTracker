@@ -71,7 +71,7 @@ const Profile = () => {
           ) : (
             <div className="flex justify-center mb-4">
               <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center border-2 border-gray-400">
-                <span className="text-gray-500">No Image</span>
+                <span className="text-gray-500">Upload Image</span>
               </div>
             </div>
           )}
