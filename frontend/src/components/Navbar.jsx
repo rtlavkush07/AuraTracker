@@ -16,7 +16,14 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
         <div className="text-2xl font-bold text-blue-500">
-          <Link to="/">Aura Tracker</Link>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src="/logo.gif" // Assuming logo.gif is directly in the public directory
+              style={{ width: "50px", height: "50px", marginRight: "8px" }} // Added margin for spacing
+              alt="Aura Tracker"
+            />
+            <span>Aura Tracker</span>
+          </Link>
         </div>
         <div className="space-x-4">
           <Link
