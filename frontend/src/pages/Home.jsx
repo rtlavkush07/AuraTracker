@@ -1,44 +1,91 @@
-// src/pages/Home.jsx
-import React from 'react';
-import 'animate.css'; // Import Animate.css
+// src/pages/Profile.jsx
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const Profile = () => {
+  const navigate = useNavigate();
+  const { token, isAuthenticated } = useSelector((state) => state.auth); // Get auth state from Redux
+
+  const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/auth/login"); // Redirect to login if not authenticated
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get("/api/user/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserDetails(response.data);
+      } catch (err) {
+        setError("Failed to fetch profile. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [token, isAuthenticated, navigate]);
+
+  if (loading) {
     return (
-        <div className="bg-gray-50 min-h-screen flex flex-col">
-            {/* Hero Section with Gradient Background */}
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white py-20 flex flex-col items-center justify-center">
-                <h1 className="text-5xl font-bold mb-4 animate__animated animate__fadeInDown">
-                    Welcome to Our Aura Tracker
-                </h1>
-                <p className="text-xl mb-8 animate__animated animate__fadeIn animate__delay-1s">
-                    Discover amazing features and connect with others.
-                </p>
-                <button className="bg-white text-blue-500 px-6 py-3 rounded-lg shadow-lg hover:bg-blue-100 transition duration-300 animate__animated animate__pulse animate__delay-2s">
-                    Get Started
-                </button>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-grow p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Feature Cards */}
-                {[...Array(6)].map((_, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 animate__animated animate__fadeIn"
-                        style={{ animationDelay: `${index * 0.2}s` }} // Staggered animation
-                    >
-                        <h2 className="text-xl font-semibold mb-2">Feature {index + 1}</h2>
-                        <p className="text-gray-700">This is a brief description of Feature {index + 1}.</p>
-                    </div>
-                ))}
-            </div>
-
-            {/* Footer */}
-            <footer className="bg-gray-800 text-white text-center py-4">
-                <p>&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
-            </footer>
-        </div>
+      <div className="flex justify-center items-center min-h-screen">
+        Loading...
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-red-500">
+        {error}
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-8">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        Profile
+      </h2>
+      {userDetails ? (
+        <div>
+          <div className="mb-4">
+            <h4 className="text-xl font-semibold text-gray-700">Name:</h4>
+            <p className="text-gray-600">{userDetails.name}</p>
+          </div>
+          <div className="mb-4">
+            <h4 className="text-xl font-semibold text-gray-700">Email:</h4>
+            <p className="text-gray-600">{userDetails.email}</p>
+          </div>
+          <div className="mb-4">
+            <h4 className="text-xl font-semibold text-gray-700">Year:</h4>
+            <p className="text-gray-600">{userDetails.year}</p>
+          </div>
+          <div className="mb-4">
+            <h4 className="text-xl font-semibold text-gray-700">Course:</h4>
+            <p className="text-gray-600">{userDetails.course}</p>
+          </div>
+          <div className="mb-4">
+            <h4 className="text-xl font-semibold text-gray-700">Reg No:</h4>
+            <p className="text-gray-600">{userDetails.regNo}</p>
+          </div>
+          {/* Add more fields as necessary */}
+        </div>
+      ) : (
+        <div className="text-center text-gray-600">No user data available.</div>
+      )}
+    </div>
+  );
 };
 
-export default Home;
+export default Profile;

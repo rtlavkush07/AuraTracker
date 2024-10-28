@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/dbConection.js";
 import authRoutes from "./routes/authRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js"
 
 import cors from "cors";
 
@@ -19,6 +20,9 @@ app.use(express.json());
 
 // Use auth routes
 app.use("/api/auth", authRoutes);
+
+// Use profile routes
+app.use("/api/user", profileRoutes); 
 
 // Other middleware and routes
 
