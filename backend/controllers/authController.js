@@ -3,7 +3,39 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/userModels.js"; // Adjust the path if necessary
 
-// Signup Controller
+// // Signup Controller
+// export const signup = async (req, res) => {
+//   const { email, name, password, year, regNo, course, profilePicture } =
+//     req.body;
+//   try {
+//     // Check if user already exists
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "User already exists" });
+//     }
+
+//     // Hash password
+//     const hashedPassword = await bcrypt.hash(password, 12);
+
+//     // Create new user
+//     const newUser = new User({
+//       email,
+//       name,
+//       profilePicture,
+//       password: hashedPassword,
+//       year,
+//       regNo,
+//       course,
+//     });
+
+//     // Save to database
+//     await newUser.save();
+//     res.status(201).json({ message: "User registered successfully" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Something went wrong" });
+//   }
+// };
+// signup controller
 export const signup = async (req, res) => {
   const { email, name, password, year, regNo, course, profilePicture } =
     req.body;
@@ -17,15 +49,29 @@ export const signup = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create new user
+    // Create new user with embedded profile and academic schemas with default values
     const newUser = new User({
       email,
       name,
-      profilePicture,
       password: hashedPassword,
       year,
       regNo,
       course,
+      profilePicture,
+      userProfile: {
+        rating: 1000,
+        auraCoins: 0,
+        level: 1,
+        badges: [],
+        vouchers: [],
+        coupons: [],
+        purchaseHistory: [],
+      },
+      userAcademics: {
+        courses: [],
+        academicGoals: [],
+        personalGoals: [],
+      },
     });
 
     // Save to database
