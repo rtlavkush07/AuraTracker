@@ -9,8 +9,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const error = useSelector((state) => state.auth.error); // Access state
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,12 +18,12 @@ const Login = () => {
     try {
       const response = await axios.post("/api/auth/login", { email, password });
       localStorage.setItem("token", response.data.token);
-        console.log("Login successful:", response.data);
-        dispatch(loginSuccess(response.data.token)); // redux state 
-    //   setError("");
+      console.log("Login successful:", response.data);
+      dispatch(loginSuccess(response.data.token)); // redux state 
+      //   setError("");
       navigate("/"); // Redirect to home page
     } catch (err) {
-    dispatch(setError(errorMessage)); // call seterror method
+      dispatch(setError(errorMessage)); // call seterror method
       if (err.response) {
         setError(err.response.data.message || "Invalid email or password");
       } else {
