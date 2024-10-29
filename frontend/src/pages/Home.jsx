@@ -7,7 +7,7 @@ const Home = () => {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('./bg5.gif')", // Use the correct path for your GIF
+          backgroundImage: "url('../public/assets/bg2.gif')", // Use the correct path for your GIF
           height: '100%', // Ensure it covers the entire height of the parent div
           width: '100%',  // Ensure it covers the entire width of the parent div
         }}
