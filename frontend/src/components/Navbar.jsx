@@ -114,7 +114,7 @@ const Navbar = () => {
 
               <button
                 onClick={handleLogout}
-                className="block py-2 md:py-0 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                className="block py-2 md:py-1.5 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
               >
                 Logout
               </button>
@@ -122,12 +122,12 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/auth/login">
-                <button className="block py-2 md:py-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                <button className="block py-2 md:py-1.5 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
                   Login
                 </button>
               </Link>
               <Link to="/auth/signup">
-                <button className="block py-2 md:py-0 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+                <button className="block py-2 md:py-1.5 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
                   Signup
                 </button>
               </Link>
