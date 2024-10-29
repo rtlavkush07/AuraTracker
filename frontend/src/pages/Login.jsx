@@ -21,7 +21,7 @@ const Login = () => {
         console.log("Login successful:", response.data);
         dispatch(loginSuccess(response.data.token)); // redux state 
     //   setError("");
-      navigate("/"); // Redirect to home page
+      navigate("/dashboard"); // Redirect to dashboard page
     } catch (err) {
     dispatch(setError(errorMessage)); // call seterror method
       if (err.response) {
