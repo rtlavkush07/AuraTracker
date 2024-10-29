@@ -5,17 +5,19 @@ import AuthRoutes from './routes/AuthRoutes';
 import Navbar from './components/Navbar';
 import DashBoard from './pages/DashBoard';
 import Profile from './pages/Profile';
+import Store from './pages/Store';
 
 
 function App() {
   return (
     <>
-    <Navbar />
+      <Navbar />
       <Routes>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
-        <Route path='/dashboard' element={<DashBoard />} />
-        <Route path='/profile' element={<Profile/>}/>
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/store" element={<Store />} />
       </Routes>
     </>
   );
