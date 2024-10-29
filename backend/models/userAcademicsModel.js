@@ -2,14 +2,23 @@ import mongoose from "mongoose"; // Use import if using ES modules
 
 const userAcademicsSchema = new mongoose.Schema(
   {
-    courses: [{ type: String }], // Array of course names or course IDs
+    courses: [
+      {
+        name: { type: String, required: true }, // Course name
+        schedules: [
+          {
+            day: { type: String, required: true }, // Day of the week (e.g., "Monday")
+            time: { type: String, required: true }, // Time (e.g., "10:00 AM")
+          },
+        ],
+      },
+    ],
     academicGoals: [
       {
-        // Academic goals with chapters
         title: { type: String, required: true },
         chapters: [
           {
-            name: { type: String }, // Chapter name
+            name: { type: String, required: true }, // Chapter name
             completed: { type: Boolean, default: false }, // Chapter completion status
           },
         ],
@@ -17,18 +26,17 @@ const userAcademicsSchema = new mongoose.Schema(
     ],
     personalGoals: [
       {
-        // Personal goals
         title: { type: String, required: true },
         chapters: [
           {
-            name: { type: String }, // Chapter name
+            name: { type: String, required: true }, // Chapter name
             completed: { type: Boolean, default: false }, // Chapter completion status
           },
         ],
       },
     ],
   },
-  { _id: false }
+  { _id: false, timestamps: true } // Add timestamps
 );
 
 export default userAcademicsSchema; // Change to ES module export

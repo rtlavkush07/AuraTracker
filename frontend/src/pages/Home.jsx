@@ -1,11 +1,41 @@
+<<<<<<< HEAD
 import React from 'react'
 
 const Home = () => {
   return (
     <div>
       <h1>Home</h1>
+=======
+import React from 'react';
+
+const Home = () => {
+  return (
+    <div className="relative w-screen h-screen overflow-hidden overflow-x-hidden overflow-y-hidden">
+      {/* Background GIF */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('./bg5.gif')", // Use the correct path for your GIF
+          height: '100%', // Ensure it covers the entire height of the parent div
+          width: '100%',  // Ensure it covers the entire width of the parent div
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div> {/* Overlay for text visibility */}
+      </div>
+
+      {/* Animated Text */}
+      <div className="relative flex items-center justify-center w-full h-full">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl text-white font-cursive text-center animate-pulse shadow-lg">
+          AURA TRACKER
+        </h1>
+      </div>
+>>>>>>> b75d3fc5668a238fb92918748e4a53aeeada4a18
     </div>
   )
 }
 
+<<<<<<< HEAD
 export default Home
+=======
+export default Home;
+>>>>>>> b75d3fc5668a238fb92918748e4a53aeeada4a18
