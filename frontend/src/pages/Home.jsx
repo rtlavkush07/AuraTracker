@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-const Home = () => {
-  return (
-    <div>
-      <h1>Home</h1>
-=======
 import React from 'react';
 
 const Home = () => {
@@ -29,13 +21,8 @@ const Home = () => {
           AURA TRACKER
         </h1>
       </div>
->>>>>>> b75d3fc5668a238fb92918748e4a53aeeada4a18
     </div>
-  )
-}
+  );
+};
 
-<<<<<<< HEAD
-export default Home
-=======
 export default Home;
->>>>>>> b75d3fc5668a238fb92918748e4a53aeeada4a18
