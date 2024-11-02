@@ -91,7 +91,9 @@ const Dashboard = () => {
   };
 
   return (
+    // mai div of the page 
     <div className="font-sans p-5 w-full h-screen mx-auto bg-gray-100 rounded-lg shadow-md">
+      {/* course card starts   */}
       <div className="mb-5">
         <div className="flex gap-2 mb-2 justify-center">
           <button 
@@ -140,7 +142,8 @@ const Dashboard = () => {
           </div>
           {/* End progress bar */}
         </div>
-      </div>
+      </div> 
+      {/* // course card */}
 
       {/* Set Your Goals Section */}
       <div className="my-5">
