@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios"; // Import axios
-import { logout } from "../features/authSlice"; // Import logout action
+import axios from "axios";
+import { logout } from "../features/authSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated, token } = useSelector((state) => state.auth); // Get authentication state including token
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track dropdown visibility
-  const [user, setUser] = useState(null); // State to store user profile
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -17,7 +18,6 @@ const Navbar = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // Assuming response.data contains user profile
         if (response.data && response.data.userProfile) {
           setUser(response.data.userProfile);
         }
@@ -32,22 +32,24 @@ const Navbar = () => {
   }, [isAuthenticated, token]);
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
+    dispatch(logout());
   };
 
-  // Toggle menu visibility on small screens
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
-        {/* Logo Section */}
         <div className="text-2xl font-bold text-blue-500">
           <Link to="/" style={{ display: "flex", alignItems: "center" }}>
             <img
-              src="/logo/logo.gif" // Assuming logo.gif is in the public/logo directory
+              src="/logo/logo.gif"
               style={{ width: "50px", height: "50px", marginRight: "8px" }}
               alt="Aura Tracker"
             />
@@ -55,7 +57,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Toggle Button for Small Screens */}
         <button
           onClick={toggleMenu}
           className="block md:hidden text-gray-700 focus:outline-none"
@@ -76,7 +77,6 @@ const Navbar = () => {
           </svg>
         </button>
 
-        {/* Menu Items */}
         <div
           className={`${
             isMenuOpen ? "block" : "hidden"
@@ -102,11 +102,16 @@ const Navbar = () => {
               >
                 Store
               </Link>
+              <Link
+                to="/admin"
+                className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+              >
+                Admin
+              </Link>
 
-              {/* Profile Icon with Image */}
               <Link to="/profile" className="block py-2 md:py-0">
                 <img
-                  src={user?.profilePicture || "../public/assets/default-profile.png"} // Fallback if no profile picture
+                  src={user?.profilePicture || "../public/assets/default-profile.png"}
                   alt="Profile"
                   className="w-8 h-8 rounded-full border-2 border-blue-500"
                 />
@@ -121,11 +126,44 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link to="/auth/login">
-                <button className="block py-2 md:py-1.5 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+              {/* Login button with dropdown */}
+              <div className="relative inline-block text-left">
+                <button
+                  onClick={toggleDropdown}
+                  className="block py-2 md:py-1.5 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                >
                   Login
                 </button>
-              </Link>
+                
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                      <Link
+                        to="/auth/login/student"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Student
+                      </Link>
+                      <Link
+                        to="/auth/login/professor"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Professor
+                      </Link>
+                      <Link
+                        to="/auth/login/admin"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Admin
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <Link to="/auth/signup">
                 <button className="block py-2 md:py-1.5 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
                   Signup

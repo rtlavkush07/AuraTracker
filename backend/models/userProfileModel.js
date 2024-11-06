@@ -25,4 +25,5 @@ const userProfileSchema = new mongoose.Schema(
   { _id: false }
 );
 
+
 export default userProfileSchema; // Export using ES module syntax
