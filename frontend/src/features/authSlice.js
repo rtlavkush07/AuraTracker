@@ -1,22 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-// create initial states 
+import { createSlice } from "@reduxjs/toolkit";
+// create initial states
 const initialState = {
   token: localStorage.getItem("token") || null,
   isAuthenticated: !!localStorage.getItem("token"),
+  role: localStorage.getItem("role") || null,
   error: null,
 };
-
-
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.token = action.payload;
+      const { token, role } = action.payload;
+      state.token = token;
+      state.role = role;
       state.isAuthenticated = true;
-          state.error = null;
-        //   console.log("redux working")
+      state.error = null;
+      //   console.log("redux working")
     },
     logout: (state) => {
       state.token = null;
@@ -28,7 +29,6 @@ const authSlice = createSlice({
     },
   },
 });
-
 
 export const { loginSuccess, logout, setError } = authSlice.actions;
 export default authSlice.reducer;

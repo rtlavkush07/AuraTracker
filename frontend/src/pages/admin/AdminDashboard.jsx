@@ -14,7 +14,7 @@ const AdminDashboard = () => {
           <p className="text-gray-600">
             Here you can manage all the courses which includes include New course exclude courses and also add chapters in every courses or delete also.
           </p>
-          <Link className=" bg-blue-500 text-white rounded-lg p-3">
+          <Link to={'addcourse'} className=" bg-blue-500 text-white rounded-lg p-3">
             Manage Courses
           </Link>
         </div>

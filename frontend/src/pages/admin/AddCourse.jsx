@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CourseForm = ({ onSubmit }) => {
+const AddCourse = ({ onSubmit }) => {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [subjects, setSubjects] = useState([{ name: "", schedules: [{ dayOfWeek: "", startTime: "", endTime: "" }] }]);
@@ -169,4 +169,4 @@ const CourseForm = ({ onSubmit }) => {
   );
 };
 
-export default CourseForm;
+export default AddCourse;
