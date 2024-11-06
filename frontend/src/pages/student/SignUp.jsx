@@ -39,7 +39,7 @@ const Signup = () => {
       method: "POST",
       body: data,
     })
-    
+
       .then((res) => res.json())
       .then((data) => {
         // Check if Cloudinary returned a valid URL

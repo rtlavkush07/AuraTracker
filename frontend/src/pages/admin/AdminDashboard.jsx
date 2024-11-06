@@ -1,33 +1,48 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
+    <div className="container mx-auto p-8">
+      <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-10">
         Admin Dashboard
       </h1>
-      <div className="flex w-full">
+
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
         {/* Manage Courses Card */}
-        <div className="bg-white rounded-lg p-6 " style={{width:'50%'}}>
+        <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-8 w-full md:w-1/2">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Manage Courses</h2>
-          <p className="text-gray-600">
-            Here you can manage all the courses which includes include New course exclude courses and also add chapters in every courses or delete also.
+          <p className="text-gray-600 mb-6 leading-relaxed">
+            Here you can add new courses, assign subjects, and manage course details efficiently.
           </p>
-          <Link to={'addcourse'} className=" bg-blue-500 text-white rounded-lg p-3">
-            Manage Courses
-          </Link>
+          <div className="flex gap-4">
+            <Link
+              to="addcourse"
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
+            >
+              Add Course
+            </Link>
+            <Link
+              to="addsubject"
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
+            >
+              Add Subject
+            </Link>
+          </div>
         </div>
 
         {/* Manage Professors Card */}
-        <div className="bg-white rounded-lg p-6" style={{width:'50%'}}>
+        <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-8 w-full md:w-1/2">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Manage Professors</h2>
-          <p className="text-gray-600">
-           here you can manage all the Professors 
+          <p className="text-gray-600 mb-6 leading-relaxed">
+            Manage all professors, including adding or removing them from the system for efficient coordination.
           </p>
-          <button className=" bg-green-500 text-white rounded-lg p-3">
+          <Link
+            to="addteacher"
+            className="bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
+          >
             Manage Professors
-          </button>
+          </Link>
         </div>
       </div>
     </div>

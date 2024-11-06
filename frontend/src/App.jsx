@@ -20,12 +20,11 @@ function App() {
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/student/*" element={<Student />} />
         <Route path="/teacher/*" element={<Teacher />} />
-     
-        
+
+
       </Routes>
     </>
   );
 }
 
 export default App;
-        

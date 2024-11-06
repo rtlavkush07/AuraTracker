@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/dbConection.js";
 import authRoutes from "./routes/authRoutes.js";
-import profileRoutes from "./routes/profileRoutes.js"
+import profileRoutes from "./routes/profileRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 import cors from "cors";
 
@@ -22,7 +23,10 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 // Use profile routes
-app.use("/api/user", profileRoutes); 
+app.use("/api/user", profileRoutes);
+
+// admin routes
+app.use("/api/admin", adminRoutes);
 
 // Other middleware and routes
 

@@ -12,16 +12,21 @@ const courseSchema = new mongoose.Schema({
   ],
   courseSchedule: [
     {
-      dayOfWeek: { type: String, required: true },
-      startTime: { type: String, required: true },
-      endTime: { type: String, required: true },
+      subjectName: { type: String, required: true },
+      schedules: [
+        {
+          dayOfWeek: { type: String, required: true },
+          startTime: { type: String, required: true },
+          endTime: { type: String, required: true },
+        },
+      ],
     },
   ],
   studentsEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "user",
+      ref: "User",
     },
   ],
 });

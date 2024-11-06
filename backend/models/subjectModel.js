@@ -3,10 +3,7 @@ import mongoose from "mongoose";
 const subjectSchema = new mongoose.Schema({
   subjectName: String,
   subjectCode: String,
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
-  },
+
   data: [
     {
       data: mongoose.Schema.Types.Mixed, // Can be any type of data (e.g., text, numerical, etc.)
@@ -26,7 +23,7 @@ const subjectSchema = new mongoose.Schema({
         {
           student: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Student",
+            ref: "User",
           },
           submittedContent: { type: String },
         },
