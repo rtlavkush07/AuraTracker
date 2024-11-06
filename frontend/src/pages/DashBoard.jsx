@@ -26,10 +26,10 @@ const Dashboard = () => {
       setCourses(prevCourses => {
         return prevCourses.map(course => {
           if (course.name === courseName) {
-            return { 
-              ...course, 
+            return {
+              ...course,
               subjects: [...course.subjects, { name: subject, completed: false }],
-              progress: course.progress 
+              progress: course.progress
             };
           }
           return course;
@@ -58,7 +58,7 @@ const Dashboard = () => {
     setCourses(prevCourses => {
       return prevCourses.map(course => {
         if (course.name === courseName) {
-          const updatedSubjects = course.subjects.map(subj => 
+          const updatedSubjects = course.subjects.map(subj =>
             subj.name === subjectName ? { ...subj, completed: !subj.completed } : subj
           );
 
@@ -94,20 +94,20 @@ const Dashboard = () => {
     <div className="font-sans p-5 w-full h-screen mx-auto bg-gray-100 rounded-lg shadow-md">
       <div className="mb-5">
         <div className="flex gap-2 mb-2 justify-center">
-          <button 
-            className={`px-5 py-2 text-white rounded ${activeSection === 'Academics' ? 'bg-blue-700' : 'bg-blue-500'}`} 
+          <button
+            className={`px-5 py-2 text-white rounded ${activeSection === 'Academics' ? 'bg-blue-700' : 'bg-blue-500'}`}
             onClick={() => setActiveSection('Academics')}
           >
             Academics
           </button>
-          <button 
-            className={`px-5 py-2 text-white rounded ${activeSection === 'Personal' ? 'bg-blue-700' : 'bg-blue-500'}`} 
+          <button
+            className={`px-5 py-2 text-white rounded ${activeSection === 'Personal' ? 'bg-blue-700' : 'bg-blue-500'}`}
             onClick={() => setActiveSection('Personal')}
           >
             Personal
           </button>
         </div>
-        
+
         {/* Progress bar section */}
         <div className="mx-6 relative ">
           <button onClick={handleScrollLeft} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded px-2 z-10">
@@ -181,7 +181,7 @@ const Dashboard = () => {
               <button
                 onClick={handleAddSubject}
                 className="p-2 bg-blue-500 text-white rounded"
-                disabled={!subject.trim()} 
+                disabled={!subject.trim()}
               >
                 Add
               </button>
