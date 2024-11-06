@@ -1,11 +1,11 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import AuthRoutes from './routes/AuthRoutes';
 import Navbar from './components/Navbar';
-import DashBoard from './pages/DashBoard';
-import Profile from './pages/Profile';
-import Store from './pages/Store';
+import Admin from './routes/Admin';
+import Teacher from './routes/Teacher';
+import Student from './routes/Student';
+import Login from './pages/Login';
 
 
 function App() {
@@ -13,11 +13,15 @@ function App() {
     <>
       <Navbar />
       <Routes>
+
         <Route path="/" element={<Home />} />
-        <Route path="/auth/*" element={<AuthRoutes />} />
-        <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/store" element={<Store />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/student/*" element={<Student />} />
+        <Route path="/teacher/*" element={<Teacher />} />
+     
+        
       </Routes>
     </>
   );

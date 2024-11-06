@@ -54,32 +54,32 @@ const Profile = () => {
   if (!userData) return <div>Loading...</div>;
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center overflow-hidden">
-      <div className="flex w-full h-full rounded-lg shadow-lg p-4">
+    <div className="h-screen w-screen flex flex-col items-center overflow-hidden ">
+      <div className="flex w-full h-full rounded-lg shadow-lg  gap-1">
         {/* Profile Section */}
-        <div className="flex flex-col items-center w-1/4 p-6 bg-white shadow-lg rounded-lg">
+        <div className="flex flex-col items-center w-1/4 p-6  shadow-lg rounded-lg bg-gradient-to-b from-gray-800 to-gray-900 text-white">
           <img
             src={userData.profilePicture || "https://via.placeholder.com/150"}
             alt="Profile"
             className="rounded-full w-40 h-40 mb-4 border-4 border-blue-500 shadow-md"
           />
-          <h1 className="text-2xl font-semibold text-center text-gray-800">{userData.name}</h1>
-          <p className="text-gray-500 text-center">{userData.email}</p>
-          <p className="text-gray-600 text-center mt-2">Reg No: <span className="font-medium">{userData?.regNo}</span></p>
-          <p className="text-gray-600 text-center">Course: <span className="font-medium">{userData?.course}</span></p>
-          <p className="text-gray-600 text-center">Year: <span className="font-medium">{userData?.year}</span></p>
+          <h1 className="text-2xl font-semibold text-center text-white">{userData.name}</h1>
+          <p className="text-white text-center">{userData.email}</p>
+          <p className="text-white text-center mt-2">Reg No: <span className="font-medium">{userData?.regNo}</span></p>
+          <p className="text-white text-center">Course: <span className="font-medium">{userData?.course}</span></p>
+          <p className="text-white text-center">Year: <span className="font-medium">{userData?.year}</span></p>
           <div className="flex justify-center items-center space-x-2 mt-2">
-            <p className="text-gray-600">Rating:</p>
+            <p className="text-white-600">Rating:</p>
             <p className="text-yellow-500 font-bold">{userData.userProfile?.rating} ⭐</p>
           </div>
           <div className="flex justify-center items-center space-x-2 mt-2">
-            <p className="text-gray-600">Coins:</p>
+            <p className="text-white">Coins:</p>
             <p className="text-blue-500 font-bold">{userData.userProfile?.auraCoins}</p>
           </div>
         </div>
 
         {/* Badges and Actions Section */}
-        <div className="flex flex-col w-3/4 bg-white p-2">
+        <div className="flex flex-col w-3/4 bg-gradient-to-b from-gray-800 to-gray-900 p-2">
           <h2 className="text-lg font-semibold mb-2">Badges</h2>
           <div className="relative flex items-center w-full">
             <button
