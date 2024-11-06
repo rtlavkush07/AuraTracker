@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import userProfileSchema from "./userProfileModel.js";
-import userAcademicsSchema from "./userAcademicsModel.js";
+
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -13,9 +13,13 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   year: { type: Number, required: true },
   regNo: { type: String, required: true, unique: true },
-  course: { type: String, required: true },
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "course",
+  },
   userProfile: userProfileSchema, // Embed user profile schema
-  userAcademics: userAcademicsSchema, // Embed user academics schema
+  // userAcademics: userAcademicsSchema, // Embed user academics schema
 });
 
 // Hash password before saving user document
