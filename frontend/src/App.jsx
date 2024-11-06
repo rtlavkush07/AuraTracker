@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Teacher from './routes/Teacher';
 import Student from './routes/Student';
 import Login from './pages/Login';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import Admin from './routes/Admin';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/admin/*" element={<Admin />} />
         <Route path="/student/*" element={<Student />} />
         <Route path="/teacher/*" element={<Teacher />} />
      
