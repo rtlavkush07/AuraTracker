@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const AddSubject = ({ onSubmit }) => {
     const [teachers, setTeachers] = useState([]);
@@ -9,6 +10,7 @@ const AddSubject = ({ onSubmit }) => {
     const [schedules, setSchedules] = useState([{ dayOfWeek: "", startTime: "", endTime: "" }]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
+    const navigate = useNavigate();
 
     // Separate function to fetch teachers
     const fetchTeachers = async () => {
@@ -55,11 +57,11 @@ const AddSubject = ({ onSubmit }) => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const subjectData = {
-            name: subjectName,
+            subjectName,
             subjectID,
             schedules,
-            teacher: selectedTeacher,
-            course: selectedCourse,
+            selectedTeacher,
+            selectedCourse,
         };
         try {
             const response = await axios.post("/api/admin/addSubject", subjectData);
@@ -109,7 +111,7 @@ const AddSubject = ({ onSubmit }) => {
                 >
                     <option value="">Select a teacher</option>
                     {teachers.map((teacher) => (
-                        <option key={teacher.id} value={teacher.id}>
+                        <option key={teacher._id} value={teacher._id}>
                             {teacher.name}
                         </option>
                     ))}
@@ -127,7 +129,7 @@ const AddSubject = ({ onSubmit }) => {
                 >
                     <option value="">Select a course</option>
                     {courses.map((course) => (
-                        <option key={course.id} value={course.id}>
+                        <option key={course._id} value={course._id}>
                             {course.courseName}
                         </option>
                     ))}

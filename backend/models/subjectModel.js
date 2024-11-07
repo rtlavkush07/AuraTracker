@@ -9,6 +9,7 @@ const subjectSchema = new mongoose.Schema({
       data: mongoose.Schema.Types.Mixed, // Can be any type of data (e.g., text, numerical, etc.)
     },
   ],
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
   Assessments: [
     {
       assessmentID: String,

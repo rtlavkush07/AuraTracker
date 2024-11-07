@@ -5,13 +5,13 @@ import {
   addCourse,
   getAllTeacher,
   getAllCourse,
+  addSubject,
 } from "../controllers/adminDashboardController.js";
 
 router.post("/addTeacher", addTeacher);
 router.post("/addCourse", addCourse);
 router.get("/getAllTeacher", getAllTeacher);
 router.get("/getAllCourse", getAllCourse);
-
-// router.post("/addsubject", login);
+router.post("/addSubject", addSubject);
 
 export default router;
