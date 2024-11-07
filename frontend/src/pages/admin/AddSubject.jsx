@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-const AddSubject = ({ teachers, onSubmit }) => {
+const AddSubject = ({ teachers, courses, onSubmit }) => {
     const [subjectName, setSubjectName] = useState("");
+    const [subjectID, setSubjectID] = useState(""); // New state for subject ID
     const [schedules, setSchedules] = useState([{ dayOfWeek: "", startTime: "", endTime: "" }]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
+    const [selectedCourse, setSelectedCourse] = useState(""); // New state for selected course
 
     const handleAddSchedule = () => {
         setSchedules([...schedules, { dayOfWeek: "", startTime: "", endTime: "" }]);
@@ -23,8 +25,10 @@ const AddSubject = ({ teachers, onSubmit }) => {
         e.preventDefault();
         const subjectData = {
             name: subjectName,
+            subjectID, // Include subject ID
             schedules,
             teacher: selectedTeacher,
+            course: selectedCourse, // Include selected course
         };
         onSubmit(subjectData);
     };
@@ -45,9 +49,21 @@ const AddSubject = ({ teachers, onSubmit }) => {
                 />
             </div>
 
+            {/* Subject ID */}
+            <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Subject ID</label>
+                <input
+                    type="text"
+                    value={subjectID}
+                    onChange={(e) => setSubjectID(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded"
+                    required
+                />
+            </div>
+
             {/* Teacher Selection */}
             <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Teaches By</label>
+                <label className="block text-gray-700 mb-2">Taught By</label>
                 <select
                     value={selectedTeacher}
                     onChange={(e) => setSelectedTeacher(e.target.value)}
@@ -58,6 +74,24 @@ const AddSubject = ({ teachers, onSubmit }) => {
                     {/* {teachers.map((teacher) => (
                         <option key={teacher.id} value={teacher.id}>
                             {teacher.name}
+                        </option>
+                    ))} */}
+                </select>
+            </div>
+
+            {/* Course Selection */}
+            <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Course</label>
+                <select
+                    value={selectedCourse}
+                    onChange={(e) => setSelectedCourse(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded"
+                    required
+                >
+                    <option value="">Select a course</option>
+                    {/* {courses.map((course) => (
+                        <option key={course.id} value={course.id}>
+                            {course.courseName}
                         </option>
                     ))} */}
                 </select>
