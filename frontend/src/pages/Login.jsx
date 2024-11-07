@@ -23,7 +23,8 @@ const Login = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       console.log("Login successful:", response.data);
-      dispatch(loginSuccess({ token, role,id })); // redux state
+      console.log(id);
+      dispatch(loginSuccess({ token, role, id })); // redux state
       if (role === 'admin') {
         navigate("/admin");
       } else if (role === 'teacher') {

@@ -19,7 +19,7 @@ const authSlice = createSlice({
       state.id = id
       state.isAuthenticated = true;
       state.error = null;
-      //   console.log("redux working")
+        console.log(id)
     },
     logout: (state) => {
       state.token = null;

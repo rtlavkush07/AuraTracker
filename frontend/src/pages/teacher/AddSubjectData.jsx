@@ -1,25 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AddSubjectData = ({ teacherId }) => {
+const AddSubjectData = () => {
     const [subjects, setSubjects] = useState([]);
     const [selectedSubject, setSelectedSubject] = useState('');
     const [moduleName, setModuleName] = useState('');
     const [chapters, setChapters] = useState([]);
     const [chapterNameInput, setChapterNameInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const [teacherId, setTeacherId] = useState("");
 
-    useEffect(() => {
-        const fetchSubjects = async () => {
-            try {
-                const response = await axios.get(`/api/teachers/${teacherId}/subjects`);
-                setSubjects(response.data);
-            } catch (error) {
-                console.error('Error fetching subjects:', error);
-            }
-        };
-        fetchSubjects();
-    }, [teacherId]);
+     useEffect(() => {
+       const fetchTeacherProfile = async () => {
+         try {
+           const response = await axios.get("/api/user/teacher/profile", {
+             headers: {
+               Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token for auth if required
+             },
+           });
+             setTeacherId(response.data._id);
+             
+         } catch (err) {
+           setError("Error fetching teacher profile. Please try again later.");
+           console.error(err);
+         }
+       };
+         fetchTeacherProfile();
+         
+     }, []);
+    console.log(teacherId);
+    
+
+    // useEffect(() => {
+    //     const fetchSubjects = async () => {
+    //         try {
+    //             const response = await axios.get(`/api/teachers/${teacherId}/subjects`);
+    //             setSubjects(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching subjects:', error);
+    //         }
+    //     };
+    //     fetchSubjects();
+    // }, [teacherId]);
 
     const handleAddChapter = () => {
         if (chapterNameInput.trim()) {
