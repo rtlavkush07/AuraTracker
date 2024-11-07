@@ -1,14 +1,23 @@
 import mongoose from "mongoose";
 
-const subjectSchema = new mongoose.Schema({
-  subjectName: String,
-  subjectCode: String,
+const chapterSchema = new mongoose.Schema({
+  chapterName: { type: String, required: true },
 
-  data: [
-    {
-      data: mongoose.Schema.Types.Mixed, // Can be any type of data (e.g., text, numerical, etc.)
-    },
-  ],
+  rewards: {
+    auraCoins: { type: Number, default: 10 },
+    ratingPoints: { type: Number, default: 1 },
+  },
+});
+
+const moduleSchema = new mongoose.Schema({
+  moduleName: { type: String, required: true },
+  chapters: [chapterSchema], // Array of chapters within this module
+});
+
+const subjectSchema = new mongoose.Schema({
+  subjectName: { type: String, required: true },
+  subjectCode: { type: String, required: true },
+  data: [moduleSchema], // Array of modules within the subject
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
   Assessments: [
     {
@@ -19,13 +28,9 @@ const subjectSchema = new mongoose.Schema({
       assessmentContent: String,
       auraCoins: Number,
       ratingPoint: Number,
-
       submittedBy: [
         {
-          student: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-          },
+          student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
           submittedContent: { type: String },
         },
       ],

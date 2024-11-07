@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import userProfileSchema from "./userProfileModel.js";
-
-
+const completedChapterSchema = new mongoose.Schema({
+  subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" }, // Reference to the subject
+  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" }, // Reference to the module
+  chapterId: { type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }, // Reference to the chapter
+  completedAt: { type: Date, default: Date.now }, // Date of completion
+  rewards: {
+    auraCoins: { type: Number, default: 0 },
+    ratingPoints: { type: Number, default: 0 },
+  },
+});
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   name: { type: String },
@@ -16,10 +24,10 @@ const userSchema = new mongoose.Schema({
   course: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "course",
+    ref: "Course",
   },
   userProfile: userProfileSchema, // Embed user profile schema
-  // userAcademics: userAcademicsSchema, // Embed user academics schema
+  completedChapters: [completedChapterSchema], // Array of completed chapters with rewards
 });
 
 // Hash password before saving user document
