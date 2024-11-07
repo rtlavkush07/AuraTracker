@@ -9,6 +9,7 @@ const Teacher = () => {
       <Routes>
         <Route path="" element={<TeacherDashboard />} />
         <Route path="/profile" element={<TeacherProfile />} />
+        
       </Routes>
     </div>
   )
