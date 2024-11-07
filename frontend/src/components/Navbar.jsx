@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../features/authSlice";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, token, role } = useSelector((state) => state.auth); // Get role from Redux state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
-  
+  const navigate = useNavigate();
   
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -31,7 +31,9 @@ const Navbar = () => {
   }, [isAuthenticated, token]);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout()); 
+    navigate("/");
+    
   };
 
   const toggleMenu = () => {
@@ -80,12 +82,7 @@ const Navbar = () => {
             isMenuOpen ? "block" : "hidden"
           } md:flex md:space-x-4 absolute md:relative bg-white w-full md:w-auto top-16 md:top-0 left-0 md:left-auto md:items-center p-4 md:p-0 shadow-md md:shadow-none`}
         >
-          <Link
-            to="/"
-            className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
-          >
-            Home
-          </Link>
+          
           {isAuthenticated ? (
             <>
               {role === "student" && (
