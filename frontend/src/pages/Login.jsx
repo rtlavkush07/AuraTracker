@@ -18,12 +18,12 @@ const Login = () => {
     console.log("Login form submitted:", { email, password, role:userRole });
     try {
       const response = await axios.post("/api/auth/login", { email, password,role:userRole });
-      const {token,role} = response.data;
+      const {token,role,id} = response.data;
       console.log("response =  " + response);
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       console.log("Login successful:", response.data);
-      dispatch(loginSuccess({ token, role })); // redux state
+      dispatch(loginSuccess({ token, role,id })); // redux state
 
       navigate("/"); // Redirect to home page
     } catch (err) {
