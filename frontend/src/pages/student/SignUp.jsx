@@ -1,20 +1,22 @@
 // src/components/Signup.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'animate.css/animate.min.css'; // Import animate.css for animations
 
+
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [year, setYear] = useState('');
-  const [regNo, setRegNo] = useState('');
-  const [course, setCourse] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [year, setYear] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [course, setCourse] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [error, setError] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
-  // profile picture handler 
+  // profile picture handler
   const postDetails = (pics) => {
     // Check if the file is undefined or null
     if (!pics) {
@@ -39,7 +41,6 @@ const Signup = () => {
       method: "POST",
       body: data,
     })
-
       .then((res) => res.json())
       .then((data) => {
         // Check if Cloudinary returned a valid URL
@@ -58,11 +59,30 @@ const Signup = () => {
       });
   };
 
+  // Separate function to fetch courses
+  const fetchCourses = async () => {
+    try {
+      const response = await axios.get("/api/admin/getAllCourse");
+      setCourses(response.data);
+      console.log(courses);
+    } catch (error) {
+      console.error("Failed to fetch courses:", error);
+    }
+  };
+
+  // useEffect to call both functions on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([ fetchCourses()]);
+    };
+    fetchData();
+  }, []);
+
   //profile handler end
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/auth/signup', {
+      const response = await axios.post("/api/auth/signup", {
         email,
         name,
         profilePicture,
@@ -74,10 +94,12 @@ const Signup = () => {
 
       // Display success message or redirect to login
       alert("SignUp Successful: " + response.data.message);
-      setError('');
-      navigate('/auth/login'); // Redirect to login page
+      setError("");
+      navigate("/login"); // Redirect to login page
     } catch (err) {
-      setError(err.response?.data?.message || 'Error signing up. Please try again.');
+      setError(
+        err.response?.data?.message || "Error signing up. Please try again."
+      );
       console.error(err);
     }
   };
@@ -139,15 +161,22 @@ const Signup = () => {
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
+          {/* Dropdown for courses */}
           <div className="animate__animated animate__fadeIn animate__delay-0.7s">
-            <input
-              type="text"
-              placeholder="Course"
+            <select
               value={course}
               onChange={(e) => setCourse(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
-            />
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out"
+            >
+              <option value="">Select Course</option>
+              {courses.map((course) => (
+                <option key={course._id} value={course._id}>
+                  {course.courseName}{" "}
+                  {/* Replace 'name' with the actual course name field */}
+                </option>
+              ))}
+            </select>
           </div>
           {/*  profile picture div */}
           <div className="animate__animated animate__fadeIn animate__delay-0.7s">

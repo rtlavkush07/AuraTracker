@@ -16,8 +16,11 @@ const Student = () => {
       <Route path="profile" element={<Profile />} />
       <Route path="store" element={<Store />} />
       <Route path="leaderboard" element={<Leaderboard />} />
+      <Route path="signup" element= {<Signup/>} />
     </Routes>
   );
 };
+
+
 
 export default Student;
