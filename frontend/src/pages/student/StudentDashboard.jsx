@@ -1,156 +1,701 @@
-import React, { useState } from 'react';
-import { FaStar, FaBook, FaTrophy, FaBullseye, FaCalendarAlt, FaPlus,FaTrash, FaCheckCircle } from 'react-icons/fa';
+import React, { useState,useRef } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { FaCalendarAlt } from 'react-icons/fa'; // Import specific icon
 
-const student = {
-  image: '../public/assets/default-profile.png', 
-  name: 'Lav',
-  email: 'lav@gmail.com',
-  dob: '01-01-2002',
-  regNo: '2023CA57',
-  phone: '9876543210',
-  course: 'Computer Science',
-  achievements: 5,
-  challenges: 'this will count++ of task work',
-  courses: [
-    { name: 'Operating System', progress: 80, schedule: 'Tue- 9:00-11:00, Wed- 9:00 - 11: 00' },
-    { name: 'Analysis Of Algorithm', progress: 70, schedule: 'Wed- 2:00-3:00, Tue- 8:00 - 10: 00' },
-    { name: 'Data Management System', progress: 85, schedule: 'Tue- 2:00-4:00, Fri- 10:00 - 12: 00' },
-    { name: 'Object Based Modeling', progress: 65, schedule: 'Thu- 10:00-12:00, Fri- 5:00 - 6: 00' },
-    { name: 'Soft Computing', progress: 60, schedule: 'Mon- 2:00-4:00, Wed- 1:00 - 2: 00' },
-  ],
+const StudentDashboard = () => {
+  const [selectedSection, setSelectedSection] = useState('Home'); // Manage which section to display
+
+  const student = {
+    courses: [
+      { name: 'Operating System', progress: 80, schedule: 'Tue- 9:00-11:00, Wed- 9:00 - 11:00' },
+      { name: 'Analysis Of Algorithm', progress: 70, schedule: 'Wed- 2:00-3:00, Tue- 8:00 - 10:00' },
+      { name: 'Data Management System', progress: 85, schedule: 'Tue- 2:00-4:00, Fri- 10:00 - 12:00' },
+      { name: 'Object Based Modeling', progress: 65, schedule: 'Thu- 10:00-12:00, Fri- 5:00 - 6:00' },
+      { name: 'Soft Computing', progress: 60, schedule: 'Mon- 2:00-4:00, Wed- 1:00 - 2:00' },
+    ],
+  };
+
+
+  // Sample data for demonstration (replace with actual data from backend in a real app)
+const sampleBadges = ['Beginner', 'Intermediate', 'Expert'];
+const sampleVouchers = [{ id: 1, name: 'Discount 10%' }, { id: 2, name: 'Free Shipping' }];
+const samplePurchaseHistory = [
+  { id: 1, itemId: 'Item A', purchaseDate: '2023-11-01', cost: 500 },
+  { id: 2, itemId: 'Item B', purchaseDate: '2023-11-05', cost: 300 },
+];
+
+
+// sample data for assignment section 
+const assignmentsData = [
+  { id: 1, name: 'Assignment 1', dueDate: '15 Sept 11:55', status: 'Pending' },
+  { id: 2, name: 'Assignment 2', dueDate: '15 Sept 11:55', status: 'Pending' },
+  { id: 3, name: 'Assignment 3', dueDate: '15 Sept 11:55', status: 'Submitted' },
+  { id: 4, name: 'Assignment 4', dueDate: '15 Sept 11:55', status: 'Pending' },
+  { id: 5, name: 'Assignment 5', dueDate: '15 Sept 11:55', status: 'Submitted' },
+];
+
+  const renderRightSection = () => {
+
+      // Initial state for user profile data
+  const [profile, setProfile] = useState({
+    name: "Lav Kumar",  // Add name field
+    avatarUrl: "https://via.placeholder.com/100",  // Placeholder image (replace with actual URL or dynamic data)
+    rating: 1000,
+    auraCoins: 0,
+    badges: sampleBadges,
+    vouchers: sampleVouchers,
+    purchaseHistory: samplePurchaseHistory,
+  });
+// profile section ends
+
+  // functions for assignment section 
+  const [activeTab, setActiveTab] = useState('Pending'); // Track active tab
+  const [assignments, setAssignments] = useState(assignmentsData);
+
+  // Handle file upload and change assignment status to "Submitted"
+  const handleFileUpload = (assignmentId) => {
+    const updatedAssignments = assignments.map((assignment) =>
+      assignment.id === assignmentId ? { ...assignment, status: 'Submitted' } : assignment
+    );
+    setAssignments(updatedAssignments);
+    alert('File uploaded and assignment submitted!');
+  };
+  // assignment section ends
+
+
+// functions for subjects 
+
+const [modalOpenS, setModalOpenS] = useState(false);
+const [selectedCourse, setSelectedCourse] = useState(null);
+
+const handleCardClick = (course) => {
+  setSelectedCourse(course);
+  setModalOpen(true);
 };
 
-function StudentDashboard() {
+const toggleTopicCompletion = (topicName) => {
+  setSelectedCourse((prevCourse) => {
+    const updatedTopics = prevCourse.topics.map((topic) =>
+      topic.name === topicName ? { ...topic, completed: !topic.completed } : topic
+    );
 
-  const [tasks, setTasks] = useState([]); // complete tasks array 
-  const [newTask, setNewTask] = useState(''); // one task which is string
-  const [completedTasks, setCompletedTasks] = useState(Array(tasks.length).fill(false)); // starting me false rahega 
-  
-  // Function to add new task
-  const addTask = () => {
-    if (newTask.trim()) {
-      setTasks([...tasks, newTask]);
-      setNewTask('');
-    }
-  };
-// function to delete the task 
-  const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((tmp, i) => i !== index);
-    setTasks(updatedTasks);
-  };
- // Toggle function to mark task as completed or not
- const toggleTaskCompletion = (index) => {
-  const updatedCompletion = [...completedTasks];
-  updatedCompletion[index] = !updatedCompletion[index];
-  setCompletedTasks(updatedCompletion);
+    const completedCount = updatedTopics.filter((topic) => topic.completed).length;
+    const newProgress = (completedCount / updatedTopics.length) * 100;
+
+    return {
+      ...prevCourse,
+      topics: updatedTopics,
+      progress: newProgress,
+    };
+  });
+
+  // Update the main student course data
+  student.courses = student.courses.map((course) =>
+    course.name === selectedCourse.name
+      ? { ...selectedCourse, topics: selectedCourse.topics, progress: selectedCourse.progress }
+      : course
+  );
 };
 
-  return (
-    <div className="flex gap-5 p-5 text-gray-800 font-sans bg-gradient-to-b from-gray-800 to-gray-900">
-      {/* Left section: Profile */}
-      <div className="flex flex-col gap-5 mt-5 w-1/4">
-        <div className="bg-white rounded-lg shadow-md p-5 text-center">
-          <img src={student.image} alt="Profile" className="w-20 h-20 rounded-full mx-auto border-4 border-blue-500 mb-3" />
-          <h2 className="text-xl font-semibold">{student.name}</h2>
-          <p className="text-gray-500 text-sm">MNNIT ALLAHABAD</p>
-          <p className="text-gray-600 text-xs">{student.email}</p>
-          <p className="text-gray-600 text-xs">{student.dob}</p>
-          <p className="text-gray-600 text-xs">{student.regNo}</p>
-          <p className="text-gray-600 text-xs">{student.phone}</p>
-          <p className="text-gray-600 text-xs">{student.course}</p>
-          <button className="bg-blue-600 text-white py-2 px-4 mt-3 rounded-md hover:bg-blue-700">Edit Profile</button>
+const handleCloseModal = () => {
+  setModalOpen(false);
+  setSelectedCourse(null);
+};
+
+// subjects functions ends
+
+
+  // starts for result sections functions and objects 
+
+  const studentInfo = {
+    registrationNo: '2023CA57',
+    name: 'LAV KUMAR',
+    course: 'Master of Computer Applications',
+    branch: 'Not Applicable',
+    semester: '2',
+    spi: '8.05',
+    cpi: '7.54',
+  };
+
+  const grades = [
+    { code: 'CS32101', name: 'Data structures', credit: 4, grade: 'B+' },
+    { code: 'CS32102', name: 'Object oriented programming', credit: 3, grade: 'B+' },
+    { code: 'CS32103', name: 'Xml applications', credit: 3, grade: 'B+' },
+    { code: 'CS32104', name: 'Automata theory', credit: 3, grade: 'B' },
+    { code: 'CS32105', name: 'Technical writing', credit: 2, grade: 'A+' },
+    { code: 'CS32201', name: 'Data structures (lab)', credit: 2, grade: 'B+' },
+    { code: 'CS32202', name: 'Xml applications (lab)', credit: 2, grade: 'A' },
+    { code: 'CS32203', name: 'Object oriented programming (lab)', credit: 2, grade: 'B' },
+  ];
+
+  // end result section
+
+// starts challanges section
+
+
+const [goals, setGoals] = useState('');
+const [goalType, setGoalType] = useState('Academics');
+const [modalOpen, setModalOpen] = useState(false);
+const [courseName, setCourseName] = useState('');
+const [subject, setSubject] = useState('');
+const [courses, setCourses] = useState([]);
+const [activeSection, setActiveSection] = useState('Academics');
+const scrollRef = useRef(null);
+
+const handleAddGoal = () => {
+  if (goals.trim()) {
+    setCourses((prevCourses) => [
+      ...prevCourses,
+      { name: goals, type: goalType, subjects: [], progress: 0 }
+    ]);
+    setGoals('');
+  }
+};
+
+const handleAddSubject = () => {
+  if (subject.trim()) {
+    setCourses((prevCourses) => {
+      return prevCourses.map((course) => {
+        if (course.name === courseName) {
+          return {
+            ...course,
+            subjects: [...course.subjects, { name: subject, completed: false }],
+            progress: course.progress
+          };
+        }
+        return course;
+      });
+    });
+    setSubject('');
+  }
+};
+
+const handleManageSubjects = (course) => {
+  setCourseName(course.name);
+  setModalOpen(true);
+};
+
+const handleDeleteCourse = (courseToDelete) => {
+  setCourses((prevCourses) => prevCourses.filter((course) => course.name !== courseToDelete.name));
+};
+
+const handleConfirm = () => {
+  setModalOpen(false);
+  setCourseName('');
+  setSubject('');
+};
+
+const toggleSubjectCompletion = (subjectName) => {
+  setCourses((prevCourses) => {
+    return prevCourses.map((course) => {
+      if (course.name === courseName) {
+        const updatedSubjects = course.subjects.map((subj) =>
+          subj.name === subjectName ? { ...subj, completed: !subj.completed } : subj
+        );
+
+        const completedCount = updatedSubjects.filter((subj) => subj.completed).length;
+        const newProgress = (completedCount / updatedSubjects.length) * 100;
+
+        return {
+          ...course,
+          subjects: updatedSubjects,
+          progress: newProgress
+        };
+      }
+      return course;
+    });
+  });
+};
+
+const filteredCourses = courses.filter((course) => course.type === activeSection);
+
+const handleScrollLeft = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+  }
+};
+
+const handleScrollRight = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+  }
+};
+
+// end challenge section
+
+
+
+
+
+
+
+// *************************************************
+    switch (selectedSection) {
+      case 'PROFILE':
+        return (
+        <>
+         <div className="bg-gray-900 text-white min-h-screen p-8">
+      {/* Header with Name and Image */}
+      <div className="flex flex-col items-center mb-8">
+        <img
+          src={profile.avatarUrl}
+          alt="User Avatar"
+          className="w-24 h-24 rounded-full mb-4"
+        />
+        <h1 className="text-3xl font-semibold">{profile.name}</h1>
+      </div>
+
+      {/* Rating and Aura Coins */}
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="bg-black p-6 rounded-lg text-center">
+          <h2 className="text-xl font-semibold mb-2">Rating</h2>
+          <p className="text-3xl">{profile.rating}</p>
         </div>
-
-        <div className="bg-white rounded-lg shadow-md p-5">
-          <div className="flex items-center text-gray-700 my-2">
-            <FaStar className="text-blue-500 mr-2" /> <span>Achievements: {student.achievements}</span>
-          </div>
-          <div className="flex items-center text-gray-700 my-2">
-            <FaBook className="text-blue-500 mr-2" /> <span>Courses: {student.courses.length}</span>
-          </div>
-          <div className="flex items-center text-gray-700 my-2">
-            <FaTrophy className="text-blue-500 mr-2" /> <span>Tasks Completed: {student.challenges}</span>
-          </div>
+        <div className="bg-black p-6 rounded-lg text-center">
+          <h2 className="text-xl font-semibold mb-2">Aura Coins</h2>
+          <p className="text-3xl">{profile.auraCoins}</p>
         </div>
       </div>
 
-      {/* Right section: Dashboard */}
-      <div className="flex flex-col gap-5 w-3/4">
-        <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Progress</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {student.courses.map((course, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md p-5">
-              <h3 className="text-lg font-semibold text-gray-600">{course.name}</h3>
-              <p className="text-gray-500 text-sm">Completed: {course.progress}%</p>
-              <div className="w-full h-2 bg-gray-200 rounded mt-2">
-                <div className="h-full bg-blue-500 rounded" style={{ width: `${course.progress}%` }}></div>
-              </div>
+      {/* Badges */}
+      <div className="bg-black p-6 rounded-lg mb-6">
+        <h2 className="text-2xl font-semibold mb-4">Badges</h2>
+        <div className="flex gap-4">
+          {profile.badges.map((badge, index) => (
+            <div key={index} className="bg-green-700 px-4 py-2 rounded-full">
+              {badge}
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Task List Section */}
-        <div className="mt-5">
-          <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Set Academic or Personal Goals</h2>
-         {/* for adding the new goal  */}
-          <div className="flex mt-3"> 
+      {/* Vouchers */}
+      <div className="bg-black p-6 rounded-lg mb-6">
+        <h2 className="text-2xl font-semibold mb-4">Vouchers</h2>
+        <ul className="list-disc list-inside">
+          {profile.vouchers.map((voucher) => (
+            <li key={voucher.id}>{voucher.name}</li>
+          ))}
+        </ul>
+      </div>
 
-            <input
-              type="text"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              placeholder="Set New Goal..."
-              className="flex-grow p-2 border rounded-l-md focus:outline-none"
-            />
-            <button onClick={addTask} className="bg-blue-500 text-white p-2 rounded-r-md hover:bg-blue-600">
-              <FaPlus />
-            </button>
+      {/* Purchase History */}
+      <div className="bg-black p-6 rounded-lg">
+        <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
+        <table className="w-full text-left">
+          <thead>
+            <tr>
+              <th className="border-b border-gray-700 py-2">Item</th>
+              <th className="border-b border-gray-700 py-2">Purchase Date</th>
+              <th className="border-b border-gray-700 py-2">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {profile.purchaseHistory.map((purchase) => (
+              <tr key={purchase.id}>
+                <td className="py-2">{purchase.itemId}</td>
+                <td className="py-2">{purchase.purchaseDate}</td>
+                <td className="py-2">{purchase.cost} Coins</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+        </>
+        
+        )
+      case 'Schedule':
+        return (
+          <div className="mt-5 ">
+            <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Course Schedule</h2>
+            <div className="flex flex-wrap justify-between mt-3 ">
+              {student.courses.map((course, index) => (
+                <div key={index} className="flex items-center w-full lg:w-1/2 mb-4">
+                  <FaCalendarAlt className="text-green-600 mr-2 text-xl" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-600">{course.name}</h3>
+                    <p className="text-gray-500 text-sm">{course.schedule}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+        );
+      case 'ASSIGNMENT':
+        return (
 
-          {/* showing the seted goal by the student  */}
-          <ul className="list-none mt-4">
-      {tasks.map((task, index) => (
-        <li
-          key={index}
-          className={`flex justify-between items-center p-3 my-2 rounded shadow ${
-            completedTasks[index] ? 'bg-green-500 text-red-500 line-through text-decoration-red-800' : 'bg-white text-gray-800'
-          }`}
+<>
+
+<div className="p-6 bg-black text-white border border-gray-400 rounded-lg max-w-lg mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-center">Assignment</h2>
+
+      {/* Tab buttons */}
+      <div className="flex justify-center mb-4">
+        <button
+          onClick={() => setActiveTab('Pending')}
+          className={`px-4 py-2 ${activeTab === 'Pending' ? 'bg-red-800' : 'bg-gray-800'} border border-gray-400 rounded-l-lg`}
         >
-          <span>
-            <input
-              type="checkbox"
-              style={{ marginRight: '10px' }}
-              checked={completedTasks[index]}
-              onChange={() => toggleTaskCompletion(index)}
-            />
-            {task}
-          </span>
-          <button onClick={() => deleteTask(index)} className="text-red-500 font-bold">
-            <FaTrash />
-          </button>
-        </li>
-      ))}
-    </ul>
-        </div>
+          Pending
+        </button>
+        <button
+          onClick={() => setActiveTab('Submitted')}
+          className={`px-4 py-2 ${activeTab === 'Submitted' ? 'bg-green-800' : 'bg-gray-800'} border border-gray-400 rounded-r-lg`}
+        >
+          Submitted
+        </button>
+      </div>
 
-        {/* Course Schedule Section */}
-        <div className="mt-5">
-          <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Course Schedule</h2>
-          <div className="flex flex-wrap justify-between mt-3">
-            {student.courses.map((course, index) => (
-              <div key={index} className="flex items-center w-full lg:w-1/2 mb-4">
-                <FaCalendarAlt className="text-green-600 mr-2 text-xl" />
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-600">{course.name}</h3>
-                  <p className="text-gray-500 text-sm">{course.schedule}</p>
+      {/* Assignment list */}
+      <div>
+        {assignments
+          .filter((assignment) => assignment.status === activeTab)
+          .map((assignment) => (
+            <div
+              key={assignment.id}
+              className="flex items-center justify-between p-4 mb-2 border border-gray-400 rounded-lg"
+            >
+              <div>
+                <h3 className="font-semibold">{assignment.name}</h3>
+                <p className="text-sm">due: {assignment.dueDate}</p>
+              </div>
+              {activeTab === 'Pending' && (
+                <>
+                  <label className="flex items-center">
+                    <span className="mr-2 text-blue-500 cursor-pointer">Upload</span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={() => handleFileUpload(assignment.id)}
+                    />
+                    <button
+                      onClick={() => handleFileUpload(assignment.id)}
+                      className="ml-2 px-4 py-1 border border-gray-500 rounded"
+                    >
+                      Submit
+                    </button>
+                  </label>
+                </>
+              )}
+            </div>
+          ))}
+        {assignments.filter((assignment) => assignment.status === activeTab).length === 0 && (
+          <p className="text-center text-gray-500 mt-4">No {activeTab.toLowerCase()} assignments</p>
+        )}
+      </div>
+    </div>
+</>
+
+        )
+
+
+
+
+
+      // Add other cases for each item
+       case 'SUBJECTS':
+        return (
+        
+        <>
+        {/* subjects section dash board of student */}
+        <div className="flex flex-col gap-5 w-3/4">
+      <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Progress</h2>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {student.courses.map((course, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow-md p-5 cursor-pointer"
+            onClick={() => handleCardClick(course)}
+          >
+            <h3 className="text-lg font-semibold text-gray-600">{course.name}</h3>
+            <p className="text-gray-500 text-sm">Completed: {course.progress.toFixed(2)}%</p>
+            <div className="w-full h-2 bg-gray-200 rounded mt-2">
+              <div className="h-full bg-blue-500 rounded" style={{ width: `${course.progress}%` }}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal */}
+      {modalOpen && selectedCourse && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg w-96">
+            <h2 className="m-0 text-xl">{selectedCourse.name}</h2>
+            <ul className="list-none p-0 my-2">
+              {selectedCourse.topics.map((topic, index) => (
+                <li
+                  key={index}
+                  className={`py-1 ${topic.completed ? 'text-green-600' : 'text-black'}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={topic.completed}
+                    onChange={() => toggleTopicCompletion(topic.name)}
+                    className="mr-2"
+                  />
+                  {topic.name}
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-end">
+              <button onClick={handleCloseModal} className="p-2 bg-red-500 text-white rounded">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+        
+        </>
+        )
+        case'CHALLENGES':
+        return (
+        
+          <>
+            <div className="font-sans p-5 w-full h-screen mx-auto bg-black tex-white rounded-lg shadow-md">
+      <div className="mb-5">
+        
+        
+        <div className="mx-6 relative ">
+          <button onClick={handleScrollLeft} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded px-2 z-10">
+            &lt;
+          </button>
+          <button onClick={handleScrollRight} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded px-2 z-10">
+            &gt;
+          </button>
+
+          <div className="overflow-x-hidden whitespace-nowrap mx-10 my-10 " ref={scrollRef}>
+            {filteredCourses.map((course, index) => (
+              <div key={index} className="inline-block p-5 w-64 h-32 border border-gray-300 rounded-lg bg-black mr-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-bold">{course.name}</span>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleManageSubjects(course)} className="text-blue-500 rounded text-black px-2">
+                      <i className="fas fa-pencil-alt"></i>
+                    </button>
+                    <button onClick={() => handleDeleteCourse(course)} className="bg-transparent text-red-500 rounded px-2">
+                      DEL
+                    </button>
+                  </div>
+                </div>
+                <p className="m-0">Completed: {course.progress.toFixed(2)}%</p>
+                <div className="w-full h-2 bg-gray-300 rounded mt-1">
+                  <div className="h-full bg-blue-500 rounded" style={{ width: `${course.progress}%` }}></div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+      </div> 
+
+      <div className="my-5">
+        <h3 className="text-2xl mb-2">Set Your Goals</h3>
+        <div className="flex gap-2">
+          
+          <input
+            type="text"
+            placeholder="Enter your goal"
+            value={goals}
+            onChange={(e) => setGoals(e.target.value)}
+            className="p-2 text-lg flex-1 border rounded text-black"
+          />
+          <button onClick={handleAddGoal} className="p-2 bg-blue-500 text-white rounded">Set Goals</button>
+        </div>
       </div>
+
+      {modalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg w-96">
+            <h2 className="m-0 text-xl">{courseName}</h2>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Enter Topic"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="flex-1 p-2 border rounded text-black"
+              />
+              <button
+                onClick={handleAddSubject}
+                className="p-2 bg-blue-500 text-white rounded"
+                disabled={!subject.trim()} 
+              >
+                Add
+              </button>
+            </div>
+            <ul className="list-none p-0 my-2">
+              {courses.find((course) => course.name === courseName)?.subjects.map((subj, index) => (
+                <li key={index} className={`py-1 ${subj.completed ? 'text-green-600' : 'text-black'}`}>
+                  <input
+                    type="checkbox"
+                    checked={subj.completed}
+                    onChange={() => toggleSubjectCompletion(subj.name)}
+                    className="mr-2"
+                  />
+                  {subj.name}
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-end">
+              <button onClick={handleConfirm} className="p-2 bg-red-500 text-white rounded">Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
+    </div>
+          
+          </>
+
+
+        )
+        case 'RESULTS':
+          return  (
+         <>
+         <h1>Work in process</h1>
+         </> 
+         
+          )
+
+      default: 
+     
+        return (
+          <>
+              {/* Main Content */}
+      <main className="flex-1 p-6 overflow-y-auto">
+       
+
+        {/* Main Dashboard Content */}
+        <div className="grid grid-cols-3 gap-6">
+          {/* Left Section */}
+          <div className="col-span-2">
+            {/* Progress Circles */}
+            <div className="flex gap-4 mb-6">
+              {[
+                { title: 'Lectures', progress: '62/124' },
+                { title: 'Assignments', progress: '36/42' },
+                { title: 'Coursework', progress: '1/3' },
+              ].map((item, index) => (
+                <div key={index} className="bg-black p-4 rounded-xl text-center w-1/3">
+                  <h2 className="text-xl">{item.title}</h2>
+                  <p className="text-3xl font-bold">{item.progress}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Course Schedule Section */}
+            <div className="mt-5 ">
+              <h2 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 text-white">Course Schedule</h2>
+              <div className="flex flex-wrap justify-between mt-3 ">
+                {student.courses.map((course, index) => (
+                  <div key={index} className="flex items-center w-full lg:w-1/2 mb-4">
+                    <FaCalendarAlt className="text-green-600 mr-2 text-xl" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-600">{course.name}</h3>
+                      <p className="text-gray-500 text-sm">{course.schedule}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section */}
+          <div>
+            {/* Aura Points */}
+            <div className="bg-black p-4 rounded-xl mb-6">
+              <h2 className="text-2xl">Aura Points 🏆</h2>
+              <div className="flex flex-col justify-center items-center mt-4">
+                <div className="text-xl text-center">14</div>
+              </div>
+            </div>
+
+            {/* Badges */}
+            <div className="bg-black p-4 rounded-xl mb-6">
+              <h2 className="text-2xl">Badges</h2>
+              <div className="flex gap-3 p-2">
+                <img src="https://via.placeholder.com/40" alt="Badge 1" />
+                <img src="https://via.placeholder.com/40" alt="Badge 2" />
+                <img src="https://via.placeholder.com/40" alt="Badge 3" />
+                <img src="https://via.placeholder.com/40" alt="Badge 4" />
+              </div>
+            </div>
+
+            {/* My Rating */}
+            <div className="bg-black p-4 rounded-xl">
+              <h2 className="text-2xl">Rating</h2>
+              <div className="mt-4">
+                <div className="bg-gray-800 p-4 rounded h-40 flex items-center justify-center text-gray-400">
+                  Show rating in graph
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+          </>
+        )
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-900 text-white">
+      {/* Sidebar */}
+      <aside className="w-1/5 bg-black p-4 border-r border-green-600 flex flex-col">
+        <div className="text-2xl font-bold text-green-500 mb-8">STUDENT DASHBOARD</div>
+        <nav className="flex flex-col gap-4">
+          {['PROFILE', 'Schedule', 'ASSIGNMENT', 'SUBJECTS', 'CHALLENGES', 'RESULTS'].map((item, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedSection(item)} // Set selected section on click
+              className="text-left text-white flex items-center gap-3 py-2 px-4 hover:bg-green-700 rounded"
+            >
+              <i className={`fas ${
+                [
+                  'fa-user',           // PROFILE
+                  'fa-calendar-alt',   // Schedule
+                  'fa-tasks',          // ASSIGNMENT
+                  'fa-book',           // COURSES
+                  'fa-bullseye',       // CHALLENGES
+                  'fa-chart-line',     // RESULTS
+                 
+                ][index]
+              }`}></i>
+              {item}
+            </button>
+          ))}
+        </nav>
+        <button className="text-left mt-auto text-white flex items-center gap-3 py-2 px-4 hover:bg-red-700 rounded">
+          <i className="fas fa-sign-out-alt"></i> Log Out
+        </button>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 overflow-y-auto">
+        {/* Header */}
+        <header className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-semibold">Hello, ABC!</h1>
+          <div className="flex items-center gap-4">
+            <img
+              src="https://via.placeholder.com/40"
+              alt="User Avatar"
+              className="w-10 h-10 rounded-full"
+            />
+          </div>
+        </header>
+
+        {/* Right Section Based on Selection */}
+        <div className="grid grid-cols-3 gap-6">
+          {/* Main Content Right Section */}
+          <div className="col-span-3">
+            {renderRightSection()}
+          </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
 
 export default StudentDashboard;
