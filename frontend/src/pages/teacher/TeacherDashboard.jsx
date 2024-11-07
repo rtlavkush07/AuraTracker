@@ -16,7 +16,7 @@ const TeacherDashboard = () => {
             Create and manage assignments to keep students engaged and on track.
           </p>
           <Link
-            to="assignment"
+            to="addassignment"
             className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
           >
             Add Assignment
@@ -30,7 +30,7 @@ const TeacherDashboard = () => {
             Upload study materials and resources to help students learn effectively.
           </p>
           <Link
-            to="addmaterials"
+            to="addsubjectdata"
             className="bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
           >
             Add Material
