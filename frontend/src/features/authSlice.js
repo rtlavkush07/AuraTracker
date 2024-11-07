@@ -4,6 +4,7 @@ const initialState = {
   token: localStorage.getItem("token") || null,
   isAuthenticated: !!localStorage.getItem("token"),
   role: localStorage.getItem("role") || null,
+  id: null,
   error: null,
 };
 
@@ -12,9 +13,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      const { token, role } = action.payload;
+      const { token, role,id } = action.payload;
       state.token = token;
       state.role = role;
+      state.id = id
       state.isAuthenticated = true;
       state.error = null;
       //   console.log("redux working")
