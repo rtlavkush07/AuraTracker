@@ -34,18 +34,16 @@ export const signup = async (req, res) => {
         level: 1,
         badges: [],
         vouchers: [],
-        coupons: [],
         purchaseHistory: [],
       },
-      userAcademics: {
-        courses: [],
-        academicGoals: [],
-        personalGoals: [],
-      },
+      completedChapters:[],
+     
     });
-
+    console.log(newUser);
+    console.log("newUser ke pehele")
     // Save to database
     await newUser.save();
+    console.log("newUser save ho gya ")
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });

@@ -160,7 +160,7 @@ const Navbar = () => {
                   Login
                 </button>
               </Link>
-              <Link to="/auth/signup">
+              <Link to="/student/signup">
                 <button className="block py-2 md:py-1.5 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
                   Signup
                 </button>
