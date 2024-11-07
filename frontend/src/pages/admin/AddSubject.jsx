@@ -1,11 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const AddSubject = ({ teachers, courses, onSubmit }) => {
+const AddSubject = ({ onSubmit }) => {
+    const [teachers, setTeachers] = useState([]);
+    const [courses, setCourses] = useState([]);
     const [subjectName, setSubjectName] = useState("");
-    const [subjectID, setSubjectID] = useState(""); // New state for subject ID
+    const [subjectID, setSubjectID] = useState("");
     const [schedules, setSchedules] = useState([{ dayOfWeek: "", startTime: "", endTime: "" }]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
-    const [selectedCourse, setSelectedCourse] = useState(""); // New state for selected course
+    const [selectedCourse, setSelectedCourse] = useState("");
+
+    // Separate function to fetch teachers
+    const fetchTeachers = async () => {
+        try {
+            const response = await axios.get("/api/admin/getAllTeacher");
+            setTeachers(response.data);
+        } catch (error) {
+            console.error("Failed to fetch teachers:", error);
+        }
+    };
+
+    // Separate function to fetch courses
+    const fetchCourses = async () => {
+        try {
+            const response = await axios.get("/api/admin/getAllCourse");
+            setCourses(response.data);
+        } catch (error) {
+            console.error("Failed to fetch courses:", error);
+        }
+    };
+
+    // useEffect to call both functions on mount
+    useEffect(() => {
+        const fetchData = async () => {
+            await Promise.all([fetchTeachers(), fetchCourses()]);
+        };
+        fetchData();
+    }, []);
 
     const handleAddSchedule = () => {
         setSchedules([...schedules, { dayOfWeek: "", startTime: "", endTime: "" }]);
@@ -21,23 +52,29 @@ const AddSubject = ({ teachers, courses, onSubmit }) => {
         setSchedules(schedules.filter((_, i) => i !== index));
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         const subjectData = {
             name: subjectName,
-            subjectID, // Include subject ID
+            subjectID,
             schedules,
             teacher: selectedTeacher,
-            course: selectedCourse, // Include selected course
+            course: selectedCourse,
         };
-        onSubmit(subjectData);
+        try {
+            const response = await axios.post("/api/admin/addSubject", subjectData);
+            console.log(response.data);
+            navigate('/admin');
+        } catch (error) {
+            console.error("Error adding subjecrt:", error);
+        }
     };
 
     return (
         <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4 text-blue-600">Add or Edit Subject</h2>
 
-            {/* Subject Name */}
+            {/* Subject Name Input */}
             <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Subject Name</label>
                 <input
@@ -49,7 +86,7 @@ const AddSubject = ({ teachers, courses, onSubmit }) => {
                 />
             </div>
 
-            {/* Subject ID */}
+            {/* Subject ID Input */}
             <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Subject ID</label>
                 <input
@@ -71,11 +108,11 @@ const AddSubject = ({ teachers, courses, onSubmit }) => {
                     required
                 >
                     <option value="">Select a teacher</option>
-                    {/* {teachers.map((teacher) => (
+                    {teachers.map((teacher) => (
                         <option key={teacher.id} value={teacher.id}>
                             {teacher.name}
                         </option>
-                    ))} */}
+                    ))}
                 </select>
             </div>
 
@@ -89,15 +126,15 @@ const AddSubject = ({ teachers, courses, onSubmit }) => {
                     required
                 >
                     <option value="">Select a course</option>
-                    {/* {courses.map((course) => (
+                    {courses.map((course) => (
                         <option key={course.id} value={course.id}>
                             {course.courseName}
                         </option>
-                    ))} */}
+                    ))}
                 </select>
             </div>
 
-            {/* Schedules */}
+            {/* Schedule Section */}
             <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Schedules</label>
                 {schedules.map((schedule, index) => (
@@ -142,6 +179,7 @@ const AddSubject = ({ teachers, courses, onSubmit }) => {
                 </button>
             </div>
 
+            {/* Submit Button */}
             <button
                 type="submit"
                 className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"

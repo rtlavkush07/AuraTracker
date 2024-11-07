@@ -1,6 +1,7 @@
 import Teacher from "../models/teacherModel.js";
 import bcrypt from "bcrypt";
 import Course from "../models/courseModel.js";
+import Subject from "../models/subjectModel.js";
 
 // Controller to add a new teacher
 export const addTeacher = async (req, res) => {
@@ -45,13 +46,22 @@ export const addCourse = async (req, res) => {
 };
 
 // Controller to get all teachers
-export const getAllTeachers = async (req, res) => {
+export const getAllTeacher = async (req, res) => {
   try {
     // Fetch all teachers and populate subjects if necessary
-    const teachers = await Teacher.find().populate("subjects");
+    const teachers = await Teacher.find();
 
     res.status(200).json(teachers);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch teachers" });
+  }
+};
+export const getAllCourse = async (req, res) => {
+  try {
+    // Fetch all Courses and populate subjects if necessary
+    const courses = await Course.find();
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch Courses" });
   }
 };
