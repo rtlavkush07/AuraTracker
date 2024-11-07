@@ -17,7 +17,7 @@ const Profile = () => {
   const scrollRefVouchers = useRef();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated ) {
       navigate("/auth/login");
       return;
     }

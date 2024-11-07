@@ -23,6 +23,7 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
     },
     setError: (state, action) => {
       state.error = action.payload;
