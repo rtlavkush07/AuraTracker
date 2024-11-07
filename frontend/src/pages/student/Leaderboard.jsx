@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // Sample data structure for the leaderboard with diverse courses
 const leaderboardData = [
@@ -11,19 +12,36 @@ const leaderboardData = [
   { id: 7, name: "Grace", course: "MTech Computer Science", year: "2023", rating: 88 },
 ];
 
-const selfRank = {
-  id: 0,
-  name: "You",
-  course: "BTech Computer Science",
-  year: "2024",
-  rating: 88,
-  imageUrl: "https://via.placeholder.com/100" // Placeholder for user image
-};
+
+// fetch self data  
+
 
 const Leaderboard = () => {
   const [selectedCourse, setSelectedCourse] = useState("All Courses");
   const [selectedYear, setSelectedYear] = useState("All Years");
+  const [selfRank, setSelfRank] = useState();
+  const { token, isAuthenticated, role } = useSelector((state)=>state.auth);
+  
 
+  // fetch user data
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get("/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.data && response.data.userProfile) {
+          setSelfRank(response.data.userProfile);
+        }
+      } catch (err) {
+        console.error("Error fetching profile data leaderboard:", err);
+      }
+    };
+
+    if (isAuthenticated && role === "student") {
+      fetchProfileData();
+    }
+  }, [isAuthenticated, token]);
   // Filter data based on selected course and year
   const filteredData = leaderboardData.filter(user => {
     const courseMatch = selectedCourse === "All Courses" || user.course === selectedCourse;
