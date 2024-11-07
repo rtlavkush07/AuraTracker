@@ -10,38 +10,43 @@ const AddSubjectData = () => {
     const [loading, setLoading] = useState(false);
     const [teacherId, setTeacherId] = useState("");
 
-     useEffect(() => {
-       const fetchTeacherProfile = async () => {
-         try {
-           const response = await axios.get("/api/user/teacher/profile", {
-             headers: {
-               Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token for auth if required
-             },
-           });
-             setTeacherId(response.data._id);
-             
-         } catch (err) {
-           setError("Error fetching teacher profile. Please try again later.");
-           console.error(err);
-         }
-       };
-         fetchTeacherProfile();
-         
-     }, []);
-    console.log(teacherId);
-    
 
-    // useEffect(() => {
-    //     const fetchSubjects = async () => {
-    //         try {
-    //             const response = await axios.get(`/api/teachers/${teacherId}/subjects`);
-    //             setSubjects(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching subjects:', error);
-    //         }
-    //     };
-    //     fetchSubjects();
-    // }, [teacherId]);
+
+    useEffect(() => {
+        const fetchTeacherProfile = async () => {
+            try {
+                const response = await axios.get("/api/user/teacher/profile", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token for auth if required
+                    },
+                });
+                setTeacherId(response.data._id);
+
+            } catch (err) {
+                setError("Error fetching teacher profile. Please try again later.");
+                console.error(err);
+            }
+        };
+        fetchTeacherProfile();
+
+    }, []);
+    useEffect(() => {
+        const fetchSubjects = async () => {
+            try {
+                const response = await axios.get(`/api/teacher/getSubjects/${teacherId}`);
+
+
+                setSubjects(response.data);
+                // console.log("subjects in add subject data = " + JSON.stringify(subjects));
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
+        fetchSubjects();
+    }, [teacherId]);
+
+
+
 
     const handleAddChapter = () => {
         if (chapterNameInput.trim()) {
@@ -68,7 +73,7 @@ const AddSubjectData = () => {
 
         try {
             setLoading(true);
-            await axios.put(`/api/subjects/${selectedSubject}/modules`, { modules: [moduleData] });
+            await axios.put(`/api/teacher/${selectedSubject}/modules`, { modules: [moduleData] });
             alert('Module and chapters added successfully');
             setModuleName('');
             setChapters([]);

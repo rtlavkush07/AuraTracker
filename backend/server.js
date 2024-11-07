@@ -4,6 +4,7 @@ import connectDB from "./db/dbConection.js";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js";
 
 import cors from "cors";
 
@@ -27,6 +28,9 @@ app.use("/api/user", profileRoutes);
 
 // admin routes
 app.use("/api/admin", adminRoutes);
+
+// teacher routes
+app.use("/api/teacher", teacherRoutes);
 
 // Other middleware and routes
 

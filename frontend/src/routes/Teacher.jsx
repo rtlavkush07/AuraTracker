@@ -3,7 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import TeacherDashboard from '../pages/teacher/TeacherDashboard'
 import TeacherProfile from '../pages/teacher/TeacherProfile'
 import AddAssignment from '../pages/teacher/AddAssignment'
-import AddSubjectData from '../pages/teacher/AddSubjectData'
+import AddSubjectData from '../pages/teacher/addSubjectData'
+
 
 const Teacher = () => {
   return (
@@ -11,8 +12,8 @@ const Teacher = () => {
       <Routes>
         <Route path="" element={<TeacherDashboard />} />
         <Route path="/profile" element={<TeacherProfile />} />
-        <Route path='/addassignment' element={<AddAssignment/>} />
-        <Route path='/addsubjectdata' element={<AddSubjectData/>} />
+        <Route path='/addassignment' element={<AddAssignment />} />
+        <Route path='/addsubjectdata' element={<AddSubjectData />} />
 
       </Routes>
     </div>
