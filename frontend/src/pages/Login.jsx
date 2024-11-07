@@ -15,15 +15,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login form submitted:", { email, password, userRole });
+    console.log("Login form submitted:", { email, password, role:userRole });
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
-      const token = response.data;
+      const response = await axios.post("/api/auth/login", { email, password,role:userRole });
+      const {token,role} = response.data;
       console.log("response =  " + response);
       localStorage.setItem("token", token);
-      localStorage.setItem("role", userRole);
+      localStorage.setItem("role", role);
       console.log("Login successful:", response.data);
-      dispatch(loginSuccess({ token, userRole })); // redux state
+      dispatch(loginSuccess({ token, role })); // redux state
 
       navigate("/"); // Redirect to home page
     } catch (err) {
