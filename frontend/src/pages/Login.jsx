@@ -24,8 +24,15 @@ const Login = () => {
       localStorage.setItem("role", role);
       console.log("Login successful:", response.data);
       dispatch(loginSuccess({ token, role,id })); // redux state
+      if (role === 'admin') {
+        navigate("/admin");
+      } else if (role === 'teacher') {
+        navigate("/teacher/profile");
+      } else if (role === 'student') {
+        navigate('/student/profile');
+      }
 
-      navigate("/"); // Redirect to home page
+       // Redirect to home page
     } catch (err) {
       dispatch(setError(errorMessage)); // call seterror method
       if (err.response) {
