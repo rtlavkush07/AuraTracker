@@ -1,5 +1,6 @@
 import Teacher from "../models/teacherModel.js";
 import bcrypt from "bcrypt";
+import Course from "../models/courseModel.js";
 
 // Controller to add a new teacher
 export const addTeacher = async (req, res) => {
@@ -26,6 +27,20 @@ export const addTeacher = async (req, res) => {
       .json({ message: "Teacher added successfully", teacher: newTeacher });
   } catch (error) {
     res.status(500).json({ error: "Failed to add teacher" });
+  }
+};
+export const addCourse = async (req, res) => {
+  try {
+    console.log("coming to addCourse controller");
+    const { courseName, courseCode } = req.body;
+    const newCourse = new Course({ courseName, courseCode });
+    await newCourse.save();
+
+    res
+      .status(201)
+      .json({ message: "Course added successfully", course: newCourse });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add Course" });
   }
 };
 

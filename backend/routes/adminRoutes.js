@@ -1,9 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { addTeacher } from "../controllers/adminDashboardController.js";
+import {
+  addTeacher,
+  addCourse,
+} from "../controllers/adminDashboardController.js";
 
-router.post("/addteacher", addTeacher);
-// router.post("/addcourse", login);
+router.post("/addTeacher", addTeacher);
+router.post("/addCourse", addCourse);
+// router.get("/admin/getAllTeacher");
 // router.post("/addsubject", login);
 
 export default router;

@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 const AddCourse = ({ onSubmit }) => {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [studentsEnrolled, setStudentsEnrolled] = useState([]);
+  const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const courseData = {
       courseName,
-      courseCode,
-      studentsEnrolled,
+      courseCode
+
     };
-    onSubmit(courseData);
+    try {
+      const response = await axios.post("/api/admin/addCourse", courseData);
+      console.log(response.data);
+      navigate('/admin');
+    } catch (error) {
+      console.error("Error adding Course:", error);
+    }
   };
 
   return (
