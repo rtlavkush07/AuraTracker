@@ -5,7 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
-
+import studentRoutes from "./routes/studentRoutes.js";
 import cors from "cors";
 
 // Load environment variables
@@ -31,6 +31,9 @@ app.use("/api/admin", adminRoutes);
 
 // teacher routes
 app.use("/api/teacher", teacherRoutes);
+
+// student routes
+app.use("/api/student", studentRoutes);
 
 // Other middleware and routes
 
