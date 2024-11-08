@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { FaUserGraduate, FaUserFriends, FaTrashAlt } from 'react-icons/fa';
+import { FaUserGraduate,FaTachometerAlt,FaUserPlus, FaUserFriends, FaTrashAlt } from 'react-icons/fa';
 import AddTeacher from './AddTeacher';
 import AddCourse from './AddCourse';
+import AllTeachers from './AllTeachers';
+import AllCourses from './AllCourses';
+import AllStudent from './AllStudent';
+import AddSubject from './AddSubject';
+
+
+
 
 const AdminDashboard = () => {
   const [selectedSection, setSelectedSection] = useState('Home');
   const [newTodo, setNewTodo] = useState('');
   const [todos, setTodos] = useState([]);
+
+
+
 
   const addTodo = () => {
     if (newTodo.trim()) {
@@ -23,15 +34,17 @@ const AdminDashboard = () => {
   const renderRightSection = () => {
     switch (selectedSection) {
       case 'All Teachers':
-        return <>list of all the teachers</>;
+        return <AllTeachers/>;
       case 'Add New Teacher':
         return <AddTeacher />;
       case 'All Students':
-        return <>list of all students</>;
+        return <AllStudent/>;
       case 'All Courses':
-        return <>list of all courses</>;
+        return <AllCourses/>;
       case 'Add New Courses':
         return <AddCourse />;
+        case 'Add New Subject':
+          return <AddSubject/>
       default:
         return (
           <main className="flex-1 p-8">
@@ -125,11 +138,12 @@ const AdminDashboard = () => {
               </button>
             </li>
             <li>
+              
               <button
                 onClick={() => setSelectedSection('Add New Teacher')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
-                Add New Teacher
+              Add New Teacher
               </button>
             </li>
             <li>
@@ -156,10 +170,20 @@ const AdminDashboard = () => {
                 Add New Courses
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => setSelectedSection('Add New Subject')}
+                className="w-full text-left px-4 py-2 hover:bg-gray-700"
+              >
+                Add New Subject
+              </button>
+            </li>
           </ul>
         </nav>
       </aside>
-      {renderRightSection()}
+
+    {renderRightSection()}
+   
     </div>
   );
 };
