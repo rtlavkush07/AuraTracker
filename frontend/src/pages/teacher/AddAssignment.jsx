@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AddAssignment = () => {
   const [assignments, setAssignments] = useState([]);
@@ -12,7 +13,42 @@ const AddAssignment = () => {
     auraCoins: 0,
     ratingPoint: 0,
     file: null,
+    subject: '', // Added subject
   });
+  const [subjects, setSubjects] = useState([]); // State for storing subjects
+
+  const [teacherId, setTeacherId] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState(""); // Added state for the selected subject
+
+  useEffect(() => {
+    const fetchTeacherProfile = async () => {
+      try {
+        const response = await axios.get("/api/user/teacher/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token for auth if required
+          },
+        });
+        setTeacherId(response.data._id);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchTeacherProfile();
+  }, []);
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        if (teacherId) {
+          const response = await axios.get(`/api/teacher/getSubjects/${teacherId}`);
+          setSubjects(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    };
+    fetchSubjects();
+  }, [teacherId]);
 
   // Handler to show/hide form
   const handleAddAssignmentClick = () => {
@@ -28,10 +64,26 @@ const AddAssignment = () => {
     }));
   };
 
+  const addAssignmentToSubject = async (teacherId, subjectId, assignmentData) => {
+    try {
+      console.log('Adding assignment fucntion putting post request');
+      const url = `/api/teacher/${teacherId}/${subjectId}/addAssignment`;
+      const response = await axios.post(url, assignmentData);
+      console.log('Assignment added successfully:', response.data);
+      alert('Assignment added successfully');
+    } catch (error) {
+      console.error('Error adding assignment:', error.response ? error.response.data : error.message);
+      alert('Failed to add assignment');
+    }
+  };
+
   // Handler to add new assignment
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Add assignment to the local state
     setAssignments([...assignments, newAssignment]);
+
+    // Reset the form data
     setNewAssignment({
       assessmentID: '',
       assessmentName: '',
@@ -41,14 +93,27 @@ const AddAssignment = () => {
       auraCoins: 0,
       ratingPoint: 0,
       file: null,
+      subject: '', // Reset subject
     });
+
+    // Hide the form after submission
     setShowForm(false);
+
+    // Call the function to add assignment to subject
+    if (selectedSubject) {
+      addAssignmentToSubject(teacherId, selectedSubject, newAssignment);
+    }
+  };
+
+  // Update the selected subject when the user changes it
+  const handleSubjectChange = (e) => {
+    setSelectedSubject(e.target.value);
   };
 
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold text-center mb-6">Assignments</h2>
-      
+
       {/* Button to show/hide form */}
       <button
         onClick={handleAddAssignmentClick}
@@ -104,6 +169,7 @@ const AddAssignment = () => {
               className="w-full border px-3 py-2 rounded-lg"
             />
           </div>
+
           <div>
             <label className="block font-semibold">Assessment Content</label>
             <textarea
@@ -114,6 +180,7 @@ const AddAssignment = () => {
               className="w-full border px-3 py-2 rounded-lg"
             />
           </div>
+
           <div>
             <label className="block font-semibold">Aura Coins</label>
             <input
@@ -136,7 +203,31 @@ const AddAssignment = () => {
               className="w-full border px-3 py-2 rounded-lg"
             />
           </div>
+
+          {/* Subject Dropdown */}
           <div>
+            <label className="block font-semibold">Subject</label>
+            <select
+              name="subject"
+              value={selectedSubject}
+              onChange={handleSubjectChange}
+              required
+              className="w-full border px-3 py-2 rounded-lg"
+            >
+              <option value="">Select Subject</option>
+              {subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <option key={subject._id} value={subject._id}>
+                    {subject.subjectName}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No subjects available</option>
+              )}
+            </select>
+          </div>
+
+          {/* <div>
             <label className="block font-semibold">Upload File</label>
             <input
               type="file"
@@ -144,7 +235,7 @@ const AddAssignment = () => {
               onChange={handleChange}
               className="w-full"
             />
-          </div>
+          </div> */}
           <button
             type="submit"
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -166,17 +257,17 @@ const AddAssignment = () => {
               <p><strong>Content:</strong> {assignment.assessmentContent}</p>
               <p><strong>Aura Coins:</strong> {assignment.auraCoins}</p>
               <p><strong>Rating Point:</strong> {assignment.ratingPoint}</p>
+              <p><strong>Subject:</strong> {assignment.subject}</p> {/* Display selected subject */}
               {assignment.file && (
                 <p><strong>File:</strong> {assignment.file.name}</p>
               )}
-               <button className='bg-blue-700 p-3 rounded-md m-2 text-white'>Check Submission</button>
+              <button className="bg-blue-700 p-3 rounded-md m-2 text-white">Check Submission</button>
             </div>
           ))
         ) : (
           <p className="text-gray-500">No assignments added yet.</p>
         )}
       </div>
-     
     </div>
   );
 };

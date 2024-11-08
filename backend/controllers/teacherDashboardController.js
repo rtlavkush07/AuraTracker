@@ -57,3 +57,65 @@ export const addModule = async (req, res) => {
     res.status(500).json({ message: "Failed to add modules and chapters" });
   }
 };
+// Controller to add an assignment to a teacher's subject
+export const addAssignment = async (req, res) => {
+  try {
+    console.log("coming to assignment controller");
+
+    // Extract teacherId, subjectId, and assignment data from the request
+    const { teacherId, subjectId } = req.params;
+    const {
+      assessmentID,
+      assessmentName,
+      assessmentDate,
+      assessmentLastDate,
+      assessmentContent,
+      auraCoins,
+      ratingPoint,
+      file,
+      subject,
+    } = req.body;
+
+    // Find the teacher by ID
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) {
+      console.log("Teacher not found in addAssignment controller");
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    // Find the subject by ID
+    const subjectData = await Subject.findById(subjectId);
+    if (!subjectData) {
+      console.log("Subject not found in addAssignment controller");
+      return res.status(404).json({ message: "Subject not found" });
+    }
+
+    // Create a new assignment object
+    const newAssignment = {
+      assessmentID,
+      assessmentName,
+      assessmentDate,
+      assessmentLastDate,
+      assessmentContent,
+      auraCoins,
+      ratingPoint,
+    };
+
+    // Ensure assessments array exists and then push the new assignment
+    if (!subjectData.Assessments) {
+      subjectData.Assessments = [];
+    }
+    subjectData.Assessments.push(newAssignment);
+
+    // Save the updated subject
+    await subjectData.save();
+
+    res.status(200).json({
+      message: "Assignment added successfully",
+      assignment: newAssignment,
+    });
+  } catch (error) {
+    console.error("Error in addAssignment:", error);
+    res.status(500).json({ message: "Failed to add assignment" });
+  }
+};
