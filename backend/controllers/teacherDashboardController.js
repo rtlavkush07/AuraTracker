@@ -72,8 +72,6 @@ export const addAssignment = async (req, res) => {
       assessmentContent,
       auraCoins,
       ratingPoint,
-      file,
-      subject,
     } = req.body;
 
     // Find the teacher by ID
