@@ -1,42 +1,81 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FaCalendarAlt } from "react-icons/fa";
+import AddAssignment from "./AddAssignment";
+import AddSubjectData from "./AddSubjectData";
 
 const TeacherDashboard = () => {
+  const [selectedSection, setSelectedSection] = useState("Home");
+
+  // Function to render the main content based on the selected section
+  const renderRightSection = () => {
+    switch (selectedSection) {
+      case "Manage Assignment":
+        return <AddAssignment />;
+      case "Manage Study Material":
+        return <AddSubjectData />;
+      default:
+        return (
+          <>
+            <h1 className="text-3xl font-bold">
+              Welcome to the Teacher Dashboard
+            </h1>
+          </>
+        );
+    }
+  };
+
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-10">
-        Teacher Dashboard
-      </h1>
-
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-        {/* Add Assignments Card */}
-        <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-8 w-full md:w-1/2">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Manage Assignments</h2>
-          <p className="text-gray-600 mb-6 leading-relaxed">
-            Create and manage assignments to keep students engaged and on track.
-          </p>
-          <Link
-            to="addassignment"
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
-          >
-            Add Assignment
-          </Link>
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar Navigation */}
+      <aside className="w-64 bg-gray-800 text-white">
+        <div className="p-4">
+          <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
         </div>
+        <nav>
+          <ul>
+            <li>
+              <button
+                onClick={() => setSelectedSection("Home")}
+                className={`w-full text-left px-4 py-2 ${
+                  selectedSection === "Home"
+                    ? "bg-gray-700"
+                    : "hover:bg-gray-700"
+                }`}
+              >
+                Dashboard
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setSelectedSection("Manage Assignment")}
+                className={`w-full text-left px-4 py-2 ${
+                  selectedSection === "Manage Assignment"
+                    ? "bg-gray-700"
+                    : "hover:bg-gray-700"
+                }`}
+              >
+                Manage Assignments
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setSelectedSection("Manage Study Material")}
+                className={`w-full text-left px-4 py-2 ${
+                  selectedSection === "Manage Study Material"
+                    ? "bg-gray-700"
+                    : "hover:bg-gray-700"
+                }`}
+              >
+                Manage Study Materials
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-        {/* Add Study Materials Card */}
-        <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-8 w-full md:w-1/2">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Manage Study Materials</h2>
-          <p className="text-gray-600 mb-6 leading-relaxed">
-            Upload study materials and resources to help students learn effectively.
-          </p>
-          <Link
-            to="addsubjectdata"
-            className="bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 px-6 text-center w-full transition-colors duration-200"
-          >
-            Add Material
-          </Link>
-        </div>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1 p-8">{renderRightSection()}</main>
     </div>
   );
 };
