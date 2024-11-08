@@ -3,7 +3,7 @@ import userAuth from "../models/userModels.js"; // Assuming user model is in the
 export const getAllStudents = async (req, res) => {
   try {
     // Fetch all students and exclude the password field
-    console.log("yahan")
+    console.log("yahan");
     const users = await userAuth.find().select("-password");
 
     if (!users) {
@@ -16,9 +16,6 @@ export const getAllStudents = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch students" }); // More appropriate error message
   }
 };
-
-
-
 
 export const getLeaderboard = async (req, res) => {
   try {
