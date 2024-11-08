@@ -231,80 +231,7 @@ const handleScrollRight = () => {
 
 // *************************************************
     switch (selectedSection) {
-      case 'PROFILE':
-        return (
-        <>
-         <div className="bg-gray-900 text-white min-h-screen p-8">
-      {/* Header with Name and Image */}
-      <div className="flex flex-col items-center mb-8">
-        <img
-          src={profile.avatarUrl}
-          alt="User Avatar"
-          className="w-24 h-24 rounded-full mb-4"
-        />
-        <h1 className="text-3xl font-semibold">{profile.name}</h1>
-      </div>
-
-      {/* Rating and Aura Coins */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <div className="bg-black p-6 rounded-lg text-center">
-          <h2 className="text-xl font-semibold mb-2">Rating</h2>
-          <p className="text-3xl">{profile.rating}</p>
-        </div>
-        <div className="bg-black p-6 rounded-lg text-center">
-          <h2 className="text-xl font-semibold mb-2">Aura Coins</h2>
-          <p className="text-3xl">{profile.auraCoins}</p>
-        </div>
-      </div>
-
-      {/* Badges */}
-      <div className="bg-black p-6 rounded-lg mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Badges</h2>
-        <div className="flex gap-4">
-          {profile.badges.map((badge, index) => (
-            <div key={index} className="bg-green-700 px-4 py-2 rounded-full">
-              {badge}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Vouchers */}
-      <div className="bg-black p-6 rounded-lg mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Vouchers</h2>
-        <ul className="list-disc list-inside">
-          {profile.vouchers.map((voucher) => (
-            <li key={voucher.id}>{voucher.name}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Purchase History */}
-      <div className="bg-black p-6 rounded-lg">
-        <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
-        <table className="w-full text-left">
-          <thead>
-            <tr>
-              <th className="border-b border-gray-700 py-2">Item</th>
-              <th className="border-b border-gray-700 py-2">Purchase Date</th>
-              <th className="border-b border-gray-700 py-2">Cost</th>
-            </tr>
-          </thead>
-          <tbody>
-            {profile.purchaseHistory.map((purchase) => (
-              <tr key={purchase.id}>
-                <td className="py-2">{purchase.itemId}</td>
-                <td className="py-2">{purchase.purchaseDate}</td>
-                <td className="py-2">{purchase.cost} Coins</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-        </>
-        
-        )
+      
       case 'Schedule':
         return (
           <div className="mt-5 ">
@@ -646,7 +573,7 @@ const handleScrollRight = () => {
       <aside className="w-1/5 bg-black p-4 border-r border-green-600 flex flex-col">
         <div className="text-2xl font-bold text-green-500 mb-8">STUDENT DASHBOARD</div>
         <nav className="flex flex-col gap-4">
-          {['PROFILE', 'Schedule', 'ASSIGNMENT', 'SUBJECTS', 'CHALLENGES', 'RESULTS'].map((item, index) => (
+          {[ 'Schedule', 'ASSIGNMENT', 'SUBJECTS', 'CHALLENGES', 'RESULTS'].map((item, index) => (
             <button
               key={index}
               onClick={() => setSelectedSection(item)} // Set selected section on click
@@ -654,7 +581,7 @@ const handleScrollRight = () => {
             >
               <i className={`fas ${
                 [
-                  'fa-user',           // PROFILE
+                          // PROFILE
                   'fa-calendar-alt',   // Schedule
                   'fa-tasks',          // ASSIGNMENT
                   'fa-book',           // COURSES
