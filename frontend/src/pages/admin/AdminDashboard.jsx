@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { FaUserGraduate,FaTachometerAlt,FaUserPlus, FaUserFriends, FaTrashAlt } from 'react-icons/fa';
+import { FaUserGraduate, FaTachometerAlt, FaUserPlus, FaUserFriends, FaTrashAlt,FaBook  } from 'react-icons/fa';
 import AddTeacher from './AddTeacher';
 import AddCourse from './AddCourse';
 import AllTeachers from './AllTeachers';
@@ -9,16 +9,49 @@ import AllCourses from './AllCourses';
 import AllStudent from './AllStudent';
 import AddSubject from './AddSubject';
 
-
-
-
 const AdminDashboard = () => {
   const [selectedSection, setSelectedSection] = useState('Home');
   const [newTodo, setNewTodo] = useState('');
   const [todos, setTodos] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [courses, setCourses] = useState([]);
 
+  useEffect(() => {
+    const fetchAllStudents = async () => {
+      try {
+        const response = await axios.get('/api/student/getAllStudents');
+        setStudents(response.data);
+      } catch (error) {
+        console.error('Failed to fetch all students:', error);
+      }
+    };
+    fetchAllStudents();
+  }, []);
 
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await axios.get('/api/admin/getAllTeacher');
+        setTeachers(response.data);
+      } catch (error) {
+        console.error('Failed to fetch teachers:', error);
+      }
+    };
+    fetchTeachers();
+  }, []);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('/api/admin/getAllCourse');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   const addTodo = () => {
     if (newTodo.trim()) {
@@ -34,17 +67,17 @@ const AdminDashboard = () => {
   const renderRightSection = () => {
     switch (selectedSection) {
       case 'All Teachers':
-        return <AllTeachers/>;
+        return <AllTeachers />;
       case 'Add New Teacher':
         return <AddTeacher />;
       case 'All Students':
-        return <AllStudent/>;
+        return <AllStudent />;
       case 'All Courses':
-        return <AllCourses/>;
+        return <AllCourses />;
       case 'Add New Courses':
         return <AddCourse />;
-        case 'Add New Subject':
-          return <AddSubject/>
+      case 'Add New Subject':
+        return <AddSubject />;
       default:
         return (
           <main className="flex-1 p-8">
@@ -56,21 +89,21 @@ const AdminDashboard = () => {
                 <FaUserGraduate className="text-3xl text-blue-500" />
                 <div>
                   <h3 className="text-lg font-semibold">Students</h3>
-                  <p className="text-2xl font-bold">12,478</p>
+                  <p className="text-2xl font-bold">{students.length}</p>
                 </div>
               </div>
               <div className="bg-white p-4 rounded shadow flex items-center space-x-4">
                 <FaUserFriends className="text-3xl text-pink-500" />
                 <div>
                   <h3 className="text-lg font-semibold">Teachers</h3>
-                  <p className="text-2xl font-bold">478</p>
+                  <p className="text-2xl font-bold">{teachers.length}</p>
                 </div>
               </div>
               <div className="bg-white p-4 rounded shadow flex items-center space-x-4">
                 <FaUserFriends className="text-3xl text-yellow-500" />
                 <div>
                   <h3 className="text-lg font-semibold">Courses</h3>
-                  <p className="text-2xl font-bold">15</p>
+                  <p className="text-2xl font-bold">{courses.length}</p>
                 </div>
               </div>
             </div>
@@ -126,6 +159,7 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('Home')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaTachometerAlt className="inline-block mr-2" />
                 Dashboard
               </button>
             </li>
@@ -134,16 +168,17 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('All Teachers')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaUserFriends className="inline-block mr-2" />
                 All Teachers
               </button>
             </li>
             <li>
-              
               <button
                 onClick={() => setSelectedSection('Add New Teacher')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
-              Add New Teacher
+                <FaUserPlus className="inline-block mr-2" />
+                Add New Teacher
               </button>
             </li>
             <li>
@@ -151,6 +186,7 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('All Students')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaUserFriends className="inline-block mr-2" />
                 All Students
               </button>
             </li>
@@ -159,6 +195,7 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('All Courses')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaBook  className="inline-block mr-2" />
                 All Courses
               </button>
             </li>
@@ -167,6 +204,7 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('Add New Courses')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaUserPlus className="inline-block mr-2" />
                 Add New Courses
               </button>
             </li>
@@ -175,6 +213,7 @@ const AdminDashboard = () => {
                 onClick={() => setSelectedSection('Add New Subject')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-700"
               >
+                <FaUserPlus className="inline-block mr-2" />
                 Add New Subject
               </button>
             </li>
@@ -182,8 +221,7 @@ const AdminDashboard = () => {
         </nav>
       </aside>
 
-    {renderRightSection()}
-   
+      {renderRightSection()}
     </div>
   );
 };

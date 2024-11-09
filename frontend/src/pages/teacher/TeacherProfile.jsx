@@ -4,7 +4,6 @@ import axios from "axios";
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);
   const [error, setError] = useState("");
-  
 
   useEffect(() => {
     const fetchTeacherProfile = async () => {
@@ -33,30 +32,31 @@ const TeacherProfile = () => {
   }
 
   return (
-    <div className="teacher-profile p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
-      <h2 className="text-2xl font-semibold mb-4 text-center">
-        Teacher Profile
-      </h2>
-      <div className="mb-4">
-        <strong>Name:</strong> <span>{teacher.name}</span>
-      </div>
-      <div className="mb-4">
-        <strong>Name:</strong> <span>{teacher._id}</span>
-      </div>
-      <div className="mb-4">
-        <strong>Email:</strong> <span>{teacher.email}</span>
-      </div>
-      <div>
-        <strong>Subjects:</strong>
-        {teacher.subjects.length > 0 ? (
-          <ul className="list-disc ml-6 mt-2">
-            {teacher.subjects.map((subject) => (
-              <li key={subject._id}>{subject.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No subjects assigned.</p>
-        )}
+    <div className="teacher-profile p-8 bg-white text-black shadow-lg rounded-xl max-w-lg mx-auto mt-20 ">
+      <h2 className="text-3xl font-bold mb-6 text-center border-b pb-4">{teacher.name}</h2>
+      <div className="space-y-4">
+       
+        <div className="flex items-center">
+          <strong className="w-1/3 text-black">ID:</strong>
+          <span className="text-lg font-semibold">{teacher._id}</span>
+        </div>
+        <div className="flex items-center">
+          <strong className="w-1/3 text-black">Email:</strong>
+          <span className="text-lg font-semibold">{teacher.email}</span>
+        </div>
+        {/* <div>
+          <strong className="text-black">Subjects:</strong>
+          {teacher.subjects.length > 0 ? (
+            <ul className="list-inside list-disc mt-2 ml-4 text-lg">
+              {teacher?.subjects.map((subject) => (
+                // console.log(subject.name)
+                <li  key={subject._id}>{subject.name}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-lg mt-2">No subjects assigned.</p>
+          )}
+        </div> */}
       </div>
     </div>
   );
