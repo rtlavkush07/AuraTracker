@@ -1,10 +1,10 @@
 import Course from "../models/courseModel.js";
 import User from "../models/userModels.js"; // Path to your user model
-
+import Subject from "../models/subjectModel.js"
 import mongoose from "mongoose";
 
 export const getCourse = async (req, res) => {
-  console.log("comign toi stduebt dahsaboah xxontowr");
+  // console.log("comign toi stduebt dahsaboah xxontowr");
   const courseid = req.params.courseid;
   console.log("coourseID =" + courseid); // Extract courseId from request body
 
@@ -12,7 +12,7 @@ export const getCourse = async (req, res) => {
     const course = await Course.findById(courseid);
 
     if (!course) {
-      console.log("course not founs iun controler");
+      // console.log("course not founs iun controler");
       return res.status(404).json({ error: "Course not found" });
     }
 
@@ -21,6 +21,28 @@ export const getCourse = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch course" });
   }
 };
+
+//get single subject by id 
+export const getOneSubject = async (req, res) => {
+  console.log("comign toi stduent dahsaboah xxontowr");
+  const subjectId = req.params.subjectId;
+  console.log("subjectID =" + subjectId); // Extract courseId from request body
+
+  try {
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      console.log("subject not found controler");
+      return res.status(404).json({ error: "Course not found" });
+    }
+    console.log(subject)
+    res.status(200).json(subject);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch course" });
+  }
+};
+
+
 
 export const getCourseSubjects = async (req, res) => {
   console.log("Coming to course subjects controller");

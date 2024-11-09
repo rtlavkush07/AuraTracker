@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   
   Routes,
@@ -11,13 +11,33 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import CourseSubjects from "./CourseSubjects";
 import CourseSchedules from "./CourseSchedules"
 import Assignment from "./Assignment"
-
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 
 
 
 const StudentDashboard = () => {
   // Sample student data (could be fetched from backend)
+  const [name, setName] = useState("user")
+  const { token } = useSelector((state) => state.auth);
+
+
+  useEffect(() => {
+   
+
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get("/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setName(response.data.name);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+      }
+    };
+    fetchProfileData();
+  },[token]);
   
 
   return (
@@ -56,7 +76,7 @@ const StudentDashboard = () => {
       <main className="flex-1 p-6 overflow-y-auto">
         {/* Header */}
         <header className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-semibold">Hello, ABC!</h1>
+          <h1 className="text-3xl font-semibold">Hello, { name}!</h1>
           <div className="flex items-center gap-4">
             <img
               src="https://via.placeholder.com/40"
