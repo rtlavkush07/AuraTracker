@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, Route, Link } from "react-router-dom";
-import "@fortawesome/fontawesome-free/css/all.min.css";  // Make sure FontAwesome is imported
+import "@fortawesome/fontawesome-free/css/all.min.css"; 
 import AddAssignment from "./AddAssignment";
 import AddSubjectData from "./AddSubjectData";
 
@@ -63,7 +63,7 @@ const TeacherDashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 overflow-scroll">
         <Routes>
           <Route path="/" element={<AddSubjectData />} />
           <Route path="manageassignment" element={<AddAssignment />} />
