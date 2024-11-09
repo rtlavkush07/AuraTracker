@@ -12,7 +12,7 @@ const Student = () => {
     <Routes>
       <Route path="signup" element={<Signup />} />
 
-      <Route path="dashboard" element={<StudentDashboard />} />
+      <Route path="dashboard/*" element={<StudentDashboard />} />
       <Route path="profile" element={<Profile />} />
       <Route path="store" element={<Store />} />
       <Route path="leaderboard" element={<Leaderboard />} />
