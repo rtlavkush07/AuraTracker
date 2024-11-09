@@ -15,10 +15,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login form submitted:", { email, password, role:userRole });
+    console.log("Login form submitted:", { email, password, role: userRole });
     try {
-      const response = await axios.post("/api/auth/login", { email, password,role:userRole });
-      const {token,role,id} = response.data;
+      const response = await axios.post("/api/auth/login", { email, password, role: userRole });
+      const { token, role, id } = response.data;
       console.log("response =  " + response);
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
@@ -33,7 +33,7 @@ const Login = () => {
         navigate('/student/profile');
       }
 
-       // Redirect to home page
+      // Redirect to home page
     } catch (err) {
       dispatch(setError(errorMessage)); // call seterror method
       if (err.response) {
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/bgFinal.gif')" }}>
+    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/sp1.jpg')" }}>
       <div className="bg-white bg-opacity-10 text-white p-8 rounded-lg shadow-lg w-96 transform transition-transform duration-300 hover:scale-105 border border-white">
 
         <h2 className="text-2xl font-bold text-center text-white mb-6">

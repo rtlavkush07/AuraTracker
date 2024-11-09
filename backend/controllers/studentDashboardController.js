@@ -2,7 +2,6 @@ import Course from "../models/courseModel.js";
 import User from "../models/userModels.js";
 import mongoose from "mongoose";
 import Subject from "../models/subjectModel.js";
-import React from "react";
 
 // Controller to handle assignment upload and submission
 

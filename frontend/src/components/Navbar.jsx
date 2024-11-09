@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white bg-opacity-10 shadow-md sticky top-0 z-50">
+    <nav className="bg-black bg-opacity-20 shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
         {/* Logo Section */}
         <div className="text-2xl font-bold text-blue-500">
@@ -51,7 +51,7 @@ const Navbar = () => {
               className="w-12 h-12 mr-2"
               alt="Aura Tracker Logo"
             />
-            <span style={{fontSize: '30px', color:'white'}}>Aura Tracker</span>
+            <span style={{ fontSize: '30px', color: 'white' }}>Aura Tracker</span>
           </Link>
         </div>
 
@@ -79,9 +79,8 @@ const Navbar = () => {
 
         {/* Menu Items */}
         <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } md:flex md:space-x-4 absolute md:relative bg-trasparent w-full md:w-auto top-16 md:top-0 left-0 md:left-auto md:items-center p-4 md:p-0 shadow-md md:shadow-none transition duration-300 ease-in-out`}
+          className={`${isMenuOpen ? "block" : "hidden"
+            } md:flex md:space-x-4 absolute md:relative bg-trasparent w-full md:w-auto top-16 md:top-0 left-0 md:left-auto md:items-center p-4 md:p-0 shadow-md md:shadow-none transition duration-300 ease-in-out`}
         >
           {isAuthenticated ? (
             <>
@@ -153,15 +152,17 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/login">
-                <button className="bg-transparent block py-2 md:py-1.5  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                <button className="bg-transparent block py-2 md:py-1.5 text-white px-4 py-2 rounded-md hover:bg-black hover:text-white transition duration-300 text-2xl font-cursive">
                   Login
                 </button>
               </Link>
               <Link to="/student/signup">
-                <button className="bg-traspanrent block py-2 md:py-1.5  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                <button className="bg-transparent block py-2 md:py-1.5 text-white px-4 py-2 rounded-md hover:bg-black hover:text-white transition duration-300 text-2xl font-cursive">
                   Signup
                 </button>
               </Link>
+
+
             </>
           )}
         </div>

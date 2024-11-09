@@ -41,7 +41,8 @@ const StudentDashboard = () => {
 
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex h-screen bg-gray-900 text-white"
+    >
       {/* Sidebar */}
       <aside className="w-1/5 bg-black p-4 border-r border-green-600 flex flex-col">
         <div className="text-2xl font-bold text-green-500 mb-8">

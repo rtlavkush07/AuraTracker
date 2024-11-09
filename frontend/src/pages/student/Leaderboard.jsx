@@ -39,7 +39,7 @@ const Leaderboard = () => {
     } catch (error) {
       console.error("failed to fetch course name:", error);
     }
-      
+
 
   };
 
@@ -73,68 +73,72 @@ const Leaderboard = () => {
       (user) => user._id === selfRank?._id
     );
     if (rankIndex !== -1) {
-         setUserRank(rankIndex + 1); // Rank starts from 1
-       }
+      setUserRank(rankIndex + 1); // Rank starts from 1
+    }
   }, [selectedYear, leaderboardData]);
 
   // Determine user's rank based on the selected year
-  
+
   useEffect(() => {
-     if (selectedYear === "All Years" || selectedYear === selfRank?.year) {
-       const rankIndex = sortedData.findIndex(
-         (user) => user._id === selfRank?._id
-       );
-       if (rankIndex !== -1) {
-         setUserRank(rankIndex + 1); // Rank starts from 1
-       }
+    if (selectedYear === "All Years" || selectedYear === selfRank?.year) {
+      const rankIndex = sortedData.findIndex(
+        (user) => user._id === selfRank?._id
+      );
+      if (rankIndex !== -1) {
+        setUserRank(rankIndex + 1); // Rank starts from 1
+      }
     }
     console.log(userRank);
-  },[selectedYear,setSelectedYear,sortedData])
- 
+  }, [selectedYear, setSelectedYear, sortedData])
+
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-r p-10">
-      <div className="p-4 w-3/4 mx-auto h-[85vh] bg-white shadow-xl rounded-lg font-sans overflow-hidden border border-gray-300">
+    <div className="w-screen h-screen bg-gradient-to-r p-10" style={{
+      backgroundImage: "url('../public/assets/sp3.jpg')", // Use the correct path for your image
+      height: '100%', // Ensure it covers the entire height of the parent div
+      width: '100%',  // Ensure it covers the entire width of the parent div
+      backgroundSize: 'cover', // Ensure the image covers the entire div without stretching
+      backgroundPosition: 'center', // Optionally, position the background image at the center
+    }}>
+      <div className="p-4 w-3/4 mx-auto h-[85vh] bg-black bg-opacity-40 shadow-xl rounded-lg font-sans overflow-hidden border border-gray-300">
         <div className="flex h-full">
           <div className="w-1/3 p-5 border-r border-gray-300 text-center shadow-lg rounded-lg">
-            <h2 className="mb-4 text-2xl font-semibold text-blue-600">
-              Logged In User
-            </h2>
+
             <img
               src={selfRank?.profilePicture}
               alt="User"
-              className="rounded-full w-28 h-28 mb-4 border-4 border-blue-500 shadow-lg mx-auto"
+              className="rounded-full w-28 h-28 mb-4 border-2 border-blue-500 shadow-lg mx-auto"
             />
             <div>
-              <p className="mt-4 text-3xl font-extrabold text-blue-600 shadow-md p-2 rounded-md bg-blue-200 inline-block">
+              <p className="mt-4 text-3xl font-extrabold text-white shadow-md p-2 rounded-md text-white inline-block">
                 Rank: {userRank}
               </p>
               <div className="mt-3 grid grid-cols-2 gap-5">
-                <div className="bg-white shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
-                  <p className="text-gray-800 text-lg font-semibold">
+                <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
+                  <p className="text-white text-lg font-semibold">
                     <strong className="text-blue-600">Name</strong>
                   </p>
-                  <p className="text-gray-800 font-bold">{selfRank?.name}</p>
+                  <p className="text-white font-bold">{selfRank?.name}</p>
                 </div>
-                <div className="bg-white shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
-                  <p className="text-gray-800 text-lg font-semibold">
+                <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
+                  <p className="text-white text-lg font-semibold">
                     <strong className="text-blue-600">Rating</strong>
                   </p>
                   <p className="text-green-500 font-bold">
                     {selfRank?.userProfile.rating}
                   </p>
                 </div>
-                <div className="bg-white shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
-                  <p className="text-gray-800 text-lg font-semibold">
+                <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
+                  <p className="text-white text-lg font-semibold">
                     <strong className="text-blue-600">Year</strong>
                   </p>
-                  <p className="text-gray-800 font-bold">{selfRank?.year}</p>
+                  <p className="text-white font-bold">{selfRank?.year}</p>
                 </div>
-                <div className="bg-white shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
-                  <p className="text-gray-800 text-lg font-semibold">
+                <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
+                  <p className="text-white text-lg font-semibold">
                     <strong className="text-blue-600">Course</strong>
                   </p>
-                  <p className="text-gray-800 font-bold">{courseName}</p>
+                  <p className="text-white font-bold">{courseName}</p>
                 </div>
               </div>
             </div>
@@ -142,7 +146,7 @@ const Leaderboard = () => {
 
           {/* Leaderboard Section */}
           <div className="w-2/3 p-5 overflow-auto shadow-lg rounded-lg">
-            <h1 className="text-3xl text-center font-extrabold mb-5 text-purple-600">
+            <h1 className="text-3xl text-center font-extrabold mb-5 text-white">
               Leaderboard
             </h1>
             <div className="flex justify-center mb-5">
@@ -155,23 +159,23 @@ const Leaderboard = () => {
                 <option value={selfRank?.year}>In Batch</option>
               </select>
             </div>
-            <h2 className="mt-5 text-2xl text-gray-800 font-semibold">
+            <h2 className="mt-5 text-2xl text-white font-semibold">
               Filtered Leaderboard
             </h2>
             <div className="max-h-[50vh] overflow-y-auto rounded-lg border border-gray-300 shadow-inner">
               <table className="min-w-full border-collapse border border-gray-200">
-                <thead className="bg-purple-600 text-white sticky top-0 z-10">
+                <thead className="bg-white-600 text-white sticky top-0 z-10">
                   <tr>
-                    <th className="border border-gray-300 p-4 text-left">
+                    <th className="border text-white border-gray-300 p-4 text-left">
                       Rank
                     </th>
-                    <th className="border border-gray-300 p-4 text-left">
+                    <th className="border text-white border-gray-300 p-4 text-left">
                       Name
                     </th>
-                    <th className="border border-gray-300 p-4 text-left">
+                    <th className="border text-white border-gray-300 p-4 text-left">
                       Year
                     </th>
-                    <th className="border border-gray-300 p-4 text-left">
+                    <th className="border text-white border-gray-300 p-4 text-left">
                       Rating
                     </th>
                   </tr>
@@ -180,18 +184,18 @@ const Leaderboard = () => {
                   {sortedData.map((user, index) => (
                     <tr
                       key={user._id}
-                      className="hover:bg-blue-200 transition-colors duration-300"
+                      className="hover:bg-black bg-opacity-30 transition-colors duration-300"
                     >
-                      <td className="border border-gray-300 p-4 font-bold text-purple-600">
+                      <td className="border border-gray-300 p-4 font-bold text-white">
                         {index + 1}
                       </td>
-                      <td className="border border-gray-300 p-4">
+                      <td className="border text-white border-gray-300 p-4">
                         {user.name}
                       </td>
-                      <td className="border border-gray-300 p-4">
+                      <td className="border text-white border-gray-300 p-4">
                         {user.year}
                       </td>
-                      <td className="border border-gray-300 p-4 font-bold text-green-600">
+                      <td className="border text-white border-gray-300 p-4 font-bold text-green-600">
                         {user.userProfile.rating}
                       </td>
                     </tr>

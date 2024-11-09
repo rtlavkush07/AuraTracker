@@ -1,9 +1,7 @@
 // src/components/Signup.jsx
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import 'animate.css/animate.min.css'; // Import animate.css for animations
-
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +14,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
+
   // profile picture handler
   const postDetails = (pics) => {
     // Check if the file is undefined or null
@@ -73,7 +72,7 @@ const Signup = () => {
   // useEffect to call both functions on mount
   useEffect(() => {
     const fetchData = async () => {
-      await Promise.all([ fetchCourses()]);
+      await Promise.all([fetchCourses()]);
     };
     fetchData();
   }, []);
@@ -105,81 +104,80 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-500">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md animate__animated animate__fadeIn animate__delay-0.5s transform transition-transform duration-300 hover:scale-105">
-        <h2 className="text-2xl font-semibold text-center text-blue-500 mb-6 animate__animated animate__fadeInDown">
+    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/sp1.jpg')" }}>
+      <div className="bg-black bg-opacity-50 shadow-lg rounded-lg p-8 w-2/4 max-w-md transform transition-transform duration-300 hover:scale-105">
+        <h2 className="text-4xl font-semibold text-center text-white mb-6">
           Signup
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="animate__animated animate__fadeIn animate__delay-0.2s">
+          <div>
             <input
               type="text"
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
-          <div className="animate__animated animate__fadeIn animate__delay-0.3s">
+          <div>
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
-          <div className="animate__animated animate__fadeIn animate__delay-0.4s">
+          <div>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
-          <div className="animate__animated animate__fadeIn animate__delay-0.5s">
+          <div>
             <input
               type="number"
               placeholder="Year"
               value={year}
               onChange={(e) => setYear(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
-          <div className="animate__animated animate__fadeIn animate__delay-0.6s">
+          <div>
             <input
               type="text"
               placeholder="Registration Number"
               value={regNo}
               onChange={(e) => setRegNo(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           {/* Dropdown for courses */}
-          <div className="animate__animated animate__fadeIn animate__delay-0.7s">
+          <div>
             <select
               value={course}
               onChange={(e) => setCourse(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out"
+              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out"
             >
               <option value="">Select Course</option>
               {courses.map((course) => (
                 <option key={course._id} value={course._id}>
-                  {course.courseName}{" "}
-                  {/* Replace 'name' with the actual course name field */}
+                  {course.courseName} {/* Replace 'name' with the actual course name field */}
                 </option>
               ))}
             </select>
           </div>
-          {/*  profile picture div */}
-          <div className="animate__animated animate__fadeIn animate__delay-0.7s">
+          {/* Profile picture div */}
+          <div>
             <input
               type="file"
               accept="image/*"
