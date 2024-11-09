@@ -46,9 +46,10 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-blue-500">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-transform duration-300 hover:scale-105">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/bgFinal.gif')" }}>
+      <div className="bg-white bg-opacity-10 text-white p-8 rounded-lg shadow-lg w-96 transform transition-transform duration-300 hover:scale-105 border border-white">
+
+        <h2 className="text-2xl font-bold text-center text-white mb-6">
           Login
         </h2>
         <form className="mt-6" onSubmit={handleSubmit}>
@@ -59,7 +60,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3  border border-white bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div className="mt-4">
@@ -69,7 +70,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border border-white bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div className="mt-4">
@@ -77,14 +78,14 @@ const Login = () => {
               value={userRole}
               onChange={(e) => setUserRole(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-3 border border-white bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out transform hover:scale-105"
             >
-              <option value="" disabled>
+              <option value="" disabled className="bg-transparent">
                 Select your role
               </option>
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-              <option value="admin">Admin</option>
+              <option className="bg-transparent text-gray-700" value="student">Student</option>
+              <option className="bg-transparent text-gray-700" value="teacher">Teacher</option>
+              <option className="bg-transparent text-gray-700" value="admin">Admin</option>
             </select>
           </div>
           {error && (
@@ -92,7 +93,7 @@ const Login = () => {
           )}
           <button
             type="submit"
-            className="mt-6 w-full py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+            className="mt-6 w-full py-3 bg-transparent border border-white text-white rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
           >
             Login
           </button>
