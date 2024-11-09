@@ -2,12 +2,12 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <div className="relative w-screen h-screen overflow-hidden overflow-x-hidden overflow-y-hidden">
+    <div className="w-full h-screen">
       {/* Background GIF */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('../public/assets/bg2.gif')", // Use the correct path for your GIF
+          backgroundImage: "url('../public/assets/bgFinal.gif')", // Use the correct path for your GIF
           height: '100%', // Ensure it covers the entire height of the parent div
           width: '100%',  // Ensure it covers the entire width of the parent div
         }}

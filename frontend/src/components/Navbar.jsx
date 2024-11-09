@@ -4,13 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated, token, role } = useSelector((state) => state.auth); // Get role from Redux state
+  const { isAuthenticated, token, role } = useSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -25,15 +26,14 @@ const Navbar = () => {
       }
     };
 
-    if (isAuthenticated&&role==='student') {
+    if (isAuthenticated && role === "student") {
       fetchProfileData();
     }
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated, token, role]);
 
   const handleLogout = () => {
-    dispatch(logout()); 
+    dispatch(logout());
     navigate("/");
-    
   };
 
   const toggleMenu = () => {
@@ -41,17 +41,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white bg-opacity-10 shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
         {/* Logo Section */}
         <div className="text-2xl font-bold text-blue-500">
-          <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+          <Link to="/" className="flex items-center" aria-label="Aura Tracker">
             <img
-              src="/logo/logo.gif"
-              style={{ width: "50px", height: "50px", marginRight: "8px" }}
-              alt="Aura Tracker"
+              src="/logo/logo1.gif"
+              className="w-12 h-12 mr-2"
+              alt="Aura Tracker Logo"
             />
-            <span>Aura Tracker</span>
+            <span style={{fontSize: '30px', color:'white'}}>Aura Tracker</span>
           </Link>
         </div>
 
@@ -59,6 +59,7 @@ const Navbar = () => {
         <button
           onClick={toggleMenu}
           className="block md:hidden text-gray-700 focus:outline-none"
+          aria-label="Toggle Menu"
         >
           <svg
             className="w-6 h-6"
@@ -80,9 +81,8 @@ const Navbar = () => {
         <div
           className={`${
             isMenuOpen ? "block" : "hidden"
-          } md:flex md:space-x-4 absolute md:relative bg-white w-full md:w-auto top-16 md:top-0 left-0 md:left-auto md:items-center p-4 md:p-0 shadow-md md:shadow-none`}
+          } md:flex md:space-x-4 absolute md:relative bg-trasparent w-full md:w-auto top-16 md:top-0 left-0 md:left-auto md:items-center p-4 md:p-0 shadow-md md:shadow-none transition duration-300 ease-in-out`}
         >
-          
           {isAuthenticated ? (
             <>
               {role === "student" && (
@@ -124,7 +124,7 @@ const Navbar = () => {
                   >
                     Dashboard
                   </Link>
-                  <Link to="teacher/profile" className="block py-2 md:py-0">
+                  <Link to="/teacher/profile" className="block py-2 md:py-0">
                     <img
                       src={
                         user?.profilePicture || "/assets/default-profile.png"
@@ -153,12 +153,12 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/login">
-                <button className="block py-2 md:py-1.5 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                <button className="bg-transparent block py-2 md:py-1.5  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
                   Login
                 </button>
               </Link>
               <Link to="/student/signup">
-                <button className="block py-2 md:py-1.5 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+                <button className="bg-traspanrent block py-2 md:py-1.5  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
                   Signup
                 </button>
               </Link>
