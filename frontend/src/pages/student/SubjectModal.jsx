@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const SubjectModal = () => {
   const { subjectId } = useParams();
   const [subject, setSubject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const navigate = useNavigate();
+  const { token, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchSubject = async () => {
       try {
-        const response = await axios.get(
-          `/api/student/getsubject/${subjectId}`
-        );
+        const response = await axios.get(`/api/student/getsubject/${subjectId}`);
         setSubject(response.data);
+        console.log("subject data =", JSON.stringify(response.data));
       } catch (err) {
         console.error("Failed to fetch subject data:", err);
         setError("Failed to fetch subject data");
@@ -26,10 +30,45 @@ const SubjectModal = () => {
     fetchSubject();
   }, [subjectId]);
 
-  const handleCompleteChapter = (chapterId) => {
-    // Placeholder function to handle chapter completion
-    console.log(`Completing chapter with ID: ${chapterId}`);
-    // Here you can call an API to mark the chapter as completed
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/auth/login");
+      return;
+    }
+
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get("/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserId(response.data._id);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+      }
+    };
+
+    fetchProfileData();
+  }, [isAuthenticated, navigate, token]);
+
+  const handleCompleteChapter = async (chapterId, moduleId, auracoin, ratingpoint) => {
+    console.log(`Completing chapterID: ${chapterId}, Module ID: ${moduleId}, Subject ID: ${subjectId}, auracoin: ${auracoin}, ratingpoint: ${ratingpoint}`);
+    try {
+      const response = await axios.post(`/api/student/completechapter/${userId}/${chapterId}/${moduleId}/${subjectId}/${auracoin}/${ratingpoint}`);
+      console.log("Chapter completed successfully:", response.data);
+
+      // Update the state to mark the chapter as completed
+      setSubject((prevSubject) => {
+        const updatedData = prevSubject.data.map((module) => ({
+          ...module,
+          chapters: module.chapters.map((chapter) =>
+            chapter._id === chapterId ? { ...chapter, isCompleted: true } : chapter
+          ),
+        }));
+        return { ...prevSubject, data: updatedData };
+      });
+    } catch (err) {
+      console.error("Failed to complete chapter:", err);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -54,9 +93,12 @@ const SubjectModal = () => {
               </h3>
               <ul className="mt-2 space-y-4">
                 {module.chapters.map((chapter, chapterIndex) => (
+                  // make api call get as getChapterStatus to check this chapter is in the user completed chapter shcmea or not ,
+                  // on basis of this manage isCompleted
                   <li
                     key={chapterIndex}
-                    className="p-4 bg-gray-100 rounded-md flex justify-between items-center"
+                    className={`p-4 rounded-md flex justify-between items-center ${chapter.isCompleted ? "bg-green-100" : "bg-gray-100"
+                      }`}
                   >
                     <div>
                       <h4 className="font-semibold text-gray-900">
@@ -69,12 +111,21 @@ const SubjectModal = () => {
                         Rating Points: {chapter.rewards.ratingPoints}
                       </p>
                     </div>
-                    <button
-                      onClick={() => handleCompleteChapter(chapter._id)}
-                      className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
-                    >
-                      Complete Chapter
-                    </button>
+                    {!chapter.isCompleted && (
+                      <button
+                        onClick={() =>
+                          handleCompleteChapter(
+                            chapter._id,
+                            module._id,
+                            chapter.rewards.auraCoins,
+                            chapter.rewards.ratingPoints
+                          )
+                        }
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+                      >
+                        Complete Chapter
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>

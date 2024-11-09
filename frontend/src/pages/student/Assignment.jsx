@@ -7,16 +7,21 @@ import axios from 'axios';
 const Modal = ({ isOpen, onClose, content }) => {
     if (!isOpen) return null;
     console.log("content = " + content);
+
     return (
         <>
-
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-lg max-w-lg w-full text-black">
                     <h3 className="text-xl font-semibold mb-4">Assignment Content</h3>
-                    <p className="text-sm mb-4">{content}</p>
+                    
+                    {/* Make image clickable to open in a new tab */}
+                    <a href={content} target="_blank" rel="noopener noreferrer">
+                        <img src={content} alt="Assignment Content" className="w-full rounded" />
+                    </a>
+
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 bg-red-600 text-white rounded"
+                        className="px-4 py-2 bg-red-600 text-white rounded mt-4"
                     >
                         Close
                     </button>
@@ -25,6 +30,7 @@ const Modal = ({ isOpen, onClose, content }) => {
         </>
     );
 };
+
 
 const Assignment = () => {
     const navigate = useNavigate();

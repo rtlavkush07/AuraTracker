@@ -3,6 +3,78 @@ import User from "../models/userModels.js";
 import mongoose from "mongoose";
 import Subject from "../models/subjectModel.js";
 
+export const completeChapter = async (req, res) => {
+  console.log("Entering completeChapter controller");
+
+  const { userId, moduleId, chapterId, subjectId, auracoin, ratingpoint } =
+    req.params;
+
+  // Check if all required parameters are present
+  if (!userId || !moduleId || !auracoin || !ratingpoint || !chapterId) {
+    console.log("Missing required parameters");
+    return res.status(400).json({ message: "Missing required parameters" });
+  }
+
+  console.log(
+    `UserId: ${userId}, ModuleId: ${moduleId}, ChapterId: ${chapterId}, SubjectId: ${subjectId}, auracoin: ${auracoin}, Ratingpoint: ${ratingpoint}`
+  );
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log("User not found in completeChapter controller");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the chapter has already been completed by this user
+    const isChapterCompleted = user.completedChapters.some(
+      (chapter) =>
+        chapter.subjectId &&
+        chapter.moduleId &&
+        chapter.chapterId &&
+        chapter.subjectId.toString() === subjectId &&
+        chapter.moduleId.toString() === moduleId &&
+        chapter.chapterId.toString() === chapterId
+    );
+
+    if (isChapterCompleted) {
+      return res.status(400).json({ message: "Chapter already completed" });
+    }
+
+    // Add the completed chapter with rewards to the user's completedChapters array
+    const auraCoinsToAdd = parseInt(auracoin, 10) || 0;
+    const ratingPointsToAdd = parseInt(ratingpoint, 10) || 0;
+
+    user.completedChapters.push({
+      subjectId,
+      moduleId,
+      chapterId,
+      rewards: {
+        auraCoins: auraCoinsToAdd,
+        ratingPoints: ratingPointsToAdd,
+      },
+    });
+
+    // Update user's profile with new auraCoins and ratingPoints
+    user.userProfile.auraCoins =
+      (user.userProfile.auraCoins || 0) + auraCoinsToAdd;
+    user.userProfile.rating =
+      (user.userProfile.rating || 0) + ratingPointsToAdd;
+
+    // Save the user document with the updated completedChapters and profile info
+    await user.save();
+    console.log("Chapter completed successfully, and user profile updated");
+
+    res.status(200).json({
+      message: "Chapter completed successfully and user profile updated",
+    });
+  } catch (error) {
+    console.error("Error in completing chapter:", error);
+    res.status(500).json({ error: "Failed to complete chapter" });
+  }
+};
+
 export const getSubjectPendingAssessment = async (req, res) => {
   console.log("Coming to pending assessment controller");
 
