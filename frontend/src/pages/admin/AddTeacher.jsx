@@ -36,7 +36,7 @@ const AddTeacher = ({ onSubmit, availableSubjects }) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <form onSubmit={handleFormSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg my-9">
             <h2 className="text-2xl font-bold mb-4 text-blue-600">Add or Edit Professors</h2>
 
             {/* Name */}

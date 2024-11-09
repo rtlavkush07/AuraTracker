@@ -20,7 +20,7 @@ const AllCourses = () => {
   return (
     <div className="flex flex-col items-center p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Courses</h1>
-      <ul className="w-full max-w-2xl bg-white rounded-lg shadow-lg">
+      <ul className="w-full max-w-2xl bg-white rounded-lg shadow-lg px-9">
         {courses.map((course, index) => (
           <li key={index} className="border-b border-gray-200 p-4 last:border-none">
             <p className="text-lg font-semibold text-gray-800">
