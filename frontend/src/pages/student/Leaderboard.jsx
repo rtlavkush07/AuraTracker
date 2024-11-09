@@ -9,6 +9,7 @@ const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [userRank, setUserRank] = useState("-");
+  const [courseName, setCourseName] = useState("");
   // Fetch user data
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -18,6 +19,7 @@ const Leaderboard = () => {
         });
         if (response.data) {
           setSelfRank(response.data);
+          const temp = await getCourseName(response.data)
         }
       } catch (err) {
         console.error("Error fetching profile data for leaderboard:", err);
@@ -28,6 +30,19 @@ const Leaderboard = () => {
       fetchProfileData();
     }
   }, [isAuthenticated, token, role]);
+
+  const getCourseName = async (user) => {
+    try {
+      const response = await axios.get(`/api/student/course/${user.course}`);
+      setCourseName(response.data.courseName);
+      console.log(response);
+    } catch (error) {
+      console.error("failed to fetch course name:", error);
+    }
+      
+
+  };
+
 
   // Fetch all students
   useEffect(() => {
@@ -119,7 +134,7 @@ const Leaderboard = () => {
                   <p className="text-gray-800 text-lg font-semibold">
                     <strong className="text-blue-600">Course</strong>
                   </p>
-                  <p className="text-gray-800 font-bold">{selfRank?.course}</p>
+                  <p className="text-gray-800 font-bold">{courseName}</p>
                 </div>
               </div>
             </div>
