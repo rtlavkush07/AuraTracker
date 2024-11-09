@@ -6,6 +6,7 @@ import {
   getOneSubject,
   getSubjectPendingAssessment,
   completeChapter,
+  getCompletedChapters,
 } from "../controllers/studentDashboardController.js";
 
 const router = express.Router();
@@ -23,4 +24,5 @@ router.post(
   "/completechapter/:userId/:chapterId/:moduleId/:subjectId/:auracoin/:ratingpoint",
   completeChapter
 );
+router.get("/getCompletedChapters/:userId", getCompletedChapters);
 export default router;

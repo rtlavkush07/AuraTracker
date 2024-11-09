@@ -10,6 +10,7 @@ const SubjectModal = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [completedChapters, setCompletedChapters] = useState([]); // Track completed chapters
   const navigate = useNavigate();
   const { token, isAuthenticated } = useSelector((state) => state.auth);
 
@@ -49,6 +50,23 @@ const SubjectModal = () => {
 
     fetchProfileData();
   }, [isAuthenticated, navigate, token]);
+
+  // Fetch completed chapters to set the isCompleted state correctly
+  useEffect(() => {
+    const fetchCompletedChapters = async () => {
+      try {
+        const response = await axios.get(`/api/student/getCompletedChapters/${userId}`);
+        setCompletedChapters(response.data);
+        console.log("completed chapter = " + completedChapters)
+      } catch (err) {
+        console.error("Failed to fetch completed chapters:", err);
+      }
+    };
+
+    if (userId) {
+      fetchCompletedChapters();
+    }
+  }, [userId]);
 
   const handleCompleteChapter = async (chapterId, moduleId, auracoin, ratingpoint) => {
     console.log(`Completing chapterID: ${chapterId}, Module ID: ${moduleId}, Subject ID: ${subjectId}, auracoin: ${auracoin}, ratingpoint: ${ratingpoint}`);
@@ -93,11 +111,9 @@ const SubjectModal = () => {
               </h3>
               <ul className="mt-2 space-y-4">
                 {module.chapters.map((chapter, chapterIndex) => (
-                  // make api call get as getChapterStatus to check this chapter is in the user completed chapter shcmea or not ,
-                  // on basis of this manage isCompleted
                   <li
                     key={chapterIndex}
-                    className={`p-4 rounded-md flex justify-between items-center ${chapter.isCompleted ? "bg-green-100" : "bg-gray-100"
+                    className={`p-4 rounded-md flex justify-between items-center ${completedChapters.includes(chapter._id) ? "bg-green-100" : "bg-gray-100"
                       }`}
                   >
                     <div>
@@ -111,7 +127,7 @@ const SubjectModal = () => {
                         Rating Points: {chapter.rewards.ratingPoints}
                       </p>
                     </div>
-                    {!chapter.isCompleted && (
+                    {!completedChapters.includes(chapter._id) && (
                       <button
                         onClick={() =>
                           handleCompleteChapter(

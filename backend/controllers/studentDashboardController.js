@@ -3,6 +3,35 @@ import User from "../models/userModels.js";
 import mongoose from "mongoose";
 import Subject from "../models/subjectModel.js";
 
+export const getCompletedChapters = async (req, res) => {
+  console.log("Coming to getCompletedChapters controller");
+  const { userId } = req.params; // Extract the userId from the URL params
+
+  try {
+    // Find the user by userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Assuming the completed chapters are stored as an array of chapter objects or references
+    const completedChapters = user.completedChapters || [];
+
+    // Extract only the chapter IDs
+    const completedChapterIds = completedChapters.map(
+      (chapter) => chapter.chapterId
+    );
+    console.log("Completed chapters IDs = " + completedChapterIds);
+
+    // Respond with the array of chapter IDs
+    res.status(200).json(completedChapterIds);
+  } catch (err) {
+    console.error("Error fetching completed chapters:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const completeChapter = async (req, res) => {
   console.log("Entering completeChapter controller");
 
