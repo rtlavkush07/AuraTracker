@@ -10,11 +10,7 @@ const userProfileSchema = new mongoose.Schema(
 
     purchaseHistory: [
       {
-        itemId: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "StoreItem",
-        },
+        itemName:{type:String,default:""},
         purchaseDate: { type: Date, default: Date.now }, // Date of purchase
 
         cost: { type: Number, required: true }, // Cost in aura coins

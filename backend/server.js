@@ -7,6 +7,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import cors from "cors";
+import storeRoutes from "./routes/storeRoutes.js"
 
 // Load environment variables
 dotenv.config();
@@ -35,6 +36,8 @@ app.use("/api/teacher", teacherRoutes);
 // student routes
 app.use("/api/student", studentRoutes);
 
+//store Routes
+app.use("/api/store", storeRoutes);
 // Other middleware and routes
 
 // Root route

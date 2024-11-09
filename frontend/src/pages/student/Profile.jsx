@@ -11,7 +11,7 @@ const Profile = () => {
   const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
   const [showCoupons, setShowCoupons] = useState(false);
   const [showVouchers, setShowVouchers] = useState(false);
-
+  const [courseName, setCourseName] = useState("");
   const scrollRefBadges = useRef();
   const scrollRefCoupons = useRef();
   const scrollRefVouchers = useRef();
@@ -27,7 +27,9 @@ const Profile = () => {
         const response = await axios.get("/api/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
+        await getCourseName(response.data);
         setUserData(response.data);
+        
       } catch (err) {
         console.error("Error fetching profile data:", err);
       }
@@ -35,6 +37,16 @@ const Profile = () => {
 
     fetchProfileData();
   }, [isAuthenticated, navigate, token]);
+
+  const getCourseName = async (user) => {
+    try {
+      const response = await axios.get(`/api/student/course/${user.course}`);
+      setCourseName(response.data.courseName);
+      console.log(response);
+    } catch (error) {
+      console.error("failed to fetch course name:", error);
+    }
+  };
 
   const scroll = (ref, direction) => {
     const scrollAmount = direction === "left" ? -100 : 100;
@@ -66,7 +78,7 @@ const Profile = () => {
           <h1 className="text-2xl font-semibold text-center text-white">{userData.name}</h1>
           <p className="text-white text-center">{userData.email}</p>
           <p className="text-white text-center mt-2">Reg No: <span className="font-medium">{userData?.regNo}</span></p>
-          <p className="text-white text-center">Course: <span className="font-medium">{userData?.course}</span></p>
+          <p className="text-white text-center">Course: <span className="font-medium">{courseName}</span></p>
           <p className="text-white text-center">Year: <span className="font-medium">{userData?.year}</span></p>
           <div className="flex justify-center items-center space-x-2 mt-2">
             <p className="text-white-600">Rating:</p>

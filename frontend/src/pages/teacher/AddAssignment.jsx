@@ -107,7 +107,7 @@ const AddAssignment = () => {
  const handleFile = (child) => {
    setNewAssignment((prev) => ({
      ...prev,
-     content: child ? child : content,
+     assessmentContent: child ? child : "",
    }));
    newAssignment
  };
