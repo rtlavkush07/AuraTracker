@@ -19,6 +19,7 @@ const AddAssignment = () => {
 
   const [teacherId, setTeacherId] = useState("");
   const [selectedSubject, setSelectedSubject] = useState(""); // Added state for the selected subject
+  const [assFile, setAssFile] = useState("");
 
   useEffect(() => {
     const fetchTeacherProfile = async () => {
@@ -35,6 +36,46 @@ const AddAssignment = () => {
     };
     fetchTeacherProfile();
   }, []);
+
+  const postcloudinary = (myfile) => {
+    // Check if the file is undefined or null
+    if (!myfile) {
+      console.error("Assignment file is not defined");
+      return;
+    }
+
+  
+
+    // Prepare the FormData for Cloudinary upload
+    const data = new FormData();
+    data.append("file", myfile);
+    data.append("upload_preset", "AuraTracker");
+    data.append("cloud_name", "dqx48ke30");
+
+    // Upload to Cloudinary
+    fetch("https://api.cloudinary.com/v1_1/dqx48ke30/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Check if Cloudinary returned a valid URL
+        if (data.secure_url) {
+          setAssFile(data.secure_url);
+          handleFile(data.secure_url);
+          console.log(data.secure_url);
+          console.log("Image uploaded successfully:", data.secure_url);
+        } else {
+          console.error(
+            "Failed to upload file to Cloudinary:",
+            data.error.message
+          );
+        }
+      })
+      .catch((err) => {
+        console.error("An error occurred while uploading the file:", err);
+      });
+  };
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -63,9 +104,17 @@ const AddAssignment = () => {
       [name]: files ? files[0] : value,
     }));
   };
+ const handleFile = (child) => {
+   setNewAssignment((prev) => ({
+     ...prev,
+     content: child ? child : content,
+   }));
+   newAssignment
+ };
 
   const addAssignmentToSubject = async (teacherId, subjectId, assignmentData) => {
     try {
+      console.log(assignmentData)
       console.log('Adding assignment fucntion putting post request');
       const url = `/api/teacher/${teacherId}/${subjectId}/addAssignment`;
       const response = await axios.post(url, assignmentData);
@@ -119,12 +168,15 @@ const AddAssignment = () => {
         onClick={handleAddAssignmentClick}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
-        {showForm ? 'Cancel' : 'Add New Assignment'}
+        {showForm ? "Cancel" : "Add New Assignment"}
       </button>
 
       {/* Form for new assignment */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4 border p-4 rounded-lg shadow-md">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-4 space-y-4 border p-4 rounded-lg shadow-md"
+        >
           <div>
             <label className="block font-semibold">Assessment ID</label>
             <input
@@ -171,13 +223,13 @@ const AddAssignment = () => {
           </div>
 
           <div>
-            <label className="block font-semibold">Assessment Content</label>
-            <textarea
-              name="assessmentContent"
-              value={newAssignment.assessmentContent}
-              onChange={handleChange}
+            <label className="block font-semibold">Upload File</label>
+            <input
+              type="file"
+              
+              onChange={(e)=>postcloudinary(e.target.files[0])}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full"
             />
           </div>
 
@@ -250,18 +302,40 @@ const AddAssignment = () => {
         {assignments.length > 0 ? (
           assignments.map((assignment, index) => (
             <div key={index} className="border p-4 rounded-lg shadow-md mb-4">
-              <p><strong>Assessment ID:</strong> {assignment.assessmentID}</p>
-              <p><strong>Assessment Name:</strong> {assignment.assessmentName}</p>
-              <p><strong>Assessment Date:</strong> {assignment.assessmentDate}</p>
-              <p><strong>Assessment Last Date:</strong> {assignment.assessmentLastDate}</p>
-              <p><strong>Content:</strong> {assignment.assessmentContent}</p>
-              <p><strong>Aura Coins:</strong> {assignment.auraCoins}</p>
-              <p><strong>Rating Point:</strong> {assignment.ratingPoint}</p>
-              <p><strong>Subject:</strong> {assignment.subject}</p> {/* Display selected subject */}
+              <p>
+                <strong>Assessment ID:</strong> {assignment.assessmentID}
+              </p>
+              <p>
+                <strong>Assessment Name:</strong> {assignment.assessmentName}
+              </p>
+              <p>
+                <strong>Assessment Date:</strong> {assignment.assessmentDate}
+              </p>
+              <p>
+                <strong>Assessment Last Date:</strong>{" "}
+                {assignment.assessmentLastDate}
+              </p>
+              <p>
+                <strong>Content:</strong> {assignment.assessmentContent}
+              </p>
+              <p>
+                <strong>Aura Coins:</strong> {assignment.auraCoins}
+              </p>
+              <p>
+                <strong>Rating Point:</strong> {assignment.ratingPoint}
+              </p>
+              <p>
+                <strong>Subject:</strong> {assignment.subject}
+              </p>{" "}
+              {/* Display selected subject */}
               {assignment.file && (
-                <p><strong>File:</strong> {assignment.file.name}</p>
+                <p>
+                  <strong>File:</strong> {assignment.file.name}
+                </p>
               )}
-              <button className="bg-blue-700 p-3 rounded-md m-2 text-white">Check Submission</button>
+              <button className="bg-blue-700 p-3 rounded-md m-2 text-white">
+                Check Submission
+              </button>
             </div>
           ))
         ) : (

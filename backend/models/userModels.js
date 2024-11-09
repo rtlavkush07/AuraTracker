@@ -2,9 +2,21 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import userProfileSchema from "./userProfileModel.js";
 const completedChapterSchema = new mongoose.Schema({
-  subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" }, // Reference to the subject
-  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" }, // Reference to the module
-  chapterId: { type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }, // Reference to the chapter
+  subjectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
+    unique: "true",
+  }, // Reference to the subject
+  moduleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Module",
+    unique: "true",
+  }, // Reference to the module
+  chapterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Chapter",
+    unique: "true",
+  }, // Reference to the chapter
   completedAt: { type: Date, default: Date.now }, // Date of completion
   rewards: {
     auraCoins: { type: Number, default: 0 },

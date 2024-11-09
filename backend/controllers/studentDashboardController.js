@@ -1,7 +1,188 @@
 import Course from "../models/courseModel.js";
-import User from "../models/userModels.js"; // Path to your user model
-
+import User from "../models/userModels.js";
 import mongoose from "mongoose";
+import Subject from "../models/subjectModel.js";
+
+export const getCompletedChapters = async (req, res) => {
+  console.log("Coming to getCompletedChapters controller");
+  const { userId } = req.params; // Extract the userId from the URL params
+
+  try {
+    // Find the user by userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Assuming the completed chapters are stored as an array of chapter objects or references
+    const completedChapters = user.completedChapters || [];
+
+    // Extract only the chapter IDs
+    const completedChapterIds = completedChapters.map(
+      (chapter) => chapter.chapterId
+    );
+    console.log("Completed chapters IDs = " + completedChapterIds);
+
+    // Respond with the array of chapter IDs
+    res.status(200).json(completedChapterIds);
+  } catch (err) {
+    console.error("Error fetching completed chapters:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const completeChapter = async (req, res) => {
+  console.log("Entering completeChapter controller");
+
+  const { userId, moduleId, chapterId, subjectId, auracoin, ratingpoint } =
+    req.params;
+
+  // Check if all required parameters are present
+  if (!userId || !moduleId || !auracoin || !ratingpoint || !chapterId) {
+    console.log("Missing required parameters");
+    return res.status(400).json({ message: "Missing required parameters" });
+  }
+
+  console.log(
+    `UserId: ${userId}, ModuleId: ${moduleId}, ChapterId: ${chapterId}, SubjectId: ${subjectId}, auracoin: ${auracoin}, Ratingpoint: ${ratingpoint}`
+  );
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log("User not found in completeChapter controller");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the chapter has already been completed by this user
+    const isChapterCompleted = user.completedChapters.some(
+      (chapter) =>
+        chapter.subjectId &&
+        chapter.moduleId &&
+        chapter.chapterId &&
+        chapter.subjectId.toString() === subjectId &&
+        chapter.moduleId.toString() === moduleId &&
+        chapter.chapterId.toString() === chapterId
+    );
+
+    if (isChapterCompleted) {
+      return res.status(400).json({ message: "Chapter already completed" });
+    }
+
+    // Add the completed chapter with rewards to the user's completedChapters array
+    const auraCoinsToAdd = parseInt(auracoin, 10) || 0;
+    const ratingPointsToAdd = parseInt(ratingpoint, 10) || 0;
+
+    user.completedChapters.push({
+      subjectId,
+      moduleId,
+      chapterId,
+      rewards: {
+        auraCoins: auraCoinsToAdd,
+        ratingPoints: ratingPointsToAdd,
+      },
+    });
+
+    // Update user's profile with new auraCoins and ratingPoints
+    user.userProfile.auraCoins =
+      (user.userProfile.auraCoins || 0) + auraCoinsToAdd;
+    user.userProfile.rating =
+      (user.userProfile.rating || 0) + ratingPointsToAdd;
+
+    // Save the user document with the updated completedChapters and profile info
+    await user.save();
+    console.log("Chapter completed successfully, and user profile updated");
+
+    res.status(200).json({
+      message: "Chapter completed successfully and user profile updated",
+    });
+  } catch (error) {
+    console.error("Error in completing chapter:", error);
+    res.status(500).json({ error: "Failed to complete chapter" });
+  }
+};
+
+export const getSubjectPendingAssessment = async (req, res) => {
+  console.log("Coming to pending assessment controller");
+
+  const { userId, courseId } = req.params;
+
+  try {
+    // Ensure valid ObjectId format for userId and courseId
+    console.log("userId: " + userId + " courseId: " + courseId);
+    if (
+      !mongoose.Types.ObjectId.isValid(userId) ||
+      !mongoose.Types.ObjectId.isValid(courseId)
+    ) {
+      console.log("Invalid userId or courseId");
+      return res.status(400).json({ error: "Invalid user or course ID" });
+    }
+
+    // Fetch user and course data
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId).populate("subjects"); // Populate subjects directly
+
+    if (!user || !course) {
+      console.log("User or Course not found");
+      return res.status(404).json({ error: "User or Course not found" });
+    }
+
+    console.log("Coming after checking all");
+
+    // Check if subjects is an array
+    if (!Array.isArray(course.subjects)) {
+      console.log("Invalid structure for course subjects");
+      return res
+        .status(500)
+        .json({ error: "Invalid structure for course subjects" });
+    }
+
+    // Fetch pending assignments for each subject
+    const pendingAssignments = await Promise.all(
+      course.subjects.map(async (subject) => {
+        // Fetch subject details using Subject model (if needed)
+        const subjectAssessment = await Subject.findById(subject._id);
+        if (!subjectAssessment) {
+          console.log("Subject not found in course subjects controller");
+          return { error: "Subject not found" };
+        }
+
+        console.log("Subject: ", subjectAssessment.subjectName);
+        console.log("Assignments: ", subjectAssessment.Assessments);
+
+        // Ensure that Assessments is an array before using .filter()
+        const assessments = Array.isArray(subjectAssessment.Assessments)
+          ? subjectAssessment.Assessments.filter(
+              (assessment) => assessment.submittedBy.length === 0 // Check if no one has submitted the assignment
+            )
+          : [];
+
+        return {
+          subjectName: subjectAssessment.subjectName,
+          assessments, // Only include assessments if they are pending (i.e., no submissions)
+        };
+      })
+    );
+
+    // Filter out subjects with no pending assessments
+    const filteredAssignments = pendingAssignments.filter(
+      (subject) => subject.assessments && subject.assessments.length > 0
+    );
+
+    if (filteredAssignments.length === 0) {
+      return res.status(200).json({ message: "No pending assessments found" });
+    }
+
+    return res.status(200).json(filteredAssignments);
+  } catch (error) {
+    console.error("Error fetching pending assessments:", error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while fetching assessments" });
+  }
+};
 
 export const getCourse = async (req, res) => {
   console.log("comign toi stduebt dahsaboah xxontowr");
@@ -46,8 +227,17 @@ export const getCourseSubjects = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Fetch the course details along with subjects
-    const course = await Course.findById(courseId).populate("subjects");
+    // Fetch the course details along with subjects and ensure modules are populated
+    const course = await Course.findById(courseId).populate({
+      path: "subjects",
+      populate: {
+        path: "data", // Ensure that modules are populated
+        populate: {
+          path: "chapters", // Ensure that chapters are populated
+        },
+      },
+    });
+
     if (!course) {
       console.log("Course not found in course subjects controller");
       return res.status(404).json({ error: "Course not found" });
@@ -58,38 +248,67 @@ export const getCourseSubjects = async (req, res) => {
     // Calculate progress for each subject
     const subjectsWithProgress = await Promise.all(
       course.subjects.map(async (subject) => {
-        // Ensure modules is an array before calling .reduce()
-        const modules = Array.isArray(subject.modules) ? subject.modules : [];
+        // Ensure modules are properly populated and not empty
+        console.log("subject name:", subject.subjectName);
+        const modules =
+          subject.data && Array.isArray(subject.data) ? subject.data : [];
+        console.log("Modules:", modules);
 
         // Count the total chapters in the subject
         const totalChapters = modules.reduce(
-          (acc, module) => acc + (module.chapters ? module.chapters.length : 0),
+          (acc, module) =>
+            acc + (Array.isArray(module.chapters) ? module.chapters.length : 0),
           0
         );
+        console.log("Total chapters:", totalChapters);
 
         // Count the chapters completed by the user in this subject
         const completedChapters = user.completedChapters.filter(
           (completed) => String(completed.subjectId) === String(subject._id)
         ).length;
+        console.log("Completed chapters:", completedChapters);
 
+        // Calculate progress
         const progress = totalChapters
           ? Math.round((completedChapters / totalChapters) * 100)
           : 0;
+        console.log("Progress:", progress);
 
         return {
           _id: subject._id,
-          name: subject.subjectName, // Adjust field name based on schema
+          name: subject.subjectName,
           progress,
           topics: modules.flatMap((module) =>
-            module.chapters ? module.chapters.map((ch) => ch.name) : []
+            module.chapters ? module.chapters.map((ch) => ch.chapterName) : []
           ), // List of chapter names
         };
       })
     );
 
+    // Respond with the subjects and their progress
     res.status(200).json(subjectsWithProgress);
   } catch (error) {
     console.error("Error fetching course subjects:", error);
     res.status(500).json({ error: "Failed to fetch course subjects" });
+  }
+};
+
+//get single subject by id
+export const getOneSubject = async (req, res) => {
+  console.log("comign toi stduent dahsaboah xxontowr");
+  const subjectId = req.params.subjectId;
+  console.log("subjectID =" + subjectId); // Extract courseId from request body
+
+  try {
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      console.log("subject not found controler");
+      return res.status(404).json({ error: "Course not found" });
+    }
+    console.log(subject);
+    res.status(200).json(subject);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch course" });
   }
 };
