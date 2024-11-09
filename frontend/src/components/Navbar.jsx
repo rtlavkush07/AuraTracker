@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black bg-opacity-20 shadow-md sticky top-0 z-50">
+    <nav className="bg-black bg-opacity-40 shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
         {/* Logo Section */}
         <div className="text-2xl font-bold text-blue-500">
@@ -88,19 +88,19 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/student/dashboard"
-                    className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+                    className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
                   >
                     Dashboard
                   </Link>
                   <Link
                     to="/student/store"
-                    className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+                    className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
                   >
                     Store
                   </Link>
                   <Link
                     to="/student/leaderboard"
-                    className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+                    className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
                   >
                     Leaderboard
                   </Link>
@@ -119,7 +119,7 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/teacher"
-                    className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+                    className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
                   >
                     Dashboard
                   </Link>
@@ -137,7 +137,7 @@ const Navbar = () => {
               {role === "admin" && (
                 <Link
                   to="/admin"
-                  className="block py-2 md:py-0 text-gray-700 hover:text-blue-500 transition duration-200"
+                  className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
                 >
                   Dashboard
                 </Link>

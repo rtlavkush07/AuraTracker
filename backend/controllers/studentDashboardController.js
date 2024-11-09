@@ -217,7 +217,7 @@ export const getSubjectPendingAssessment = async (req, res) => {
         // Ensure that Assessments is an array before using .filter()
         const assessments = Array.isArray(subjectAssessment.Assessments)
           ? subjectAssessment.Assessments.filter(
-              (assessment) => assessment.submittedBy.length === 0 // Check if no one has submitted the assignment
+              (assessment) => assessment.submittedBy.length !== -1 // Check if no one has submitted the assignment
             )
           : [];
 

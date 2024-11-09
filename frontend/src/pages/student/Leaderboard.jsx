@@ -93,21 +93,25 @@ const Leaderboard = () => {
 
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-r p-10" style={{
-      backgroundImage: "url('../public/assets/sp3.jpg')", // Use the correct path for your image
-      height: '100%', // Ensure it covers the entire height of the parent div
-      width: '100%',  // Ensure it covers the entire width of the parent div
-      backgroundSize: 'cover', // Ensure the image covers the entire div without stretching
-      backgroundPosition: 'center', // Optionally, position the background image at the center
-    }}>
-      <div className="p-4 w-3/4 mx-auto h-[85vh] bg-black bg-opacity-40 shadow-xl rounded-lg font-sans overflow-hidden border border-gray-300">
+    <div className="flex items-center  overflow-hidden w-full h-full " >
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('../public/assets/sp3.jpg')", // Use the correct path for your image
+          height: '100%', // Ensure it covers the entire height of the parent div
+          width: '100%',  // Ensure it covers the entire width of the parent div
+          backgroundSize: 'cover', // Ensure the image covers the entire div without stretching
+          backgroundPosition: 'center', // Optionally, position the background image at the center
+        }}
+      ></div>
+      <div className="relative p-4 w-full h-full mx-auto  bg-black bg-opacity-40 shadow-xl rounded-lg font-sans  ">
         <div className="flex h-full">
           <div className="w-1/3 p-5 border-r border-gray-300 text-center shadow-lg rounded-lg">
 
             <img
               src={selfRank?.profilePicture}
               alt="User"
-              className="rounded-full w-28 h-28 mb-4 border-2 border-blue-500 shadow-lg mx-auto"
+              className="rounded-full w-28 h-28 mb-4 border-2 shadow-lg mx-auto"
             />
             <div>
               <p className="mt-4 text-3xl font-extrabold text-white shadow-md p-2 rounded-md text-white inline-block">
@@ -116,13 +120,13 @@ const Leaderboard = () => {
               <div className="mt-3 grid grid-cols-2 gap-5">
                 <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
                   <p className="text-white text-lg font-semibold">
-                    <strong className="text-blue-600">Name</strong>
+                    <strong className="text-white">Name</strong>
                   </p>
-                  <p className="text-white font-bold">{selfRank?.name}</p>
+                  <p className="text-gray-400 font-bold">{selfRank?.name}</p>
                 </div>
                 <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
                   <p className="text-white text-lg font-semibold">
-                    <strong className="text-blue-600">Rating</strong>
+                    <strong className="text-white">Rating</strong>
                   </p>
                   <p className="text-green-500 font-bold">
                     {selfRank?.userProfile.rating}
@@ -130,22 +134,22 @@ const Leaderboard = () => {
                 </div>
                 <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
                   <p className="text-white text-lg font-semibold">
-                    <strong className="text-blue-600">Year</strong>
+                    <strong className="text-white">Year</strong>
                   </p>
-                  <p className="text-white font-bold">{selfRank?.year}</p>
+                  <p className="text-gray-400 font-bold">{selfRank?.year}</p>
                 </div>
                 <div className="bg-black bg-opacity-40 shadow-lg rounded-lg p-3 flex flex-col items-center h-24 w-30">
                   <p className="text-white text-lg font-semibold">
-                    <strong className="text-blue-600">Course</strong>
+                    <strong className="text-white">Course</strong>
                   </p>
-                  <p className="text-white font-bold">{courseName}</p>
+                  <p className="text-gray-400 font-bold">{courseName}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Leaderboard Section */}
-          <div className="w-2/3 p-5 overflow-auto shadow-lg rounded-lg">
+          <div className="w-2/3 p-5 overflow-auto  shadow-lg rounded-lg">
             <h1 className="text-3xl text-center font-extrabold mb-5 text-white">
               Leaderboard
             </h1>
@@ -162,7 +166,7 @@ const Leaderboard = () => {
             <h2 className="mt-5 text-2xl text-white font-semibold">
               Filtered Leaderboard
             </h2>
-            <div className="max-h-[50vh] overflow-y-auto rounded-lg border border-gray-300 shadow-inner">
+            <div className="max-h-[50vh] overflow-y-auto overflow-scroll rounded-lg border border-gray-300 shadow-inner">
               <table className="min-w-full border-collapse border border-gray-200">
                 <thead className="bg-white-600 text-white sticky top-0 z-10">
                   <tr>

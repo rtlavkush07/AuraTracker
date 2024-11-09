@@ -104,8 +104,16 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/sp1.jpg')" }}>
-      <div className="bg-black bg-opacity-50 shadow-lg rounded-lg p-8 w-2/4 max-w-md transform transition-transform duration-300 hover:scale-105">
+    <div className="flex items-center overflow-hidden w-full h-full " >
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('../public/assets/sp1.jpg')", // Use the correct path for your image
+          height: '100%', // Ensure it covers the entire height of the parent div
+          width: '100%',  // Ensure it covers the entire width of the parent div
+        }}
+      ></div>
+      <div className="bg-black text-white mt-5 bg-opacity-30 shadow-lg rounded-lg p-7 w-2/4 max-w-md  transform transition-transform duration-300 hover:scale-105 border border-white " style={{ marginLeft: "250px" }}>
         <h2 className="text-4xl font-semibold text-center text-white mb-6">
           Signup
         </h2>
@@ -117,7 +125,7 @@ const Signup = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -127,7 +135,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -137,7 +145,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -147,7 +155,7 @@ const Signup = () => {
               value={year}
               onChange={(e) => setYear(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -157,7 +165,7 @@ const Signup = () => {
               value={regNo}
               onChange={(e) => setRegNo(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none  transition duration-200 ease-in-out transform hover:scale-105"
             />
           </div>
           {/* Dropdown for courses */}
@@ -166,28 +174,29 @@ const Signup = () => {
               value={course}
               onChange={(e) => setCourse(e.target.value)}
               required
-              className="w-full p-3 border bg-transparent border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out"
+              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none text-white transition duration-200 ease-in-out"
             >
-              <option value="">Select Course</option>
+              <option value="" className="text-gray-400">Select Course</option> {/* Placeholder option */}
               {courses.map((course) => (
-                <option key={course._id} value={course._id}>
+                <option key={course._id} value={course._id} className="text-black">
                   {course.courseName} {/* Replace 'name' with the actual course name field */}
                 </option>
               ))}
             </select>
           </div>
+
           {/* Profile picture div */}
           <div>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => postDetails(e.target.files[0])}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-105"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-90"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+            className="w-full bg-transparent border border-white py-3 rounded-lg border-white text-white rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
           >
             Signup
           </button>

@@ -12,22 +12,22 @@ function App() {
   return (
     <>
 
-      <div className='h-1/10'>
-        <Navbar />
-      </div>
-      <div className='h-9/10'>
-        <Routes>
 
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-
-          <Route path="/admin/*" element={<Admin />} />
-          <Route path="/student/*" element={<Student />} />
-          <Route path="/teacher/*" element={<Teacher />} />
+      <Navbar />
 
 
-        </Routes>
-      </div>
+      <Routes>
+
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/student/*" element={<Student />} />
+        <Route path="/teacher/*" element={<Teacher />} />
+
+
+      </Routes>
+
 
     </>
   );

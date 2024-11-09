@@ -46,10 +46,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen " style={{ backgroundImage: "url('../public/assets/sp1.jpg')" }}>
-      <div className="bg-white bg-opacity-10 text-white p-8 rounded-lg shadow-lg w-96 transform transition-transform duration-300 hover:scale-105 border border-white">
+    <div className="flex items-center  overflow-hidden w-full h-full " >
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('../public/assets/sp1.jpg')", // Use the correct path for your image
+          height: '100%', // Ensure it covers the entire height of the parent div
+          width: '100%',  // Ensure it covers the entire width of the parent div
+        }}
+      ></div>
+      <div className="bg-black bg-opacity-30 mt-20 text-white p-8 rounded-lg shadow-lg  w-96  transform transition-transform duration-300 hover:scale-105 border border-white" style={{ marginLeft: "250px" }}>
 
-        <h2 className="text-2xl font-bold text-center text-white mb-6">
+        <h2 className="text-2xl   font-bold text-center text-white mb-6">
           Login
         </h2>
         <form className="mt-6" onSubmit={handleSubmit}>
