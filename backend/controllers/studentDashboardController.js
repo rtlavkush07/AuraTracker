@@ -2,6 +2,67 @@ import Course from "../models/courseModel.js";
 import User from "../models/userModels.js";
 import mongoose from "mongoose";
 import Subject from "../models/subjectModel.js";
+import React from "react";
+
+// Controller to handle assignment upload and submission
+
+export const uploadAssignment = async (req, res) => {
+  try {
+    console.log("Entering upload controller");
+
+    const { assignmentId, subjectId, submittedContent, userId } = req.body;
+    console.log(`assignmentId in uploadAssignment controller: ${assignmentId}`);
+    console.log(`subjectId in uploadAssignment controller: ${subjectId}`);
+
+    // Assume req.user is populated by a middleware for authentication
+    console.log("user id in controller = " + userId);
+
+    const subject = await Subject.findById(subjectId);
+    if (!subject) {
+      console.log("Subject not found");
+      return res.status(404).json({ message: "Subject not found" });
+    }
+    console.log("subject  = " + JSON.stringify(subject));
+    console.log("subject assignment = " + JSON.stringify(subject.Assessments));
+
+    // Find the assignment in the subject's Assessments array
+    // Find the assignment in the subject's Assessments array
+    const assignment = subject.Assessments.map((ass) => {
+      // console.log("Ass id = " + ass._id);
+      if (ass._id == assignmentId) {
+        console.log("Found assignment in subject");
+        return ass;
+      }
+    }).filter(Boolean)[0]; // Filter out undefined results from map
+
+    if (!assignment) {
+      console.log("Assignment not found");
+      return res.status(404).json({ message: "Assignment not found" });
+    }
+
+    // Check if the user has already submitted this assignment
+    const alreadySubmitted = assignment.submittedBy.some(
+      (submission) => submission.student.toString() === userId.toString()
+    );
+    if (alreadySubmitted) {
+      return res.status(400).json({ message: "Assignment already submitted" });
+    }
+
+    // Add the new submission to the assignment
+    assignment.submittedBy.push({
+      student: userId,
+      submittedContent,
+    });
+
+    // Save the updated subject document
+    await subject.save();
+
+    res.status(200).json({ message: "Assignment submitted successfully" });
+  } catch (error) {
+    console.error("Error submitting assignment:", error);
+    res.status(500).json({ message: "Failed to submit assignment" });
+  }
+};
 
 export const getCompletedChapters = async (req, res) => {
   console.log("Coming to getCompletedChapters controller");
@@ -108,6 +169,7 @@ export const getSubjectPendingAssessment = async (req, res) => {
   console.log("Coming to pending assessment controller");
 
   const { userId, courseId } = req.params;
+  // var subjectId;
 
   try {
     // Ensure valid ObjectId format for userId and courseId
@@ -142,6 +204,7 @@ export const getSubjectPendingAssessment = async (req, res) => {
     // Fetch pending assignments for each subject
     const pendingAssignments = await Promise.all(
       course.subjects.map(async (subject) => {
+        // console.log("Subject ID in pending assignments: ", subjectId);
         // Fetch subject details using Subject model (if needed)
         const subjectAssessment = await Subject.findById(subject._id);
         if (!subjectAssessment) {
@@ -160,6 +223,7 @@ export const getSubjectPendingAssessment = async (req, res) => {
           : [];
 
         return {
+          subjectId: subject._id,
           subjectName: subjectAssessment.subjectName,
           assessments, // Only include assessments if they are pending (i.e., no submissions)
         };

@@ -7,7 +7,9 @@ import {
   getSubjectPendingAssessment,
   completeChapter,
   getCompletedChapters,
+  uploadAssignment,
 } from "../controllers/studentDashboardController.js";
+import authMiddleware from "../src/middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -25,4 +27,6 @@ router.post(
   completeChapter
 );
 router.get("/getCompletedChapters/:userId", getCompletedChapters);
+
+router.post("/uploadAssignment", authMiddleware, uploadAssignment);
 export default router;
