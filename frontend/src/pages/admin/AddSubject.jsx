@@ -73,7 +73,7 @@ const AddSubject = ({ onSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg py-9">
             <h2 className="text-2xl font-bold mb-4 text-blue-600">Add or Edit Subject</h2>
 
             {/* Subject Name Input */}
