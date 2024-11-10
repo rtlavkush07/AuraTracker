@@ -20,8 +20,6 @@ import AllStudent from "./AllStudent";
 import AddSubject from "./AddSubject";
 
 const AdminDashboard = () => {
-  const [newTodo, setNewTodo] = useState("");
-  const [todos, setTodos] = useState([]);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -46,16 +44,9 @@ const AdminDashboard = () => {
     fetchAllData();
   }, []);
 
-  const addTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([...todos, newTodo]);
-      setNewTodo("");
-    }
-  };
+ 
 
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
-  };
+
 
   const DashboardHome = () => (
     <main className="flex-1 p-8">
@@ -82,66 +73,26 @@ const AdminDashboard = () => {
           color="text-yellow-500"
         />
       </div>
-      <TodoList
-        todos={todos}
-        newTodo={newTodo}
-        setNewTodo={setNewTodo}
-        addTodo={addTodo}
-        deleteTodo={deleteTodo}
-      />
+     
     </main>
   );
 
   const StatsCard = ({ icon, title, count, color }) => (
     <div
-      className={`bg-white p-4 rounded shadow flex items-center space-x-4 ${color}`}
+      className={`bg-black bg-opacity-40 border border-white p-4 text-white rounded shadow flex items-center space-x-4 `}
     >
-      {icon}
+    
       <div>
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-2xl font-bold">{count}</p>
+       <div className="flex ">
+       <div className="p-2"> {icon}</div>
+       <div><h3 className="text-lg font-semibold">   {title}</h3></div>
+       </div>
+        <p className="text-2xl text-center font-bold">{count}</p>
       </div>
     </div>
   );
 
-  const TodoList = ({ todos, newTodo, setNewTodo, addTodo, deleteTodo }) => (
-    <div className="grid grid-cols-2 gap-6">
-      <div className="bg-white p-6 rounded shadow">
-        <h3 className="text-lg font-semibold mb-4">Admin To-Do List</h3>
-        <div className="flex space-x-2 mb-4">
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="Add new task"
-            className="flex-1 p-2 border rounded"
-          />
-          <button
-            onClick={addTodo}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Add
-          </button>
-        </div>
-        <ul className="space-y-2">
-          {todos.map((todo, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between space-x-3"
-            >
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span>{todo}</span>
-              </div>
-              <button onClick={() => deleteTodo(index)}>
-                <FaTrashAlt className="text-red-500" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+ 
 
   return (
     <div className="flex w-full overflow-hidden">
@@ -232,10 +183,10 @@ const AdminDashboard = () => {
 const NavButton = ({ label, onClick, icon }) => (
   <button
     onClick={onClick}
-    className="w-full text-left px-4 py-2 hover:bg-gray-700"
+    className="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center"
   >
-    {icon}
-    <span className="ml-2">{label}</span>
+    <span className="mr-2">{icon}</span>
+    <span>{label}</span>
   </button>
 );
 
