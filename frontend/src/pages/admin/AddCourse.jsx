@@ -30,9 +30,9 @@ const AddCourse = ({ onSubmit }) => {
 
         {/* Course Name */}
         <div className="mb-4">
-          <label className="block text-white mb-2">Course Name</label>
           <input
             type="text"
+            placeholder="Course Name"
             value={courseName}
             onChange={(e) => setCourseName(e.target.value)}
             className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
@@ -42,9 +42,9 @@ const AddCourse = ({ onSubmit }) => {
 
         {/* Course Code */}
         <div className="mb-4">
-          <label className="block text-white mb-2">Course Code</label>
           <input
             type="text"
+            placeholder="Course Code"
             value={courseCode}
             onChange={(e) => setCourseCode(e.target.value)}
             className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
