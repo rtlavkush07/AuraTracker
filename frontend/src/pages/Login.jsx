@@ -37,6 +37,8 @@ const Login = () => {
       }, 1000); // Delay for toast to display
 
     } catch (err) {
+      notify(" invalid error");
+
       const errorMessage = err.response?.data?.message || "Invalid email or password";
       dispatch(setError(errorMessage));
       console.error(err);
