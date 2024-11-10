@@ -27,21 +27,25 @@ const TeacherDashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className=" flex bg-transparent h-full w-full" style={{height:'665px'}} >
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center z-0"
+        style={{
+          backgroundImage: "url('/assets/sp1.jpg')", // Fixed path to assets
+          height: '100%',
+          width: '100%',
+        }}
+      ></div>
+      
       {/* Sidebar Navigation */}
-      <aside className="w-74 bg-gray-800 text-white">
+      <aside className="relative w-2/5 bg-black bg-opacity-20  px-10 flex flex-col z-10">
         <div className="p-4">
-          <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
-          {teacher ? (
-            <p className="mt-2 text-gray-300 font-bold text-lg text-center">{teacher.name}</p>
-          ) : error ? (
-            <p className="text-red-500 text-sm mt-2">{error}</p>
-          ) : (
-            <p className="text-gray-400 text-sm mt-2">Loading...</p>
-          )}
+          <h1 className="text-4xl font-bold text-green-500   ">Teacher Dashboard</h1>
+        
         </div>
         <nav>
-          <ul className="m-4 space-y-2">
+          <ul className="m-4 space-y-5 text-white">
             <li>
               <Link
                 to="manageassignment"
@@ -63,7 +67,7 @@ const TeacherDashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-scroll">
+      <main className="relative flex-1 p-6 bg-black bg-opacity-20 overflow-y-auto z-10">
         <Routes>
           <Route path="/" element={<AddSubjectData />} />
           <Route path="manageassignment" element={<AddAssignment />} />
