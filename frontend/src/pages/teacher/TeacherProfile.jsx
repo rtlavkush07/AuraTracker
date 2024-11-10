@@ -32,17 +32,25 @@ const TeacherProfile = () => {
   }
 
   return (
-    <div className="teacher-profile p-8 bg-white text-black shadow-lg rounded-xl max-w-lg mx-auto mt-20 ">
-      <h2 className="text-3xl font-bold mb-6 text-center border-b pb-4">{teacher.name}</h2>
+    <div className="teacher-profile p-8  border border-white shadow-lg rounded-xl max-w-lg mx-auto mt-20  ">
+       <div
+        className="absolute inset-0 bg-cover bg-center z-0"
+        style={{
+          backgroundImage: "url('/assets/sp1.jpg')", // Fixed path to assets
+          height: '100%',
+          width: '100%',
+        }}
+      ></div>
+      <h2 className="relative text-3xl text-white bg-black bg-opacity-20 rounded-md font-bold mb-6 text-center border-b pb-4">{teacher.name}</h2>
       <div className="space-y-4">
        
-        <div className="flex items-center">
-          <strong className="w-1/3 text-black">ID:</strong>
-          <span className="text-lg font-semibold">{teacher._id}</span>
+        <div className="relative text-white flex items-center">
+          <strong className="w-1/3  text-white">ID:</strong>
+          <span className=" text-lg text-white font-semibold">{teacher._id}</span>
         </div>
-        <div className="flex items-center">
-          <strong className="w-1/3 text-black">Email:</strong>
-          <span className="text-lg font-semibold">{teacher.email}</span>
+        <div className="relative text-white flex items-center">
+          <strong className="w-1/3 text-white">Email:</strong>
+          <span className="text-lg text-white font-semibold">{teacher.email}</span>
         </div>
         {/* <div>
           <strong className="text-black">Subjects:</strong>
