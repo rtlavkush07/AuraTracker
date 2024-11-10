@@ -160,7 +160,7 @@ const AddAssignment = () => {
   };
 
   return (
-    <div className="container  p-1 overflow-hidden">
+    <div className="container  p-4 overflow-hidden bg-black bg-opacity-20 rounded">
       <h2 className="text-4xl text-white font-bold text-center mb-6">Assignments</h2>
 
       {/* Button to show/hide form */}
