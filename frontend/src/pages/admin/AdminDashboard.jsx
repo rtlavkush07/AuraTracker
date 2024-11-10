@@ -144,75 +144,86 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <aside className="w-64 bg-gray-800 text-white">
-        <div className="p-4">
-          <h1 className="text-2xl font-bold">Admin</h1>
+    <div className="flex w-full overflow-hidden">
+      <div
+        className="absolute inset-0 flex bg-cover bg-center"
+        style={{
+          backgroundImage: "url('../public/assets/sp5.jpg')",
+          width: '100%',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <aside className="w-1/5 text-white mt-12">
+          <div className="p-4 mt-10">
+            <h1 className="text-2xl font-bold">Admin</h1>
+          </div>
+          <nav>
+            <ul>
+              <li>
+                <NavButton
+                  label="Dashboard"
+                  onClick={() => navigate("")}
+                  icon={<FaTachometerAlt />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="All Teachers"
+                  onClick={() => navigate("allTeachers")}
+                  icon={<FaUserFriends />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="Add New Teacher"
+                  onClick={() => navigate("addTeacher")}
+                  icon={<FaUserPlus />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="All Students"
+                  onClick={() => navigate("allStudents")}
+                  icon={<FaUserGraduate />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="All Courses"
+                  onClick={() => navigate("allCourses")}
+                  icon={<FaBook />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="Add New Course"
+                  onClick={() => navigate("addCourse")}
+                  icon={<FaUserPlus />}
+                />
+              </li>
+              <li>
+                <NavButton
+                  label="Add New Subject"
+                  onClick={() => navigate("addSubject")}
+                  icon={<FaUserPlus />}
+                />
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <div className="w-1/5 flex-1 overflow-scroll">
+          <Routes>
+            <Route path="" element={<DashboardHome />} />
+            <Route path="allTeachers" element={<AllTeachers />} />
+            <Route path="allStudents" element={<AllStudent />} />
+            <Route path="addTeacher" element={<AddTeacher />} />
+            <Route path="allCourses" element={<AllCourses />} />
+            <Route path="addCourse" element={<AddCourse />} />
+            <Route path="addSubject" element={<AddSubject />} />
+          </Routes>
         </div>
-        <nav>
-          <ul>
-            <li>
-              <NavButton
-                label="Dashboard"
-                onClick={() => navigate("")}
-                icon={<FaTachometerAlt />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="All Teachers"
-                onClick={() => navigate("allTeachers")}
-                icon={<FaUserFriends />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="Add New Teacher"
-                onClick={() => navigate("addTeacher")}
-                icon={<FaUserPlus />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="All Students"
-                onClick={() => navigate("allStudents")}
-                icon={<FaUserGraduate />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="All Courses"
-                onClick={() => navigate("allCourses")}
-                icon={<FaBook />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="Add New Course"
-                onClick={() => navigate("addCourse")}
-                icon={<FaUserPlus />}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="Add New Subject"
-                onClick={() => navigate("addSubject")}
-                icon={<FaUserPlus />}
-              />
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <div className="flex-1 overflow-scroll">
-        <Routes>
-          <Route path="" element={<DashboardHome />} />
-          <Route path="allTeachers" element={<AllTeachers />} />
-          <Route path="allStudents" element={<AllStudent />} />
-          <Route path="addTeacher" element={<AddTeacher />} />
-          <Route path="allCourses" element={<AllCourses />} />
-          <Route path="addCourse" element={<AddCourse />} />
-          <Route path="addSubject" element={<AddSubject />} />
-        </Routes>
       </div>
     </div>
   );
