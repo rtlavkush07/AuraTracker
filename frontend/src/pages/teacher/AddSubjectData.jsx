@@ -97,9 +97,9 @@ const AddSubjectData = () => {
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
                 >
-                    <option value="">Select a subject</option>
+                    <option value="" className='bg-black'>Select a subject</option>
                     {subjects.map((subject) => (
-                        <option key={subject._id} value={subject._id}>
+                        <option key={subject._id} className='bg-black' value={subject._id}>
                             {subject.subjectName}
                         </option>
                     ))}
