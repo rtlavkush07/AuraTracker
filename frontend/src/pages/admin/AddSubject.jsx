@@ -80,9 +80,9 @@ const AddSubject = ({ onSubmit }) => {
                 <div className="overflow-scroll overflow-x-hidden p-5">
                     {/* Subject Name Input */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Subject Name</label>
                         <input
                             type="text"
+                            placeholder="Subject Name"
                             value={subjectName}
                             onChange={(e) => setSubjectName(e.target.value)}
                             className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
@@ -92,9 +92,9 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Subject ID Input */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Subject ID</label>
                         <input
                             type="text"
+                            placeholder="Subject Id"
                             value={subjectID}
                             onChange={(e) => setSubjectID(e.target.value)}
                             className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
@@ -104,11 +104,10 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Teacher Selection */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Taught By</label>
                         <select
                             value={selectedTeacher}
                             onChange={(e) => setSelectedTeacher(e.target.value)}
-                            className="w-full p-2 bg-transparent text-black border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         >
                             <option value="" className="text-white">Select a teacher</option>
@@ -122,11 +121,10 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Course Selection */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Course</label>
                         <select
                             value={selectedCourse}
                             onChange={(e) => setSelectedCourse(e.target.value)}
-                            className="w-full p-2 bg-transparent border border-gray-300 rounded"
+                            className="w-full p-2 text-white bg-transparent border border-gray-300 rounded"
                             required
                         >
                             <option value="">Select a course</option>
@@ -140,7 +138,6 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Schedule Section */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Schedules</label>
                         {schedules.map((schedule, index) => (
                             <div key={index} className="grid grid-cols-3 gap-2 mb-2">
                                 <input

@@ -167,7 +167,7 @@ const AdminDashboard = () => {
             </ul>
           </nav>
         </aside>
-        <div className="w-1/5 flex-1 overflow-scroll">
+        <div className="w-1/5 flex-1 ">
           <Routes>
             <Route path="" element={<DashboardHome />} />
             <Route path="allTeachers" element={<AllTeachers />} />

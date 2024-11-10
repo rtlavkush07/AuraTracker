@@ -20,7 +20,7 @@ const AllStudent = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-8 min-h-screen overflow-hidden">
+    <div className="flex flex-col items-center p-8 h-full w-full overflow-hidden">
       <h1 className="text-3xl font-bold mb-8 mt-12 text-white">Students</h1>
       <ul className="w-full max-w-2xl bg-black bg-opacity-40  overflow-scroll rounded-lg shadow-lg px-9">
         {students.map((student, index) => (
