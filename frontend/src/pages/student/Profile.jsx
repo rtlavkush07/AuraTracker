@@ -7,6 +7,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { token, isAuthenticated } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -20,7 +21,6 @@ const Profile = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error("Error fetching profile data:", err);
       }
@@ -31,32 +31,70 @@ const Profile = () => {
 
   if (!userData) return <div>Loading...</div>;
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <div className="w-full h-full overflow-hidden">
-      <div className="bg-gray-900 text-white min-h-screen p-8">
-        {/* Header with Profile Photo, Rating, and Aura Coins */}
-        <div className="flex items-center mb-8">
+    <div className="w-full overflow-hidden">
+      <div
+        className="absolute inset-0 flex bg-cover bg-center"
+        style={{
+          backgroundImage: "url('../public/assets/s11.jpg')",
+          width: '100%',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      ></div>
+      <div className="relative bg-black bg-opacity-30 text-white min-h-screen p-8">
+        {/* Profile Header */}
+        <div className="flex items-start mb-8 mx-10 justify-between">
           <img
             src={userData.profilePicture}
             alt="profile"
-            className="w-24 h-24 rounded-full mr-8"
+            className="w-40 h-40 rounded-full mr-8"
           />
-          <div className="flex space-x-6">
-            {/* Rating */}
-            <div className="bg-black p-6 rounded-lg text-center">
-              <h2 className="text-xl font-semibold mb-2">Rating</h2>
-              <p className="text-3xl">{userData.userProfile.rating || 0}</p>
+          <div className="flex flex-col space-y-4 mt-12">
+            <h2 className="text-2xl font-semibold">{userData.name}</h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 mt-8">
+            <div className="bg-black  bg-opacity-45 p-6 rounded-lg text-center">
+              <h2 className="text-lg font-semibold">Rating</h2>
+              <p className="text-2xl">{userData.userProfile.rating || 0}</p>
             </div>
-            {/* Aura Coins */}
-            <div className="bg-black p-6 rounded-lg text-center">
-              <h2 className="text-xl font-semibold mb-2">Aura Coins</h2>
-              <p className="text-3xl">{userData.userProfile.auraCoins || 0}</p>
+            <div className="bg-black bg-opacity-45 p-6 rounded-lg text-center">
+              <h2 className="text-lg font-semibold">Aura Coins</h2>
+              <p className="text-2xl">{userData.userProfile.auraCoins || 0}</p>
             </div>
           </div>
         </div>
 
-        {/* Badges */}
-        <div className="bg-black p-6 rounded-lg mb-6">
+
+        {/* Profile Cards - Emails */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mx-10 mt-5">
+          <div className="bg-black bg-opacity-45 p-4 rounded-lg">
+            <h2 className="text-lg font-semibold">Email</h2>
+            <p className="text-2xl">{userData.email}</p>
+          </div>
+          <div className="bg-black bg-opacity-45 p-4 rounded-lg">
+            <h2 className="text-lg font-semibold">Email 2</h2>
+            <p className="text-2xl">{userData.email}</p>
+          </div>
+          <div className="bg-black bg-opacity-45 p-4 rounded-lg">
+            <h2 className="text-lg font-semibold">Email 3</h2>
+            <p className="text-2xl">{userData.email}</p>
+          </div>
+          <div className="bg-black bg-opacity-45 p-4 rounded-lg">
+            <h2 className="text-lg font-semibold">Email 4</h2>
+            <p className="text-2xl">{userData.email}</p>
+          </div>
+        </div>
+
+        {/* Rating and Aura Coins */}
+
+
+        {/* Badges Section */}
+        <div className="bg-black bg-opacity-45 p-6 rounded-lg mb-6 mt-5 overflow-x-auto whitespace-nowrap">
           <h2 className="text-2xl font-semibold mb-4">Badges</h2>
           <div className="flex gap-4">
             {userData.badges && userData.badges.length > 0 ? (
@@ -71,38 +109,58 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Purchase History */}
-        <div className="bg-black p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
-          <table className="w-full text-left">
-            <thead>
-              <tr>
-                <th className="border-b border-gray-700 py-2">Item</th>
-                <th className="border-b border-gray-700 py-2">Purchase Date</th>
-                <th className="border-b border-gray-700 py-2">Cost</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userData.purchaseHistory && userData.purchaseHistory.length > 0 ? (
-                userData.purchaseHistory.map((purchase) => (
-                  <tr key={purchase.id}>
-                    <td className="py-2">{purchase.itemId}</td>
-                    <td className="py-2">{purchase.purchaseDate}</td>
-                    <td className="py-2">{purchase.cost} Coins</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" className="py-2 text-center">
-                    No purchase history available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+        {/* Button to Open Purchase History Modal */}
+        <button
+          onClick={openModal}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg mb-6"
+        >
+          View Purchase History
+        </button>
+
+        {/* Purchase History Modal */}
+        {
+          isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-gray-800 text-white rounded-lg p-6 max-w-lg w-full relative">
+                <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
+                <button
+                  onClick={closeModal}
+                  className="text-red-500 absolute top-4 right-4"
+                >
+                  &#10005;
+                </button>
+                <table className="w-full text-left">
+                  <thead>
+                    <tr>
+                      <th className="border-b border-gray-700 py-2">Item</th>
+                      <th className="border-b border-gray-700 py-2">Purchase Date</th>
+                      <th className="border-b border-gray-700 py-2">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userData.purchaseHistory && userData.purchaseHistory.length > 0 ? (
+                      userData.purchaseHistory.map((purchase) => (
+                        <tr key={purchase.id}>
+                          <td className="py-2">{purchase.itemId}</td>
+                          <td className="py-2">{purchase.purchaseDate}</td>
+                          <td className="py-2">{purchase.cost} Coins</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="py-2 text-center">
+                          No purchase history available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )
+        }
+      </div >
+    </div >
   );
 };
 
