@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { token, isAuthenticated } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [courseName,  setCourseName] = useState();
-const getCourseName = async (user) => {
-  try {
-    const response = await axios.get(`/api/student/course/${user.course}`);
-    setCourseName(response.data.courseName);
-    console.log(response);
-  } catch (error) {
-    console.error("failed to fetch course name:", error);
-  }
-};
+  const [courseName, setCourseName] = useState();
+  const getCourseName = async (user) => {
+    try {
+      const response = await axios.get(`/api/student/course/${user.course}`);
+      setCourseName(response.data.courseName);
+      console.log(response);
+    } catch (error) {
+      console.error("failed to fetch course name:", error);
+    }
+  };
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/auth/login");
@@ -31,7 +31,7 @@ const getCourseName = async (user) => {
         });
         await getCourseName(response.data);
         setUserData(response.data);
-       
+        console.log(userData);
       } catch (err) {
         console.error("Error fetching profile data:", err);
       }
@@ -44,8 +44,6 @@ const getCourseName = async (user) => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  
-  
 
   return (
     <div className="w-full overflow-hidden">
@@ -53,10 +51,10 @@ const getCourseName = async (user) => {
         className="absolute inset-0 flex bg-cover bg-center"
         style={{
           backgroundImage: "url('../public/assets/s11.jpg')",
-          width: '100%',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
+          width: "100%",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       ></div>
       <div className="relative bg-black bg-opacity-30 text-white min-h-screen p-8">
@@ -82,7 +80,6 @@ const getCourseName = async (user) => {
           </div>
         </div>
 
-
         {/* Profile Cards - Emails */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mx-10 mt-5">
           <div className="bg-black bg-opacity-45 p-4 rounded-lg">
@@ -105,15 +102,25 @@ const getCourseName = async (user) => {
 
         {/* Rating and Aura Coins */}
 
-
         {/* Badges Section */}
         <div className="bg-black bg-opacity-45 p-6 rounded-lg mb-6 mt-5 overflow-x-auto whitespace-nowrap">
           <h2 className="text-2xl font-semibold mb-4">Badges</h2>
           <div className="flex gap-4">
-            {userData.badges && userData.badges.length > 0 ? (
-              userData.badges.map((badge, index) => (
-                <div key={index} className="bg-green-700 px-4 py-2 rounded-full">
-                  {badge}
+            {userData.userProfile.badges &&
+            userData.userProfile.badges.length > 0 ? (
+              userData.userProfile.badges.map((badge, index) => (
+                <div
+                  key={index}
+                  className="flex items-center w-50 px-10 py-10 rounded-full"
+                >
+                  {badge.icon && (
+                    <img
+                      src={"../../../public/badge/bronze.png"}
+                      alt={badge.name}
+                      className="w-20 h-20 mr-2"
+                    />
+                  )}
+                  <span className="text-3xl">{badge.name}</span>
                 </div>
               ))
             ) : (
@@ -122,7 +129,7 @@ const getCourseName = async (user) => {
           </div>
         </div>
 
-        {/* Button to Open Purchase History Modal */}
+        {/* badges section end  */}
         <button
           onClick={openModal}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg mb-6"
@@ -131,49 +138,50 @@ const getCourseName = async (user) => {
         </button>
 
         {/* Purchase History Modal */}
-        {
-          isModalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-scroll">
-              <div className="bg-black bg-opicity-40 text-white rounded-lg p-6 max-w-lg w-full relative">
-                <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
-                <button
-                  onClick={closeModal}
-                  className="text-red-500 absolute top-4 right-4"
-                >
-                  &#10005;
-                </button>
-                <table className="w-full text-left">
-                  <thead>
-                    <tr>
-                      <th className="border-b border-gray-700 py-2">Item</th>
-                      <th className="border-b border-gray-700 py-2">Purchase Date</th>
-                      <th className="border-b border-gray-700 py-2">Cost</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {userData.userProfile.purchaseHistory && userData.userProfile.purchaseHistory.length > 0 ? (
-                      userData.userProfile.purchaseHistory.map((purchase) => (
-                        <tr key={purchase.id}>
-                          <td className="py-2">{purchase.itemName}</td>
-                          <td className="py-2">{purchase.purchaseDate}</td>
-                          <td className="py-2">{purchase.cost} Coins</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="3" className="py-2 text-center">
-                          No purchase history available
-                        </td>
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-scroll">
+            <div className="bg-black bg-opicity-40 text-white rounded-lg p-6 max-w-lg w-full relative">
+              <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
+              <button
+                onClick={closeModal}
+                className="text-red-500 absolute top-4 right-4"
+              >
+                &#10005;
+              </button>
+              <table className="w-full text-left">
+                <thead>
+                  <tr>
+                    <th className="border-b border-gray-700 py-2">Item</th>
+                    <th className="border-b border-gray-700 py-2">
+                      Purchase Date
+                    </th>
+                    <th className="border-b border-gray-700 py-2">Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userData.userProfile.purchaseHistory &&
+                  userData.userProfile.purchaseHistory.length > 0 ? (
+                    userData.userProfile.purchaseHistory.map((purchase) => (
+                      <tr key={purchase.id}>
+                        <td className="py-2">{purchase.itemName}</td>
+                        <td className="py-2">{purchase.purchaseDate}</td>
+                        <td className="py-2">{purchase.cost} Coins</td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="py-2 text-center">
+                        No purchase history available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-          )
-        }
-      </div >
-    </div >
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

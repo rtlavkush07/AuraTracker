@@ -44,7 +44,7 @@ const AddAssignment = () => {
       return;
     }
 
-  
+
 
     // Prepare the FormData for Cloudinary upload
     const data = new FormData();
@@ -104,13 +104,13 @@ const AddAssignment = () => {
       [name]: files ? files[0] : value,
     }));
   };
- const handleFile = (child) => {
-   setNewAssignment((prev) => ({
-     ...prev,
-     assessmentContent: child ? child : "",
-   }));
-   newAssignment
- };
+  const handleFile = (child) => {
+    setNewAssignment((prev) => ({
+      ...prev,
+      assessmentContent: child ? child : "",
+    }));
+    newAssignment
+  };
 
   const addAssignmentToSubject = async (teacherId, subjectId, assignmentData) => {
     try {
@@ -226,8 +226,8 @@ const AddAssignment = () => {
             <label className="block text-white font-semibold">Upload File</label>
             <input
               type="file"
-              
-              onChange={(e)=>postcloudinary(e.target.files[0])}
+
+              onChange={(e) => postcloudinary(e.target.files[0])}
               required
               className="w-full text-white bg-transparent"
             />
@@ -269,7 +269,7 @@ const AddAssignment = () => {
               <option value="" className='text-white'>Select Subject</option>
               {subjects.length > 0 ? (
                 subjects.map((subject) => (
-                  <option key={subject._id} value={subject._id}>
+                  <option key={subject._id} className='bg-black' value={subject._id}>
                     {subject.subjectName}
                   </option>
                 ))

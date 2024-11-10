@@ -104,6 +104,12 @@ const Navbar = () => {
                   >
                     Leaderboard
                   </Link>
+                  <Link
+                    to="/student/pomodoroTimer"
+                    className="block py-2 md:py-0 text-white hover:text-blue-500 transition duration-200"
+                  >
+                    Pomodoro
+                  </Link>
                   <Link to="/student/profile" className="block py-2 md:py-0">
                     <img
                       src={
