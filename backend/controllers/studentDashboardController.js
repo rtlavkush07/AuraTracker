@@ -5,6 +5,43 @@ import Subject from "../models/subjectModel.js";
 
 // Controller to handle assignment upload and submission
 
+const badgeCriteria = [
+  {
+    ratingThreshold: 1000,
+    badge: {
+      iconId: "bronze",
+      icon: "../../../public/badge/bronze.png",
+      name: "Bronze",
+    },
+  },
+  {
+    ratingThreshold: 2000,
+    badge: {
+      iconId: "silver",
+      icon: "../../../public/badge/silver.png",
+      name: "Silver",
+    },
+  },
+  {
+    ratingThreshold: 3000,
+    badge: {
+      iconId: "gold",
+      icon: "../../../public/badge/gold.png",
+      name: "Gold",
+    },
+  },
+  {
+    ratingThreshold: 4000,
+    badge: {
+      iconId: "platinum",
+      icon: "../../../public/badge/platinum.png",
+      name: "Platinum",
+    },
+  },
+  // Add more badges as needed
+];
+
+
 export const uploadAssignment = async (req, res) => {
   try {
     console.log("Entering upload controller");
@@ -153,6 +190,11 @@ export const completeChapter = async (req, res) => {
 
     // Save the user document with the updated completedChapters and profile info
     await user.save();
+    //call badge insert function
+   
+    await updateUserBadges(user._id, user.userProfile.rating);
+  
+    
     console.log("Chapter completed successfully, and user profile updated");
 
     res.status(200).json({
@@ -163,6 +205,39 @@ export const completeChapter = async (req, res) => {
     res.status(500).json({ error: "Failed to complete chapter" });
   }
 };
+
+const updateUserBadges = async (userId, rating) => {
+  try {
+    // Fetch the user profile
+    const user = await User.findById(userId);
+
+    if (!user) return;
+
+    // Determine new badges based on the rating
+    const newBadges = badgeCriteria
+      .filter((criteria) => rating >= criteria.ratingThreshold) // Only include badges for which the rating qualifies
+      .map((criteria) => criteria.badge);
+
+    // Only add badges that the user doesn't already have
+    const uniqueBadges = newBadges.filter(
+      (badge) =>
+        !user.userProfile.badges.some(
+          (existingBadge) => existingBadge.iconId === badge.iconId
+        )
+    );
+
+    if (uniqueBadges.length > 0) {
+      // Add new badges to user's profile
+      user.userProfile.badges.push(...uniqueBadges);
+      console.log(JSON.stringify(user));
+      await user.save();
+      console.log(JSON.stringify(user));
+    }
+  } catch (error) {
+    console.error("Error updating badges:", error);
+  }
+};
+
 
 export const getSubjectPendingAssessment = async (req, res) => {
   console.log("Coming to pending assessment controller");
