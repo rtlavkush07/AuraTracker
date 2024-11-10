@@ -9,19 +9,7 @@ const Admin = () => {
   return (
     <>
       <Routes>
-
-
-
-        <Route path="/" element={<AdminDashboard />} />
-        <Route path="addcourse" element={<AddCourse />} />
-        <Route path="addsubject" element={<AddSubject />} />
-        <Route path="addteacher" element={<AddTeacher />} />
-
-
-
-
-
-
+        <Route path="/*" element={<AdminDashboard />} />
       </Routes>
     </>
   )
