@@ -8,7 +8,16 @@ const Profile = () => {
   const { token, isAuthenticated } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [courseName,  setCourseName] = useState();
+const getCourseName = async (user) => {
+  try {
+    const response = await axios.get(`/api/student/course/${user.course}`);
+    setCourseName(response.data.courseName);
+    console.log(response);
+  } catch (error) {
+    console.error("failed to fetch course name:", error);
+  }
+};
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/auth/login");
@@ -20,7 +29,9 @@ const Profile = () => {
         const response = await axios.get("/api/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
+        await getCourseName(response.data);
         setUserData(response.data);
+       
       } catch (err) {
         console.error("Error fetching profile data:", err);
       }
@@ -33,6 +44,8 @@ const Profile = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  
+  
 
   return (
     <div className="w-full overflow-hidden">
@@ -77,16 +90,16 @@ const Profile = () => {
             <p className="text-2xl">{userData.email}</p>
           </div>
           <div className="bg-black bg-opacity-45 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Email 2</h2>
-            <p className="text-2xl">{userData.email}</p>
+            <h2 className="text-lg font-semibold">Course</h2>
+            <p className="text-2xl">{courseName}</p>
           </div>
           <div className="bg-black bg-opacity-45 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Email 3</h2>
-            <p className="text-2xl">{userData.email}</p>
+            <h2 className="text-lg font-semibold">Year</h2>
+            <p className="text-2xl">{userData.year}</p>
           </div>
           <div className="bg-black bg-opacity-45 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Email 4</h2>
-            <p className="text-2xl">{userData.email}</p>
+            <h2 className="text-lg font-semibold">Reg No. </h2>
+            <p className="text-2xl">{userData.regNo}</p>
           </div>
         </div>
 
