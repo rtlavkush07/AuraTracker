@@ -80,41 +80,40 @@ const AddSubject = ({ onSubmit }) => {
                 <div className="overflow-scroll overflow-x-hidden p-5">
                     {/* Subject Name Input */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Subject Name</label>
                         <input
                             type="text"
+                            placeholder="Subject Name"
                             value={subjectName}
                             onChange={(e) => setSubjectName(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         />
                     </div>
 
                     {/* Subject ID Input */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Subject ID</label>
                         <input
                             type="text"
+                            placeholder="Subject Id"
                             value={subjectID}
                             onChange={(e) => setSubjectID(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         />
                     </div>
 
                     {/* Teacher Selection */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Taught By</label>
                         <select
                             value={selectedTeacher}
                             onChange={(e) => setSelectedTeacher(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         >
-                            <option value="">Select a teacher</option>
+                            <option value="" className="text-white">Select a teacher</option>
                             {teachers.map((teacher) => (
                                 <option key={teacher._id} value={teacher._id}>
-                                    {teacher.name}
+                                   <p className="text-black"> {teacher.name}</p>
                                 </option>
                             ))}
                         </select>
@@ -122,11 +121,10 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Course Selection */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Course</label>
                         <select
                             value={selectedCourse}
                             onChange={(e) => setSelectedCourse(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 text-white bg-transparent border border-gray-300 rounded"
                             required
                         >
                             <option value="">Select a course</option>
@@ -140,7 +138,6 @@ const AddSubject = ({ onSubmit }) => {
 
                     {/* Schedule Section */}
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Schedules</label>
                         {schedules.map((schedule, index) => (
                             <div key={index} className="grid grid-cols-3 gap-2 mb-2">
                                 <input
@@ -148,21 +145,21 @@ const AddSubject = ({ onSubmit }) => {
                                     value={schedule.dayOfWeek}
                                     onChange={(e) => handleScheduleChange(index, "dayOfWeek", e.target.value)}
                                     placeholder="Day of the Week"
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <input
                                     type="time"
                                     value={schedule.startTime}
                                     onChange={(e) => handleScheduleChange(index, "startTime", e.target.value)}
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <input
                                     type="time"
                                     value={schedule.endTime}
                                     onChange={(e) => handleScheduleChange(index, "endTime", e.target.value)}
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <button
