@@ -133,8 +133,8 @@ const getCourseName = async (user) => {
         {/* Purchase History Modal */}
         {
           isModalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-gray-800 text-white rounded-lg p-6 max-w-lg w-full relative">
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-scroll">
+              <div className="bg-black bg-opicity-40 text-white rounded-lg p-6 max-w-lg w-full relative">
                 <h2 className="text-2xl font-semibold mb-4">Purchase History</h2>
                 <button
                   onClick={closeModal}
@@ -151,10 +151,10 @@ const getCourseName = async (user) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {userData.purchaseHistory && userData.purchaseHistory.length > 0 ? (
-                      userData.purchaseHistory.map((purchase) => (
+                    {userData.userProfile.purchaseHistory && userData.userProfile.purchaseHistory.length > 0 ? (
+                      userData.userProfile.purchaseHistory.map((purchase) => (
                         <tr key={purchase.id}>
-                          <td className="py-2">{purchase.itemId}</td>
+                          <td className="py-2">{purchase.itemName}</td>
                           <td className="py-2">{purchase.purchaseDate}</td>
                           <td className="py-2">{purchase.cost} Coins</td>
                         </tr>
