@@ -26,10 +26,10 @@ const AllStudent = () => {
         {students.map((student, index) => (
           <li key={index} className="border-b border-gray-200 p-4 last:border-none">
             <p className="text-lg font-semibold text-white">
-              <span className="font-bold text-black">Name:</span> {student.name}
+              <span className="font-bold text-white">Name:</span> {student.name}
             </p>
             <p className="text-lg font-semibold text-white">
-              <span className="font-bold text-black">Email:</span> {student.email}
+              <span className="font-bold text-white">Email:</span> {student.email}
             </p>
           </li>
         ))}
