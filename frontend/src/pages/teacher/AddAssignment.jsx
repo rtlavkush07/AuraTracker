@@ -160,13 +160,13 @@ const AddAssignment = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold text-center mb-6">Assignments</h2>
+    <div className="container  p-1 overflow-hidden">
+      <h2 className="text-4xl text-white font-bold text-center mb-6">Assignments</h2>
 
       {/* Button to show/hide form */}
       <button
         onClick={handleAddAssignmentClick}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green -600"
       >
         {showForm ? "Cancel" : "Add New Assignment"}
       </button>
@@ -175,98 +175,98 @@ const AddAssignment = () => {
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="mt-4 space-y-4 border p-4 rounded-lg shadow-md"
+          className="mt-4 space-y-4 border p-4 rounded-lg shadow-md overflow-scroll"
         >
           <div>
-            <label className="block font-semibold">Assessment ID</label>
+            <label className="block text-white font-semibold">Assessment ID</label>
             <input
               type="text"
               name="assessmentID"
               value={newAssignment.assessmentID}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block font-semibold">Assessment Name</label>
+            <label className="block text-white font-semibold">Assessment Name</label>
             <input
               type="text"
               name="assessmentName"
               value={newAssignment.assessmentName}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block font-semibold">Assessment Date</label>
+            <label className="block text-white font-semibold">Assessment Date</label>
             <input
               type="date"
               name="assessmentDate"
               value={newAssignment.assessmentDate}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block font-semibold">Assessment Last Date</label>
+            <label className="block text-white font-semibold">Assessment Last Date</label>
             <input
               type="date"
               name="assessmentLastDate"
               value={newAssignment.assessmentLastDate}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">Upload File</label>
+            <label className="block text-white font-semibold">Upload File</label>
             <input
               type="file"
               
               onChange={(e)=>postcloudinary(e.target.files[0])}
               required
-              className="w-full"
+              className="w-full text-white bg-transparent"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">Aura Coins</label>
+            <label className="block text-white font-semibold">Aura Coins</label>
             <input
               type="number"
               name="auraCoins"
               value={newAssignment.auraCoins}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block font-semibold">Rating Point</label>
+            <label className="block text-white font-semibold">Rating Point</label>
             <input
               type="number"
               name="ratingPoint"
               value={newAssignment.ratingPoint}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border text-white bg-transparent px-3 py-2 rounded-lg"
             />
           </div>
 
           {/* Subject Dropdown */}
           <div>
-            <label className="block font-semibold">Subject</label>
+            <label className="block text-white font-semibold">Subject</label>
             <select
               name="subject"
               value={selectedSubject}
               onChange={handleSubjectChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full text-white bg-transparent border px-3 py-2 rounded-lg"
             >
-              <option value="">Select Subject</option>
+              <option value="" className='text-white'>Select Subject</option>
               {subjects.length > 0 ? (
                 subjects.map((subject) => (
                   <option key={subject._id} value={subject._id}>
@@ -274,7 +274,7 @@ const AddAssignment = () => {
                   </option>
                 ))
               ) : (
-                <option disabled>No subjects available</option>
+                <option disabled className='text-white'>No subjects available</option>
               )}
             </select>
           </div>
@@ -290,7 +290,7 @@ const AddAssignment = () => {
           </div> */}
           <button
             type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             Add Assignment
           </button>
@@ -298,7 +298,7 @@ const AddAssignment = () => {
       )}
 
       {/* List of assignments */}
-      <div className="mt-8">
+      <div className="mt-8 ">
         {assignments.length > 0 ? (
           assignments.map((assignment, index) => (
             <div key={index} className="border p-4 rounded-lg shadow-md mb-4">

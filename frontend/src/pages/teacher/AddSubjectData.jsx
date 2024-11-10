@@ -86,14 +86,14 @@ const AddSubjectData = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto bg-white p-8 rounded-md shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Add Modules and Chapters</h2>
+        <div className="max-w-2xl h-full mx-auto bg-black bg-opacity-20 text-white p-8 rounded-md shadow-md">
+            <h2 className="text-2xl font-semibold text-white mb-6">Add Modules and Chapters</h2>
 
             {/* Subject Dropdown */}
             <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">Select Subject:</label>
+                <label className="block text-white font-medium mb-2">Select Subject:</label>
                 <select
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 bg-transparent border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
                 >
@@ -108,10 +108,10 @@ const AddSubjectData = () => {
 
             {/* Module Name Input */}
             <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">Module Name:</label>
+                <label className="block text-white font-medium mb-2">Module Name:</label>
                 <input
                     type="text"
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 bg-transparent border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={moduleName}
                     onChange={(e) => setModuleName(e.target.value)}
                     placeholder="Enter module name"
@@ -120,16 +120,16 @@ const AddSubjectData = () => {
 
             {/* Chapter Name Input */}
             <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">Add Chapter Name:</label>
+                <label className="block text-white font-medium mb-2">Add Chapter Name:</label>
                 <input
                     type="text"
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 bg-transparent border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={chapterNameInput}
                     onChange={(e) => setChapterNameInput(e.target.value)}
                     placeholder="Enter chapter name"
                 />
                 <button
-                    className="w-full px-4 py-2 mt-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none"
+                    className="w-full px-4 py-2 mt-4 bg-transparent border border-white bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none"
                     onClick={handleAddChapter}
                     disabled={loading}
                 >
@@ -138,7 +138,7 @@ const AddSubjectData = () => {
             </div>
 
             {/* Chapters List */}
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-4">Chapters</h3>
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Chapters</h3>
             <ul>
                 {chapters.map((chapter, index) => (
                     <li key={index} className="flex items-center justify-between mb-2 p-2 border rounded-md bg-gray-50">
