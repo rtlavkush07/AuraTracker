@@ -26,7 +26,7 @@ const AddCourse = ({ onSubmit }) => {
   return (
     <div className="mt-12 p-8">
       <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto p-6 bg-black bg-opacity-40 mt-12 rounded-lg shadow-lg my-9">
-        <h2 className="text-2xl font-bold mb-4 mt- text-white">Add or Edit Course</h2>
+        <h2 className="text-2xl font-bold mb-4 mt- text-white text-center">Add or Edit Course</h2>
 
         {/* Course Name */}
         <div className="mb-4">
@@ -35,7 +35,7 @@ const AddCourse = ({ onSubmit }) => {
             type="text"
             value={courseName}
             onChange={(e) => setCourseName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
             required
           />
         </div>
@@ -47,7 +47,7 @@ const AddCourse = ({ onSubmit }) => {
             type="text"
             value={courseCode}
             onChange={(e) => setCourseCode(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
             required
           />
         </div>

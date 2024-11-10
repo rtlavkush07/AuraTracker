@@ -51,26 +51,29 @@ const AdminDashboard = () => {
   const DashboardHome = () => (
     <main className="flex-1 p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl mt-12 font-bold text-white">Dashboard</h1>
       </div>
-      <div className="grid grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-3 gap-6 mb-6 ">
         <StatsCard
+      
           icon={<FaUserGraduate />}
           title="Students"
+        
           count={students.length}
-          color="text-blue-500"
+          
+          
         />
         <StatsCard
           icon={<FaUserFriends />}
           title="Teachers"
           count={teachers.length}
-          color="text-pink-500"
+        
         />
         <StatsCard
           icon={<FaBook />}
           title="Courses"
           count={courses.length}
-          color="text-yellow-500"
+         
         />
       </div>
      

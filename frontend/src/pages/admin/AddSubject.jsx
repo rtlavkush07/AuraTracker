@@ -85,7 +85,7 @@ const AddSubject = ({ onSubmit }) => {
                             type="text"
                             value={subjectName}
                             onChange={(e) => setSubjectName(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         />
                     </div>
@@ -97,7 +97,7 @@ const AddSubject = ({ onSubmit }) => {
                             type="text"
                             value={subjectID}
                             onChange={(e) => setSubjectID(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
                             required
                         />
                     </div>
@@ -108,13 +108,13 @@ const AddSubject = ({ onSubmit }) => {
                         <select
                             value={selectedTeacher}
                             onChange={(e) => setSelectedTeacher(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent text-black border border-gray-300 rounded"
                             required
                         >
-                            <option value="">Select a teacher</option>
+                            <option value="" className="text-white">Select a teacher</option>
                             {teachers.map((teacher) => (
                                 <option key={teacher._id} value={teacher._id}>
-                                    {teacher.name}
+                                   <p className="text-black"> {teacher.name}</p>
                                 </option>
                             ))}
                         </select>
@@ -126,7 +126,7 @@ const AddSubject = ({ onSubmit }) => {
                         <select
                             value={selectedCourse}
                             onChange={(e) => setSelectedCourse(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 bg-transparent border border-gray-300 rounded"
                             required
                         >
                             <option value="">Select a course</option>
@@ -148,21 +148,21 @@ const AddSubject = ({ onSubmit }) => {
                                     value={schedule.dayOfWeek}
                                     onChange={(e) => handleScheduleChange(index, "dayOfWeek", e.target.value)}
                                     placeholder="Day of the Week"
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <input
                                     type="time"
                                     value={schedule.startTime}
                                     onChange={(e) => handleScheduleChange(index, "startTime", e.target.value)}
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <input
                                     type="time"
                                     value={schedule.endTime}
                                     onChange={(e) => handleScheduleChange(index, "endTime", e.target.value)}
-                                    className="p-2 border border-gray-300 rounded"
+                                    className="p-2 border bg-transparent text-white border-gray-300 rounded"
                                     required
                                 />
                                 <button
