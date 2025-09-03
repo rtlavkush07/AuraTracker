@@ -3,7 +3,7 @@ import userAuth from "../models/userModels.js"; // Assuming user model is in the
 export const getAllStudents = async (req, res) => {
   try {
     // Fetch all students and exclude the password field
-    console.log("yahan");
+    // console.log("yahan");
     const users = await userAuth.find().select("-password");
 
     if (!users) {

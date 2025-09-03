@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* bar bar class likhne se achha hai css utility bnaya  */
+.nav-link {
+  @apply block py-2 md:py-0 text-white hover:text-yellow-400 transition duration-200;
+}

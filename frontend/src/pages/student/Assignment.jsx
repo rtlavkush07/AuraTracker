@@ -7,7 +7,7 @@ import axios from "axios";
 const Modal = ({ isOpen, onClose, content }) => {
     if (!isOpen) return null;
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg max-w-lg w-full text-black">
                 <h3 className="text-xl font-semibold mb-4">Assignment Content</h3>
                 <img src="{content}" alt="Assessment Content Link" />
@@ -179,7 +179,7 @@ const Assignment = () => {
 
     return (
         <div
-            className="p-6 bg-black bg-opacity-50 text-white border border-gray-400 rounded-lg w-3/4 mx-auto overflow-y-scroll "
+            className="p-6 bg-black bg-opacity-50 text-white border border-gray-400 rounded-lg w-3/4 mt-20 overflow-y-scroll "
             style={{ height: '500px' }}
         >
             <h2 className="text-2xl font-bold mb-4 text-center">

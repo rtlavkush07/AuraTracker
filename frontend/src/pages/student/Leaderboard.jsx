@@ -93,17 +93,16 @@ const Leaderboard = () => {
 
 
   return (
-    <div className="flex items-center  overflow-hidden w-full h-full " >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('../public/assets/sp3.jpg')", // Use the correct path for your image
-          height: '100%', // Ensure it covers the entire height of the parent div
-          width: '100%',  // Ensure it covers the entire width of the parent div
-          backgroundSize: 'cover', // Ensure the image covers the entire div without stretching
-          backgroundPosition: 'center', // Optionally, position the background image at the center
-        }}
-      ></div>
+    <div className="flex items-center mt-20  overflow-hidden w-full h-full " >
+     <div
+  className="absolute inset-0 bg-cover bg-center -z-10"
+  style={{
+    backgroundImage: "url('/assets/sp3.jpg')", // you don’t need ../public
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
+></div>
+
       <div className="relative p-4 w-full h-full mx-auto  bg-black bg-opacity-40 shadow-xl rounded-lg font-sans  ">
         <div className="flex h-full">
           <div className="w-1/3 p-5 border-r border-gray-300 text-center shadow-lg rounded-lg">
@@ -111,10 +110,10 @@ const Leaderboard = () => {
             <img
               src={selfRank?.profilePicture}
               alt="User"
-              className="rounded-full w-28 h-28 mb-4 border-2 shadow-lg mx-auto"
+              className="rounded-full w-28 h-28 mb-4 border-2 shadow-lg mx-auto text-white"
             />
             <div>
-              <p className="mt-4 text-3xl font-extrabold text-white shadow-md p-2 rounded-md text-white inline-block">
+              <p className="mt-4 text-3xl font-extrabold text-white shadow-md p-2 rounded-md  inline-block">
                 Rank: {userRank}
               </p>
               <div className="mt-3 grid grid-cols-2 gap-5">
@@ -151,20 +150,21 @@ const Leaderboard = () => {
           {/* Leaderboard Section */}
           <div className="w-2/3 p-5 overflow-auto  shadow-lg rounded-lg">
             <h1 className="text-3xl text-center font-extrabold mb-5 text-white">
-              Leaderboard
+              Ranking
             </h1>
             <div className="flex justify-center mb-5">
               <select
-                className="p-2 border border-gray-300 rounded-lg shadow-sm w-1/2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="p-2 border border-gray-300 rounded-lg shadow-sm w-1/2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
+                placeholder="filter"
               >
-                <option value="All Years">All Years</option>
+                <option value="All Years">Overall in College</option>
                 <option value={selfRank?.year}>In Batch</option>
               </select>
             </div>
             <h2 className="mt-5 text-2xl text-white font-semibold">
-              Filtered Leaderboard
+              Filtered Ranking
             </h2>
             <div className="max-h-[50vh] overflow-y-auto overflow-scroll rounded-lg border border-gray-300 shadow-inner">
               <table className="min-w-full border-collapse border border-gray-200">

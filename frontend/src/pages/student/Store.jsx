@@ -130,7 +130,7 @@ const Store = () => {
     
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white">
       <header className="flex flex-col items-center justify-center py-16">
         <img
           src="../public/logo/icon.gif"

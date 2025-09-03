@@ -51,11 +51,11 @@ const CourseSchedules = () => {
 
 
   return (
-    <div className="mt-5">
+    <div className="mt-20">
       <h2 className="text-2xl font-semibold border-b-2 border-green-500 pb-2 text-white">
         Course Schedule
       </h2>
-      <div className="flex flex-wrap justify-between mt-3">
+      <div className="flex flex-wrap justify-between mt-10">
         {courseSchedule?.map((course, index) => (
           <div key={index} className="flex items-center w-full lg:w-1/2 mb-4">
             <FaCalendarAlt className="text-green-600 mr-2 text-xl" />

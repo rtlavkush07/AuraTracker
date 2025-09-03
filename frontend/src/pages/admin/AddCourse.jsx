@@ -1,64 +1,84 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-const AddCourse = ({ onSubmit }) => {
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const AddCourse = () => {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
-  const [studentsEnrolled, setStudentsEnrolled] = useState([]);
   const navigate = useNavigate();
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const courseData = {
-      courseName,
-      courseCode
+    const courseData = { courseName, courseCode };
 
-    };
     try {
-      const response = await axios.post("/api/admin/addCourse", courseData);
-      console.log(response.data);
-      navigate('/admin');
+      await axios.post("/api/admin/addCourse", courseData);
+      notifySuccess("Course added successfully!");
+
+      setTimeout(() => {
+        navigate("/admin");
+      }, 1000);
     } catch (error) {
       console.error("Error adding Course:", error);
+      notifyError("Failed to add course. Try again!");
     }
   };
 
   return (
-    <div className="mt-12 p-8">
-      <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto p-6 bg-black bg-opacity-40 mt-12 rounded-lg shadow-lg my-9">
-        <h2 className="text-2xl font-bold mb-4 mt- text-white text-center">Add or Edit Course</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-900 to-blue-600 px-4">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        pauseOnHover
+        theme="light"
+      />
 
-        {/* Course Name */}
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Course Name"
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
-            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
-            required
-          />
-        </div>
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md transform transition-transform duration-300 hover:scale-105 border border-gray-200">
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">
+          Add New Course
+        </h2>
 
-        {/* Course Code */}
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Course Code"
-            value={courseCode}
-            onChange={(e) => setCourseCode(e.target.value)}
-            className="w-full p-2 bg-transparent text-white border border-gray-300 rounded"
-            required
-          />
-        </div>
+        <form className="space-y-5" onSubmit={handleFormSubmit}>
+          {/* Course Name */}
+          <div>
+            <label className="block text-gray-700 mb-1">Course Name*</label>
+            <input
+              type="text"
+              placeholder="eg:- MCA/Btech"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              required
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-black"
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-green-500 text-white rounded hover:bg-blue-600 transition duration-300"
-        >
-          Add Course
-        </button>
-      </form>
+          {/* Course Code */}
+          <div>
+            <label className="block text-gray-700 mb-1">Course Code*</label>
+            <input
+              type="text"
+              placeholder="eg:- MCA101"
+              value={courseCode}
+              onChange={(e) => setCourseCode(e.target.value)}
+              required
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-black"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-300"
+          >
+            Add Course
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

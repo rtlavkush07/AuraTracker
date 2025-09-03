@@ -72,7 +72,7 @@ const CourseSubjects = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 w-3/4">
+    <div className="flex flex-col mt-20 gap-5 w-3/4">
       <Routes>
         <Route
           path=""

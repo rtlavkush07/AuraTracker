@@ -1,21 +1,33 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route, Link } from "react-router-dom";
-import "@fortawesome/fontawesome-free/css/all.min.css"; 
+import { Routes, Route, useNavigate } from "react-router-dom";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import AddAssignment from "./AddAssignment";
 import AddSubjectData from "./AddSubjectData";
+import TeacherProfile from "./TeacherProfile";
+
+// Reusable NavButton (copied from StudentDashboard)
+const NavButton = ({ label, onClick, icon }) => (
+  <button
+    onClick={onClick}
+    className="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center"
+  >
+    <span className="mr-2">{icon}</span>
+    <span>{label}</span>
+  </button>
+);
 
 const TeacherDashboard = () => {
   const [teacher, setTeacher] = useState(null);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeacherProfile = async () => {
       try {
         const response = await axios.get("/api/user/teacher/profile", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setTeacher(response.data);
       } catch (err) {
@@ -27,52 +39,58 @@ const TeacherDashboard = () => {
   }, []);
 
   return (
-    <div className=" flex bg-transparent h-full w-full" style={{height:'665px'}} >
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{
-          backgroundImage: "url('/assets/sp1.jpg')", // Fixed path to assets
-          height: '100%',
-          width: '100%',
-        }}
-      ></div>
-      
-      {/* Sidebar Navigation */}
-      <aside className="relative w-2/5 bg-black bg-opacity-20  px-10 flex flex-col z-10">
-        <div className="p-4">
-          <h1 className="text-4xl font-bold text-green-500   ">Teacher Dashboard</h1>
-        
+    <div className="flex w-full overflow-hidden">
+      {/* Background Gradient (same as StudentDashboard) */}
+      <div className="absolute inset-0 flex bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white"></div>
+
+      {/* Sidebar (same style as StudentDashboard) */}
+      <aside className="w-1/5 text-white mt-12 relative z-10">
+        <div className="p-4 mt-10">
+          <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
+          {teacher && (
+            <p className="mt-2 text-sm text-gray-200">
+              Welcome, <span className="font-semibold">{teacher.name}</span>
+            </p>
+          )}
+          {error && <p className="mt-2 text-red-400 text-sm">{error}</p>}
         </div>
+
         <nav>
-          <ul className="m-4 space-y-5 text-white">
-            <li>
-              <Link
-                to="manageassignment"
-                className="w-full text-left px-4 py-2 rounded-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                <i className="fas fa-tasks mr-2"></i> Manage Assignments
-              </Link>
+          <ul>
+             <li>
+              <NavButton
+                label="📝 Profile"
+                onClick={() => navigate("profile")}
+              />
             </li>
             <li>
-              <Link
-                to="managestudymaterial"
-                className="w-full text-left px-4 py-2 rounded-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                <i className="fas fa-book mr-2"></i> Manage Study Materials
-              </Link>
+              <NavButton
+                label="📝 Manage Assignments"
+                onClick={() => navigate("manageassignment")}
+              />
+            </li>
+            <li>
+              <NavButton
+                label="📚 Manage Study Materials"
+                onClick={() => navigate("managestudymaterial")}
+              />
             </li>
           </ul>
         </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="relative flex-1 p-6 bg-black bg-opacity-20 overflow-y-auto z-10">
-        <Routes>
-          <Route path="/" element={<AddSubjectData />} />
-          <Route path="manageassignment" element={<AddAssignment />} />
-          <Route path="managestudymaterial" element={<AddSubjectData />} />
-        </Routes>
+      {/* Main Content (same style as StudentDashboard) */}
+      <main className="flex-1 p-6 bg-black bg-opacity-20 overflow-scroll relative z-10">
+        <div className="grid grid-cols-3 gap-6">
+          <div className="col-span-3">
+            <Routes>
+              <Route path="/" element={<AddSubjectData />} />
+              <Route path="manageassignment" element={<AddAssignment />} />
+              <Route path="managestudymaterial" element={<AddSubjectData />} />
+              <Route path ="profile" element={<TeacherProfile/>} />
+            </Routes>
+          </div>
+        </div>
       </main>
     </div>
   );

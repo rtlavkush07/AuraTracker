@@ -10,61 +10,67 @@ const TeacherProfile = () => {
       try {
         const response = await axios.get("/api/user/teacher/profile", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token for auth if required
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setTeacher(response.data);
       } catch (err) {
         setError("Error fetching teacher profile. Please try again later.");
-        console.error(err);
+        console.error("Fetch Error:", err);
       }
     };
 
     fetchTeacherProfile();
   }, []);
 
+  // Corrected: Removed full-screen classes from error/loading states
   if (error) {
-    return <p className="text-red-500">{error}</p>;
+    return (
+      <div className="p-6">
+        <p className="text-red-500 text-lg">{error}</p>
+      </div>
+    );
   }
 
   if (!teacher) {
-    return <p>Loading teacher profile...</p>;
+    return (
+      <div className="p-6">
+        <p className="text-white text-lg">Loading teacher profile...</p>
+      </div>
+    );
   }
 
+  // Corrected: Removed background, min-h-screen, and padding from the root div
   return (
-    <div className="teacher-profile p-8  border border-white shadow-lg rounded-xl max-w-lg mx-auto mt-20  ">
-       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{
-          backgroundImage: "url('/assets/sp1.jpg')", // Fixed path to assets
-          height: '100%',
-          width: '100%',
-        }}
-      ></div>
-      <h2 className="relative text-3xl text-white bg-black bg-opacity-20 rounded-md font-bold mb-6 text-center border-b pb-4">{teacher.name}</h2>
-      <div className="space-y-4">
-       
-        <div className="relative text-white flex items-center">
-          <strong className="w-1/3  text-white">ID:</strong>
-          <span className=" text-lg text-white font-semibold">{teacher._id}</span>
+    <div className="text-white w-full">
+      <div className="max-w-4xl mx-auto">
+        {/* Profile Header */}
+        {/* Corrected: Removed fixed margin 'ml-20' for better flexibility */}
+        <div className="flex flex-col sm:flex-row items-center mb-10">
+          <img
+            src={teacher.profilePicture || "https://via.placeholder.com/150"}
+            alt={teacher.name}
+            className="w-40 h-40 rounded-full border-2 border-blue-600 object-cover mr-0 sm:mr-8 mb-4 sm:mb-0"
+          />
+          <div>
+            <h1 className="text-4xl font-bold">{teacher.name}</h1>
+            <p className="text-white text-lg">{teacher.department || "Department of Computer Science"}</p>
+          </div>
         </div>
-        <div className="relative text-white flex items-center">
-          <strong className="w-1/3 text-white">Email:</strong>
-          <span className="text-lg text-white font-semibold">{teacher.email}</span>
+
+        {/* Info Cards */}
+        {/* Corrected: Removed fixed margin 'ml-20' */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-black bg-opacity-30 p-6 rounded-lg">
+            <h2 className="text-lg font-semibold text-blue-400 mb-2">Email Address</h2>
+            <p className="text-xl">{teacher.email}</p>
+          </div>
+          <div className="bg-black bg-opacity-30 p-6 rounded-lg">
+            <h2 className="text-lg font-semibold text-blue-400 mb-2">Teacher ID</h2>
+            {/* Corrected: 'text-l' is not a valid Tailwind class, changed to 'text-xl' for consistency */}
+            <p className="text-xl">{teacher._id}</p>
+          </div>
         </div>
-        {/* <div>
-          <strong className="text-black">Subjects:</strong>
-          {teacher.subjects.length > 0 ? (
-            <ul className="list-inside list-disc mt-2 ml-4 text-lg">
-              {teacher?.subjects.map((subject) => (
-                // console.log(subject.name)
-                <li  key={subject._id}>{subject.name}</li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-lg mt-2">No subjects assigned.</p>
-          )}
-        </div> */}
       </div>
     </div>
   );

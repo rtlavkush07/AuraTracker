@@ -9,7 +9,9 @@ import {
   FaUserFriends,
   FaTrashAlt,
   FaBook,
+  FaChalkboardTeacher,
 } from "react-icons/fa";
+
 
 // Import all necessary components
 import AddTeacher from "./AddTeacher";
@@ -18,6 +20,7 @@ import AllTeachers from "./AllTeachers";
 import AllCourses from "./AllCourses";
 import AllStudent from "./AllStudent";
 import AddSubject from "./AddSubject";
+import TeacherManagement from "./TeacherManagement";
 
 const AdminDashboard = () => {
   const [students, setStudents] = useState([]);
@@ -44,7 +47,7 @@ const AdminDashboard = () => {
     fetchAllData();
   }, []);
 
- 
+
 
 
 
@@ -54,29 +57,32 @@ const AdminDashboard = () => {
         <h1 className="text-3xl mt-12 font-bold text-white">Dashboard</h1>
       </div>
       <div className="grid grid-cols-3 gap-6 mb-6 ">
+        {/* number of student  */}
         <StatsCard
-      
+
           icon={<FaUserGraduate />}
           title="Students"
-        
+
           count={students.length}
-          
-          
+
+
         />
+        {/* number of teachers   */}
         <StatsCard
           icon={<FaUserFriends />}
           title="Teachers"
           count={teachers.length}
-        
+
         />
+        {/* number of courses   */}
         <StatsCard
           icon={<FaBook />}
           title="Courses"
           count={courses.length}
-         
+
         />
       </div>
-     
+
     </main>
   );
 
@@ -84,34 +90,35 @@ const AdminDashboard = () => {
     <div
       className={`bg-black bg-opacity-40 border border-white p-4 text-white rounded shadow flex items-center space-x-4 `}
     >
-    
+
       <div>
-       <div className="flex ">
-       <div className="p-2"> {icon}</div>
-       <div><h3 className="text-lg font-semibold">   {title}</h3></div>
-       </div>
+        <div className="flex ">
+          <div className="p-2"> {icon}</div>
+          <div><h3 className="text-lg font-semibold">   {title}</h3></div>
+        </div>
         <p className="text-2xl text-center font-bold">{count}</p>
       </div>
     </div>
   );
 
- 
+
 
   return (
-    <div className="flex w-full overflow-hidden">
+    <div className="flex w-full overflow-hidden ">
       <div
-        className="absolute inset-0 flex bg-cover bg-center"
-        style={{
-          backgroundImage: "url('../public/assets/sp5.jpg')",
-          width: '100%',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-        }}
+      className="absolute inset-0 flex bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white"
+        // className="absolute inset-0 flex bg-cover bg-center "
+        // style={{
+        //   backgroundImage: "url('../public/assets/sp5.jpg')",
+        //   width: '100%',
+        //   backgroundPosition: 'center',
+        //   backgroundSize: 'cover',
+        //   backgroundRepeat: 'no-repeat',
+        // }}
       >
         <aside className="w-1/5 text-white mt-12">
           <div className="p-4 mt-10">
-            <h1 className="text-2xl font-bold">Admin</h1>
+            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
           </div>
           <nav>
             <ul>
@@ -122,11 +129,12 @@ const AdminDashboard = () => {
                   icon={<FaTachometerAlt />}
                 />
               </li>
-              <li>
+               <li>
                 <NavButton
-                  label="All Teachers"
-                  onClick={() => navigate("allTeachers")}
-                  icon={<FaUserFriends />}
+                  label="Teacher Management"
+                  onClick={() => navigate("teacherManagement")}
+                 icon={<FaChalkboardTeacher />}
+
                 />
               </li>
               <li>
@@ -136,13 +144,13 @@ const AdminDashboard = () => {
                   icon={<FaUserPlus />}
                 />
               </li>
-              <li>
+              {/* <li>
                 <NavButton
-                  label="All Students"
-                  onClick={() => navigate("allStudents")}
-                  icon={<FaUserGraduate />}
+                  label="All Teachers"
+                  onClick={() => navigate("allTeachers")}
+                  icon={<FaUserFriends />}
                 />
-              </li>
+              </li> */}
               <li>
                 <NavButton
                   label="All Courses"
@@ -150,14 +158,24 @@ const AdminDashboard = () => {
                   icon={<FaBook />}
                 />
               </li>
-              <li>
+               <li>
                 <NavButton
                   label="Add New Course"
                   onClick={() => navigate("addCourse")}
                   icon={<FaUserPlus />}
                 />
               </li>
-              <li>
+             
+             
+             
+               <li>
+                <NavButton
+                  label="All Students"
+                  onClick={() => navigate("allStudents")}
+                  icon={<FaUserGraduate />}
+                />
+              </li>
+               <li>
                 <NavButton
                   label="Add New Subject"
                   onClick={() => navigate("addSubject")}
@@ -170,12 +188,14 @@ const AdminDashboard = () => {
         <div className="w-1/5 flex-1 ">
           <Routes>
             <Route path="" element={<DashboardHome />} />
-            <Route path="allTeachers" element={<AllTeachers />} />
+            {/* <Route path="allTeachers" element={<AllTeachers />} /> */}
             <Route path="allStudents" element={<AllStudent />} />
             <Route path="addTeacher" element={<AddTeacher />} />
             <Route path="allCourses" element={<AllCourses />} />
             <Route path="addCourse" element={<AddCourse />} />
             <Route path="addSubject" element={<AddSubject />} />
+            <Route path="teacherManagement" element={<TeacherManagement />} />
+            
           </Routes>
         </div>
       </div>
@@ -183,6 +203,7 @@ const AdminDashboard = () => {
   );
 };
 
+// using for navigate the like add new course all student etc 
 const NavButton = ({ label, onClick, icon }) => (
   <button
     onClick={onClick}

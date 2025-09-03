@@ -1,7 +1,7 @@
 // src/components/Signup.jsx
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -13,71 +13,41 @@ const Signup = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  // profile picture handler
   const postDetails = (pics) => {
-    // Check if the file is undefined or null
-    if (!pics) {
-      console.error("Profile picture is not defined");
-      return;
-    }
+    if (!pics) return;
+    if (pics.type !== "image/jpeg" && pics.type !== "image/png") return;
 
-    // Ensure the file type is an image (jpeg or png)
-    if (pics.type !== "image/jpeg" && pics.type !== "image/png") {
-      console.error("Invalid file type. Only JPEG and PNG are supported.");
-      return;
-    }
-
-    // Prepare the FormData for Cloudinary upload
     const data = new FormData();
     data.append("file", pics);
     data.append("upload_preset", "AuraTracker");
     data.append("cloud_name", "dqx48ke30");
 
-    // Upload to Cloudinary
     fetch("https://api.cloudinary.com/v1_1/dqx48ke30/image/upload", {
       method: "POST",
       body: data,
     })
       .then((res) => res.json())
       .then((data) => {
-        // Check if Cloudinary returned a valid URL
-        if (data.secure_url) {
-          setProfilePicture(data.secure_url);
-          console.log("Image uploaded successfully:", data.secure_url);
-        } else {
-          console.error(
-            "Failed to upload image to Cloudinary:",
-            data.error.message
-          );
-        }
+        if (data.secure_url) setProfilePicture(data.secure_url);
       })
-      .catch((err) => {
-        console.error("An error occurred while uploading the image:", err);
-      });
+      .catch((err) => console.error("Image upload error:", err));
   };
 
-  // Separate function to fetch courses
   const fetchCourses = async () => {
     try {
       const response = await axios.get("/api/admin/getAllCourse");
       setCourses(response.data);
-      console.log(courses);
     } catch (error) {
       console.error("Failed to fetch courses:", error);
     }
   };
 
-  // useEffect to call both functions on mount
   useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([fetchCourses()]);
-    };
-    fetchData();
+    fetchCourses();
   }, []);
 
-  //profile handler end
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -90,117 +60,132 @@ const Signup = () => {
         regNo,
         course,
       });
-
-      // Display success message or redirect to login
       alert("SignUp Successful: " + response.data.message);
       setError("");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Error signing up. Please try again."
-      );
-      console.error(err);
+      setError(err.response?.data?.message || "Error signing up.");
     }
   };
 
   return (
-    <div className="flex items-center overflow-hidden w-full h-full " >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('../public/assets/sp1.jpg')", // Use the correct path for your image
-          height: '100%', // Ensure it covers the entire height of the parent div
-          width: '100%',  // Ensure it covers the entire width of the parent div
-        }}
-      ></div>
-      <div className="bg-black text-white mt-5 bg-opacity-30 shadow-lg rounded-lg p-7 w-2/4 max-w-md  transform transition-transform duration-300 hover:scale-105 border border-white " style={{ marginLeft: "250px" }}>
-        <h2 className="text-4xl font-semibold text-center text-white mb-6">
-          Signup
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-900 to-blue-600 px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg transform transition-transform duration-300 hover:scale-105">
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">
+          Create Your Account
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none transition duration-200 ease-in-out transform hover:scale-105"
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
-            />
-          </div>
-          <div>
-            <input
-              type="number"
-              placeholder="Year"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none   transition duration-200 ease-in-out transform hover:scale-105"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Registration Number"
-              value={regNo}
-              onChange={(e) => setRegNo(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none  transition duration-200 ease-in-out transform hover:scale-105"
-            />
-          </div>
-          {/* Dropdown for courses */}
-          <div>
-            <select
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
-              required
-              className="w-full p-2 border bg-transparent border-gray-300 rounded-lg focus:outline-none text-white transition duration-200 ease-in-out"
-            >
-              <option value="" className="text-gray-400">Select Course</option> {/* Placeholder option */}
-              {courses.map((course) => (
-                <option key={course._id} value={course._id} className="text-black">
-                  {course.courseName} {/* Replace 'name' with the actual course name field */}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          {/* Profile picture div */}
-          <div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => postDetails(e.target.files[0])}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out transform hover:scale-90"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+     <div className=" flex flex-row gap-6 p-6">
+  {/* Left Column */}
+  <div className=" flex-1 space-y-4 p-4 rounded-lg">
+    <div>
+      <label className="block text-gray-700 mb-1">Name*</label>
+      <input
+        type="text"
+        placeholder="Enter your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+
+    <div>
+      <label className="block text-gray-700 mb-1">Email*</label>
+      <input
+        type="email"
+        placeholder="eg: abc@gmail.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+
+    <div>
+      <label className="block text-gray-700 mb-1">Password*</label>
+      <input
+        type="password"
+        placeholder="Enter password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+
+    <div>
+      <label className="block text-gray-700 mb-1">Passing Year*</label>
+      <input
+        type="number"
+        placeholder="eg: 2026"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+  </div>
+
+  {/* Right Column */}
+  <div className=" flex-1 space-y-4 p-4 rounded-lg">
+    <div>
+      <label className="block text-gray-700 mb-1">Registration Number*</label>
+      <input
+        type="text"
+        placeholder="eg: 2023CA57"
+        value={regNo}
+        onChange={(e) => setRegNo(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+
+    <div>
+      <label className="block text-gray-700 mb-1">Select Course*</label>
+      <select
+        value={course}
+        onChange={(e) => setCourse(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      >
+        <option value="">Select Course</option>
+        {courses.map((course) => (
+          <option key={course._id} value={course._id}>
+            {course.courseName}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-gray-700 mb-1">Upload Profile Photo*</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => postDetails(e.target.files[0])}
+        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+      />
+    </div>
+  </div>
+</div>
+
           <button
             type="submit"
-            className="w-full bg-transparent border border-white py-3 rounded-lg border-white text-white rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+            className="w-full py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-300"
           >
             Signup
           </button>
+
           {error && <p className="text-red-500 text-center">{error}</p>}
+
+          <p className="text-center text-gray-600 mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600 hover:underline">
+              Login Here
+            </Link>
+          </p>
         </form>
       </div>
     </div>
