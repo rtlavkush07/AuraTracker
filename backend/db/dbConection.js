@@ -1,3 +1,5 @@
+// here we will setup the connection to MongoDB using mongoose
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
