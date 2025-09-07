@@ -23,10 +23,9 @@ const TeacherProfile = () => {
     fetchTeacherProfile();
   }, []);
 
-  // Corrected: Removed full-screen classes from error/loading states
   if (error) {
     return (
-      <div className="p-6">
+      <div className="p-4 bg-black bg-opacity-80 rounded-2xl">
         <p className="text-red-500 text-lg">{error}</p>
       </div>
     );
@@ -34,44 +33,46 @@ const TeacherProfile = () => {
 
   if (!teacher) {
     return (
-      <div className="p-6">
+      <div className="p-4 bg-black bg-opacity-80 rounded-2xl">
         <p className="text-white text-lg">Loading teacher profile...</p>
       </div>
     );
   }
 
-  // Corrected: Removed background, min-h-screen, and padding from the root div
   return (
-    <div className="text-white w-full">
-      <div className="max-w-4xl mx-auto">
-        {/* Profile Header */}
-        {/* Corrected: Removed fixed margin 'ml-20' for better flexibility */}
-        <div className="flex flex-col sm:flex-row items-center mb-10">
-          <img
-            src={teacher.profilePicture || "https://via.placeholder.com/150"}
-            alt={teacher.name}
-            className="w-40 h-40 rounded-full border-2 border-blue-600 object-cover mr-0 sm:mr-8 mb-4 sm:mb-0"
-          />
-          <div>
-            <h1 className="text-4xl font-bold">{teacher.name}</h1>
-            <p className="text-white text-lg">{teacher.department || "Department of Computer Science"}</p>
-          </div>
-        </div>
+    <div className="bg-black bg-opacity-80 rounded-2xl p-6">
+      <h2 className="text-3xl font-bold text-center text-blue-400 mb-6">
+        Teacher Profile
+      </h2>
 
-        {/* Info Cards */}
-        {/* Corrected: Removed fixed margin 'ml-20' */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-black bg-opacity-30 p-6 rounded-lg">
-            <h2 className="text-lg font-semibold text-blue-400 mb-2">Email Address</h2>
-            <p className="text-xl">{teacher.email}</p>
-          </div>
-          <div className="bg-black bg-opacity-30 p-6 rounded-lg">
-            <h2 className="text-lg font-semibold text-blue-400 mb-2">Teacher ID</h2>
-            {/* Corrected: 'text-l' is not a valid Tailwind class, changed to 'text-xl' for consistency */}
-            <p className="text-xl">{teacher._id}</p>
-          </div>
+      {/* Profile Header */}
+      <div className="flex flex-col sm:flex-row items-center mb-6">
+        <img
+          src={teacher.profilePicture || "https://via.placeholder.com/150"}
+          alt={teacher.name}
+          className="w-32 h-32 rounded-full border-2 border-blue-600 object-cover mr-0 sm:mr-6 mb-4 sm:mb-0"
+        />
+        <div>
+          <h1 className="text-2xl font-bold text-white">{teacher.name}</h1>
+          <p className="text-gray-300 text-lg">
+            {teacher.department || "Department of Computer Science"}
+          </p>
         </div>
       </div>
+
+      {/* Info Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gray-800 p-4 rounded-lg">
+          <h2 className="text-lg font-semibold text-blue-400 mb-1">Email Address</h2>
+          <p className="text-white text-lg">{teacher.email}</p>
+        </div>
+        <div className="bg-gray-800 p-4 rounded-lg">
+          <h2 className="text-lg font-semibold text-blue-400 mb-1">Teacher ID</h2>
+          <p className="text-white text-lg">{teacher._id}</p>
+        </div>
+      </div>
+
+      {/* Optional: Add more info cards here if needed */}
     </div>
   );
 };

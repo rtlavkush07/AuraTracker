@@ -103,14 +103,14 @@ const Navbar = () => {
           )}
           {role === "teacher" && (
             <>
-              <Link to="/teacher" className="nav-link">Dashboard</Link>
-              <Link to="/teacher/profile" className="block py-2 md:py-0">
+              {/* <Link to="/teacher" className="nav-link">Dashboard</Link> */}
+              {/* <Link to="/teacher/profile" className="block py-2 md:py-0">
                 <img
                   src={user?.profilePicture || "/assets/default-profile.png"}
                   alt="Profile"
                   className="w-8 h-8 rounded-full border-2 border-yellow-400"
                 />
-              </Link>
+              </Link> */}
             </>
           )}
           {role === "admin" && (

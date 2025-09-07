@@ -15,10 +15,10 @@ const AboutUs = () => {
           <h3 className="text-2xl font-semibold mb-4">Our Mission</h3>
           <p className="text-lg leading-relaxed mb-6">
             Aura Tracker is a smart academic management platform designed for{" "}
-            <span className="text-yellow-300">Students, Teachers,</span> and{" "}
-            <span className="text-yellow-300">Admins</span>.  
+            <span className="text-yellow-300">Students, Teachers </span> {" "}
+            {/* <span className="text-yellow-300">Admins</span>.   */}
             Our mission is to make learning and teaching more organized, goal-oriented, 
-            and stress-free by bringing everything in one place.
+            and stress-free by bringing everything in one place and doing gamified.
           </p>
 
           <h3 className="text-2xl font-semibold mb-4">Why Aura Tracker?</h3>
@@ -29,9 +29,9 @@ const AboutUs = () => {
             <li>
               📚 <b>For Teachers:</b> Allocate tasks, review student progress, and guide learning.
             </li>
-            <li>
+            {/* <li>
               🛠️ <b>For Admins:</b> Manage student/teacher profiles and monitor activities.
-            </li>
+            </li> */}
           </ul>
         </div>
 

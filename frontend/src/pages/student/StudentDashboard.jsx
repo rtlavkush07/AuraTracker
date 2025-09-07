@@ -53,6 +53,7 @@ const StudentDashboard = () => {
                   <div className="p-4 mt-10">
                     <h1 className="text-2xl font-bold">Student Dashboard</h1>
                   </div>
+                  <hr />
                   <nav>
                     <ul>
                       <li>

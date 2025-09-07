@@ -7,7 +7,7 @@ import AddAssignment from "./AddAssignment";
 import AddSubjectData from "./AddSubjectData";
 import TeacherProfile from "./TeacherProfile";
 
-// Reusable NavButton (copied from StudentDashboard)
+// Reusable NavButton
 const NavButton = ({ label, onClick, icon }) => (
   <button
     onClick={onClick}
@@ -39,58 +39,56 @@ const TeacherDashboard = () => {
   }, []);
 
   return (
-    <div className="flex w-full overflow-hidden">
-      {/* Background Gradient (same as StudentDashboard) */}
+    // <div className="flex w-full overflow-hidden h-screen">
+    <div className="flex w-full overflow-scroll "
+    style={{height: '90vh', overflowY: 'scroll'}}>
+      {/* Background Gradient */}
       <div className="absolute inset-0 flex bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white"></div>
 
-      {/* Sidebar (same style as StudentDashboard) */}
-      <aside className="w-1/5 text-white mt-12 relative z-10">
+      {/* Sidebar */}
+      <aside className="w-1/5 text-white mt-1 relative z-10 h-screen overflow-y-auto">
         <div className="p-4 mt-10">
           <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
           {teacher && (
+           <>
+           
             <p className="mt-2 text-sm text-gray-200">
               Welcome, <span className="font-semibold">{teacher.name}</span>
             </p>
+             <p className="mt-2 text-sm text-gray-200">
+              Email:- <span className="font-semibold">{teacher.email}</span>
+            </p>
+           </>
+            
           )}
           {error && <p className="mt-2 text-red-400 text-sm">{error}</p>}
-        </div>
 
+
+        </div>
+<hr />
         <nav>
           <ul>
-             <li>
-              <NavButton
-                label="📝 Profile"
-                onClick={() => navigate("profile")}
-              />
+            {/* <li>
+              <NavButton label="📝 Profile" onClick={() => navigate("profile")} />
+            </li> */}
+            <li>
+              <NavButton label="📝 Manage Assignments" onClick={() => navigate("manageassignment")} />
             </li>
             <li>
-              <NavButton
-                label="📝 Manage Assignments"
-                onClick={() => navigate("manageassignment")}
-              />
-            </li>
-            <li>
-              <NavButton
-                label="📚 Manage Study Materials"
-                onClick={() => navigate("managestudymaterial")}
-              />
+              <NavButton label="📚 Manage Study Materials" onClick={() => navigate("managestudymaterial")} />
             </li>
           </ul>
         </nav>
       </aside>
 
-      {/* Main Content (same style as StudentDashboard) */}
-      <main className="flex-1 p-6 bg-black bg-opacity-20 overflow-scroll relative z-10">
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-3">
-            <Routes>
-              <Route path="/" element={<AddSubjectData />} />
-              <Route path="manageassignment" element={<AddAssignment />} />
-              <Route path="managestudymaterial" element={<AddSubjectData />} />
-              <Route path ="profile" element={<TeacherProfile/>} />
-            </Routes>
-          </div>
-        </div>
+      {/* Main Content */}
+      <main className="flex-1 p-6 bg-black bg-opacity-20 overflow-auto relative z-10">
+        <Routes>
+          <Route path="/" element={<AddSubjectData />} />
+          <Route path="manageassignment" element={<AddAssignment />} />
+          <Route path="managestudymaterial" element={<AddSubjectData />} />
+          {/* <Route path="profile" element={<TeacherProfile />} /> */}
+        </Routes>
       </main>
     </div>
   );

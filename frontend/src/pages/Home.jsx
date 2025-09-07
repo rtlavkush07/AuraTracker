@@ -20,15 +20,14 @@ const Home = () => {
               One Platform for Smarter Learning & Teaching
             </h1>
             <p className="text-lg md:text-xl text-gray-200">
-              Students can track studies, teachers can manage assignments, and
-              admins can control everything – all in one app.
+              Students can track study progress, teachers can assign assignments/modules.
             </p>
-            <div className="flex gap-4 mt-6">
+            {/* <div className="flex gap-4 mt-6">
               <button className="px-6 py-3 bg-yellow-500 text-blue-900 font-semibold rounded-lg shadow hover:bg-yellow-400 transition">
                 Get Started
               </button>
              
-            </div>
+            </div> */}
           </div>
 
           {/* Right side illustration */}
@@ -43,7 +42,7 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold text-gray-900">
             Why Choose Aura Tracker?
@@ -53,7 +52,8 @@ const Home = () => {
             academic journey.
           </p>
 
-          <div className="mt-12 grid md:grid-cols-3 gap-8">
+          {/* <div className="mt-12 grid md:grid-cols-3 gap-8"> */}
+          <div className="mt-12 grid md:grid-cols-2 gap-8">
             {/* Student Card */}
             <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition">
               <h3 className="text-2xl font-semibold text-blue-900 mb-4">
@@ -73,13 +73,13 @@ const Home = () => {
               </h3>
               <ul className="text-gray-700 space-y-2">
                 <li>✅ Allot assignments easily</li>
-                <li>✅ Monitor student performance</li>
-                <li>✅ Share feedback quickly</li>
+                <li>✅ Allote Module easily</li>
+                <li>✅ Monitor Student Performance</li>
               </ul>
             </div>
 
             {/* Admin Card */}
-            <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition">
+            {/* <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition">
               <h3 className="text-2xl font-semibold text-blue-900 mb-4">
                 🛠️ For Admins
               </h3>
@@ -88,7 +88,7 @@ const Home = () => {
                 <li>✅ Add/Delete users</li>
                 <li>✅ Generate system reports</li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -99,11 +99,15 @@ const Home = () => {
           Start Your Academic Journey Smarter Today
         </h2>
         <p className="mt-4 text-gray-200 text-lg">
-          Whether you are a Student, Teacher, or Admin – Aura Tracker is here
+          Whether you are a Student or Teacher– Aura Tracker is here
           for you.
+        
         </p>
         
       </section>
+
+
+      
     </div>
   );
 };

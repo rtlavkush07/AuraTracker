@@ -32,7 +32,7 @@ const Login = () => {
 
       setTimeout(() => {
         if (role === "admin") navigate("/admin");
-        else if (role === "teacher") navigate("/teacher/profile");
+        else if (role === "teacher") navigate("/teacher");
         else if (role === "student") navigate("/student/dashboard/profile");
       }, 1000);
     } catch (err) {

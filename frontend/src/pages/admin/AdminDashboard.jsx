@@ -120,6 +120,8 @@ const AdminDashboard = () => {
           <div className="p-4 mt-10">
             <h1 className="text-2xl font-bold">Admin Dashboard</h1>
           </div>
+
+          <hr />
           <nav>
             <ul>
               <li>
