@@ -43,9 +43,9 @@ Clone the repository
 
 Install dependencies: npm install
 
-Start the backend: npm run server
+Start the backend: npm start (for server)
 
-Start the frontend: npm run client
+Start the frontend: npm run dev (for client)
 
 Access the application at localhost
 
